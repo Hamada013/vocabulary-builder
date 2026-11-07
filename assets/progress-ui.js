@@ -57,6 +57,11 @@
         dialog.addEventListener('close', () => { authorized = false; });
         dialog.addEventListener('cancel', event => { if (!P.active()) event.preventDefault(); });
         for (const host of document.querySelectorAll('.app-home-tools, #workplace-view > header, .game-header')) {
+            const button = document.createElement('button'); button.type = 'button'; button.className = 'child-button'; button.dataset.childProfile = ''; if (P.isAdmin()) button.classList.add('admin-profile');
+            button.setAttribute('aria-label', `ملف الطفل: ${P.active()?.name || 'دخول'}`);
+            const icon = document.createElement('i'); icon.className = P.isAdmin() ? 'fas fa-user-shield' : 'fas fa-user'; icon.setAttribute('aria-hidden', 'true');
+            const name = document.createElement('span'); name.textContent = P.active()?.name || 'اسم الطفل'; button.append(icon, name);
+            button.addEventListener('click', open); host.append(button);
             const report = document.createElement('button'); report.type = 'button'; report.className = 'child-report-button'; report.dataset.childReport = '';
             report.setAttribute('aria-label', P.isAdmin() ? 'تقرير جميع الأطفال' : 'تقرير الطفل'); report.title = report.getAttribute('aria-label');
             report.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-4M9 2h6v4H9zM8 16v-3m4 3V9m4 7v-5"/></svg>';
@@ -67,8 +72,9 @@
             const resume = document.createElement('a'); resume.className = 'child-button'; resume.textContent = 'متابعة مسار الألعاب'; resume.href = P.planURL();
             document.querySelector('.app-home-tools, .game-header')?.append(resume);
         }
-        window.VocProfile = { open() {} };
-        window.SuiteWelcome?.connect();
+        window.VocProfile = { open };
+        const welcoming=window.SuiteWelcome?.connect(P,name=>{authorized=true;enter(name);});
+        if (!welcoming && !P.active() && !new URLSearchParams(location.search).has('reportChild') && !new URLSearchParams(location.search).has('createProfile')) open();
     }
     window.addEventListener('voc-storage-error', () => {
         if (document.querySelector('.voc-storage-error')) return;

@@ -1,5 +1,5 @@
-// Standalone app checks: own launch logo, no links out of the app, no accounts,
-// one device learner, and an offline download served from this app's own worker.
+// Standalone app checks: own launch logo, first child's name at launch, this app's own accounts,
+// no links out of the app, and an offline download served from this app's own worker.
 // Run: node tests/standalone-browser.cjs   (APP_ENGINE=webkit for Safari's engine)
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),vm=require('node:vm'),assert=require('node:assert/strict');
 const {chromium,webkit}=require(process.env.APP_PLAYWRIGHT||'playwright');
@@ -40,16 +40,19 @@ const server=http.createServer(async(req,res)=>{
   const welcome=page.locator('#suite-welcome');await welcome.waitFor({state:'attached'});
   assert.equal(new URL(await welcome.locator('img').getAttribute('src')).pathname,prefix+APP.logo,'Launch shows the app\'s own logo');
   assert.equal((await welcome.locator('.suite-welcome-brand').textContent()).trim(),APP.name);
-  assert.equal(await welcome.locator('form,input').count(),0,'Launch never asks for a child name');
+  // The first launch asks for the child's name and creates this app's first account.
+  await welcome.locator('form:not([hidden]) input').waitFor({timeout:15000});
+  await welcome.locator('input').fill('ليان');await welcome.locator('button[type=submit]').click();
   await page.waitForFunction(()=>window.SuiteWelcome&&!window.SuiteWelcome.pending,null,{timeout:15000});
   assert.equal(await page.locator('#suite-welcome').count(),0);
-  // One learner per device, stored only under this app's key.
+  // Accounts are stored only under this app's key.
   const saved=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),APP.storageKey);
-  assert.ok(saved?.active,'A learner is signed in automatically');
+  assert.equal(saved.children.find(child=>child.id===saved.active)?.name,'ليان','The named child is the active account');
   assert.equal(await page.evaluate(()=>localStorage.getItem('voc-children-v1')),null,'No shared suite storage');
-  // No accounts, no app switching, no links out of the app.
+  // An accounts button, but no app switching and no links out of the app.
   await page.waitForTimeout(300);
-  for(const selector of ['[data-suite-apps]','[data-suite-control=suiteHome]','[data-child-profile]','[data-senb-child-profile]','#open-profile','#suite-app-picker','.vss-account'])
+  assert.ok(await page.locator('[data-child-profile],[data-senb-child-profile],#open-profile').first().isVisible(),'Accounts button on the home screen');
+  for(const selector of ['[data-suite-apps]','[data-suite-control=suiteHome]','#suite-app-picker','.vss-account'])
    assert.equal(await page.locator(selector).count(),0,`Removed: ${selector}`);
   const links=await page.evaluate(()=>[...document.querySelectorAll('a[href]')].map(a=>a.href).filter(href=>!href.startsWith('mailto:')));
   for(const href of links)assert.ok(href.startsWith(base),`Link stays inside the app: ${href}`);
@@ -74,6 +77,6 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(media,200,'Downloaded media plays offline');
   serving=true;
   assert.deepEqual(errors,[]);
-  console.log(`PASS ${APP.repository}: own launch logo, no name form, no links out, single learner, scoped worker and offline media (${engine.name()}).`);
+  console.log(`PASS ${APP.repository}: own launch logo, first child's name, own accounts, no links out, scoped worker and offline media (${engine.name()}).`);
  }finally{await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

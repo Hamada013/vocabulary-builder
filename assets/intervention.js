@@ -1,4 +1,4 @@
-/* Therapist mode (password 013) and the learner's intervention plan. Shared by كلمة, جملة and مقطع;
+/* Therapist mode (password 013) and the active child's intervention plan. Shared by كلمة, جملة and مقطع;
  * each app's assets/intervention-goals.js supplies its name, goal bank and progress store.
  * Therapist mode lasts for this tab only: it shows the plan button (and opens every level where the app has levels).
  * The plan holds goals chosen from the goal bank, each rated 20/40/60/80%. 80% counts as achieved.
@@ -82,7 +82,8 @@
     // ---- Plan model ----
     function load() {
         const saved = P.intervention() || {};
-        return { childName: saved.childName || '', therapist: saved.therapist || '', start: saved.start || today(),
+        // Each child account has its own plan; the name starts as the account's name.
+        return { childName: saved.childName || APP.progress()?.active()?.name || '', therapist: saved.therapist || '', start: saved.start || today(),
             goals: Array.isArray(saved.goals) ? saved.goals.filter(goal => G.short(goal.id)) : [], updated: saved.updated || null };
     }
     let model = null;

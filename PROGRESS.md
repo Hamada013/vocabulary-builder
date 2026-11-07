@@ -1,6 +1,6 @@
 # Child progress and game plans
 
-There are no child accounts. The app keeps one learner per device, created automatically on first launch, so there is nothing to sign in to, switch or delete. Workplace cards, completed practice, per-skill results, game preferences, paused games and the active game plan are stored in this browser's local storage under `vocabulary-builder-v1`. There is no server account or synchronization between devices. Removing browser data also removes this progress.
+Each app has its own child accounts, separate from every other app: the first launch asks for the child's name, and the accounts button beside the therapist button adds or switches children behind a short parent check. Progress, reports and the intervention plan belong to the active child. Workplace cards, completed practice, per-skill results, game preferences, paused games and the active game plan are stored in this browser's local storage under `vocabulary-builder-v1`. There is no server account or synchronization between devices. Removing browser data also removes this progress.
 
 The book button beside **اختر صورة للبطاقة** switches the existing category picker between learning cards and mastered cards. A card is mastered only after both receptive and expressive evidence reach 100%. Earned mastery is retained for later review. Learned cards can still be selected and used again.
 

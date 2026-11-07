@@ -1,13 +1,16 @@
 // Therapist mode, intervention plan and PDF progress report, at phone or iPad size.
 // Run: node tests/intervention-browser.cjs [WIDTHxHEIGHT]   (ENGINE=webkit for Safari's engine)
-const {chromium,webkit}=require(process.env.APP_PLAYWRIGHT||'playwright'),http=require('http'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const {chromium,webkit}=require(process.env.APP_PLAYWRIGHT||'playwright'),{solveParentGate}=require('./solve-parent-gate.cjs'),http=require('http'),fs=require('fs'),path=require('path'),assert=require('assert/strict');
 const root=require('path').resolve(__dirname,'..'),APP=JSON.parse(require('fs').readFileSync(require('path').join(__dirname,'app.json'),'utf8')),out=require('os').tmpdir(),[W,H]=(process.argv[2]||'390x844').split('x').map(Number),tag=`voc-plan-${W}x${H}`;
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2','.m4a':'audio/mp4'};
 const server=http.createServer(async(q,s)=>{try{let p=decodeURIComponent(new URL(q.url,'http://x').pathname).replace(`/${APP.repository}/`,'');if(!p||p.endsWith('/'))p+='index.html';const b=await fs.promises.readFile(path.join(root,p));s.writeHead(200,{'Content-Type':types[path.extname(p)]||'application/octet-stream'});s.end(b);}catch{s.writeHead(404).end();}});
 server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/${APP.repository}/`;const b=await (process.env.ENGINE==='webkit'?webkit:chromium).launch();
  const ctx=await b.newContext({viewport:{width:W,height:H},hasTouch:true,reducedMotion:'reduce',acceptDownloads:true});const page=await ctx.newPage();const errs=[];page.on('pageerror',e=>errs.push(e.message));
  try{
-  await page.goto(base);await page.waitForFunction(()=>!window.SuiteWelcome?.pending);
+  await page.goto(base);
+  // First launch: name the first child account.
+  await page.locator('#suite-welcome form:not([hidden]) input').fill('ليان');await page.locator('#suite-welcome button[type=submit]').click();
+  await page.waitForFunction(()=>!window.SuiteWelcome?.pending);
   assert.equal(await page.locator('[data-open-plan]').isVisible(),false,'Plan hidden before therapist mode');
   await page.locator('[data-therapist]').click();await page.locator('.voc-therapist[open] input').fill('111');await page.locator('.voc-therapist[open] button[type=submit]').click();
   assert.match(await page.locator('#voc-therapist-error').textContent(),/غير صحيحة/);
@@ -24,7 +27,7 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   for(const id of ids) await page.locator(`[data-toggle="${id}"]`).click();
   assert.equal(await page.locator(`[data-toggle="${A}"]`).getAttribute('aria-pressed'),'true');
   await page.locator('#voc-tab-plan').click();
-  await page.locator('[data-field=childName]').fill('ليان');await page.locator('[data-field=childName]').press('Tab');
+  assert.equal(await page.locator('[data-field=childName]').inputValue(),'ليان','The plan starts with the child account\'s name');
   await page.locator('[data-field=therapist]').fill('أحمد غانم');await page.locator('[data-field=therapist]').press('Tab');
   for(const [id,l] of [[A,40],[A,80],[B,60],[C,20],[E,80]]) await page.locator(`[data-rate="${id}"][data-level="${l}"]`).click();
   
@@ -45,5 +48,15 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   await page.locator('[data-therapist]').click();await page.locator('.voc-therapist[open] [data-end]').click();
   assert.equal(await page.locator('[data-open-plan]').isVisible(),false);
   if(levels)assert.equal(await page.evaluate(()=>VocProgress.wordLevelUnlocked({id:'x',previousId:'y',keys:['1_1','1_2']})),false,'Levels lock again');
-  assert.deepEqual(errs,[]);console.log(`PASS intervention ${W}x${H}: password gate, hidden plan button, goal bank, 20–80% ratings, saved plan, ${levels?'unlocked levels, ':''}3-page PDF (${APP.name}).`);
+  // A second child account has its own, empty plan; the first child's plan is kept.
+  const dialog={voc:['#child-dialog','#child-name'],senb:['#senb-child-dialog','#senb-child-name'],taffaha:['#taffaha-child-dialog','#taffaha-child-name']}[await page.evaluate(()=>InterventionGoals.APP.id)];
+  await page.locator('[data-therapist]').click();await page.locator('.voc-therapist[open] input').fill('013');await page.locator('.voc-therapist[open] button[type=submit]').click();
+  await page.locator('[data-child-profile],[data-senb-child-profile],#open-profile').first().click();await solveParentGate(page);
+  await page.locator(dialog[1]).fill('سامي');await page.locator(`${dialog[0]} form [type=submit]`).click();
+  await page.waitForFunction(()=>InterventionGoals.APP.progress()?.active()?.name==='سامي'&&!window.SuiteWelcome?.pending,null,{timeout:20000});
+  await page.locator('[data-open-plan]').click();await page.locator('.voc-plan[open]').waitFor();
+  assert.equal(await page.locator('[data-field=childName]').inputValue(),'سامي');assert.equal(await page.locator('#voc-tab-plan').textContent(),'الخطة (0)','Each child has a separate plan');
+  const kept=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).children.find(child=>child.name==='ليان'),APP.storageKey);
+  assert.ok(JSON.stringify(kept).includes('S1')||JSON.stringify(kept).includes('"rating":80'),'The first child keeps their plan');
+  assert.deepEqual(errs,[]);console.log(`PASS intervention ${W}x${H}: password gate, hidden plan button, goal bank, 20–80% ratings, saved plan, ${levels?'unlocked levels, ':''}3-page PDF, a separate plan per child (${APP.name}).`);
  }catch(e){process.exitCode=1;console.error('FAIL',e.message);await page.screenshot({path:`${out}/${tag}-fail.png`});}finally{await b.close();server.close();}});

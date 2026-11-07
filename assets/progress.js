@@ -203,8 +203,6 @@
     if (root.document) {
         let storage; try { storage = root.localStorage; } catch { storage = { getItem() {}, setItem() { throw new Error('unavailable'); } }; }
         root.VocProgress = create(storage, () => root.dispatchEvent(new Event('voc-storage-error')));
-        // One learner per device: there are no child accounts to create or switch.
-        if (!root.VocProgress.active()) root.VocProgress.signIn('الطفل');
         root.addEventListener('storage', event => {
             if (event.key !== STORAGE || !event.newValue) return;
             let latest; try { latest = JSON.parse(event.newValue); } catch { return; }

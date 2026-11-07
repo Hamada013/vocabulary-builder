@@ -1,6 +1,6 @@
 # Intervention plan goals
 
-The therapist button (password **013**) turns on therapist mode for the current tab. It opens every word level and shows the hidden **خطة التدخل** button. The therapist chooses short-term goals from this bank for the learner and marks each one 20%, 40%, 60% or 80%. A goal at 80% counts as achieved: the PDF progress report lists goals still in progress first, then achieved goals on their own page, then the references. The plan is saved on this device with the learner's progress. Ending therapist mode keeps the plan.
+The therapist button (password **013**) turns on therapist mode for the current tab. It opens every word level and shows the hidden **خطة التدخل** button. The therapist chooses short-term goals from this bank for the active child account (each child has a separate plan) and marks each one 20%, 40%, 60% or 80%. A goal at 80% counts as achieved: the PDF progress report lists goals still in progress first, then achieved goals on their own page, then the references. The plan is saved on this device with that child's progress. Ending therapist mode keeps the plan.
 
 The 80% criterion is this plan's own rule, not a published norm. The password only keeps children out of therapist tools; it is not security, because it ships in the app's code.
 

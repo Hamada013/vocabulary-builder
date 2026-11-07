@@ -71,3 +71,14 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
 .voc-plan-empty button { margin-top: 10px; }
 .voc-plan [role="alert"] { margin: 0 0 12px; padding: 10px 14px; border-radius: 14px; background: #fdf0f0; color: #a74343; font-size: 14px; }
 @media (prefers-reduced-motion: reduce) { .voc-plan *, .voc-therapist * { transition: none !important; } }
+
+/* With the therapist, plan and accounts buttons, narrow phones fit the header icons on one row. */
+@media (max-width: 400px) {
+    .app-home-shell .app-home-tools.suite-toolbar { gap: 2px; }
+    .app-home-shell .app-home-tools.suite-toolbar [data-suite-control] { flex: 0 0 40px; width: 40px; min-width: 40px; max-width: 40px; height: 40px; min-height: 40px; padding: 8px; }
+    .app-home-shell .app-home-tools [data-child-profile] span { display: none; }
+}
+@media (max-width: 340px) {
+    .app-home-shell .app-home-tools.suite-toolbar { gap: 1px; }
+    .app-home-shell .app-home-tools.suite-toolbar [data-suite-control] { flex-basis: 36px; width: 36px; min-width: 36px; max-width: 36px; height: 40px; padding: 7px; }
+}

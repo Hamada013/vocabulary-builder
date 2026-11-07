@@ -4,7 +4,7 @@ Arabic vocabulary practice with pictures and recordings: 994 words in 40 categor
 
 Published at https://hamada013.github.io/vocabulary-builder/.
 
-The app is standalone. It has its own launch animation and logo, its own installation and offline download, and no links to other apps or websites. There are no child accounts: one learner per device is created automatically on first launch, and progress is stored in this browser under `vocabulary-builder-v1`.
+The app is standalone. It has its own launch animation and logo, its own installation and offline download, and no links to other apps or websites. Each app has its own child accounts, separate from every other app: the first launch asks for the child's name, and the accounts button beside the therapist button adds or switches children behind a short parent check. Progress, reports and the intervention plan belong to the active child. Everything is stored in this browser under `vocabulary-builder-v1`.
 
 ## Therapist mode and intervention plan
 
