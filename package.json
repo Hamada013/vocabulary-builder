@@ -1,0 +1,21 @@
+{
+  "name": "vocabulary-builder",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.cjs -i assets/tailwind.css -o assets/utilities.css --minify",
+    "build:icons": "node scripts/build-icons.cjs",
+    "build:games": "node scripts/build-game-pages.cjs && node scripts/build-game-data.cjs",
+    "build:pwa": "node scripts/build-pwa.cjs",
+    "build": "npm run build:css && npm run build:pwa",
+    "check": "node scripts/build-pwa.cjs --check",
+    "test": "node tests/static.cjs && node tests/games-model.cjs && node tests/progress.cjs && node tests/admin-report.cjs && node tests/word-levels.cjs",
+    "test:browser": "node tests/standalone-browser.cjs",
+    "test:progress:browser": "node tests/guided-browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1",
+    "sharp": "0.34.5",
+    "tailwindcss": "3.4.17"
+  }
+}
