@@ -87,7 +87,22 @@
 
         @media (min-width: 640px) {
             #workspace-content-wrapper { container-type: size; min-height: 0; }
+            /* Square cards: limit each layout's width to what the available height can show,
+               so every row stays visible on landscape phones and short tablet windows. */
+            .grid-template-1 { max-width: min(60vw, 400px, 100cqh); }
+            .grid-template-2 { max-width: min(80vw, 650px, 200cqh); }
+            .grid-template-3 { max-width: min(85vw, 800px, 300cqh); }
+            .grid-template-4 { max-width: min(70vw, 600px, 100cqh); }
+            .grid-template-5, .grid-template-6 { max-width: min(80vw, 750px, 150cqh); }
             .grid-template-7, .grid-template-8, .grid-template-9 { max-width: min(85vw, 720px, 100cqh); }
+        }
+        @media (min-width: 1024px) {
+            .grid-template-1 { max-width: min(45vw, 480px, 100cqh); }
+            .grid-template-2 { max-width: min(65vw, 800px, 200cqh); }
+            .grid-template-3 { max-width: min(75vw, 1000px, 300cqh); }
+            .grid-template-4 { max-width: min(55vw, 720px, 100cqh); }
+            .grid-template-5, .grid-template-6 { max-width: min(65vw, 900px, 150cqh); }
+            .grid-template-7, .grid-template-8, .grid-template-9 { max-width: min(70vw, 880px, 100cqh); }
         }
 
         .star-active { color: #FACC15; text-shadow: 0 0 6px rgba(250, 204, 21, 0.4); }
@@ -112,6 +127,9 @@
     <script defer src="assets/game-data.js"></script>
     <script defer src="assets/word-levels.js"></script>
     <script defer src="assets/workplace-levels.js"></script>
+    <link rel="stylesheet" href="assets/intervention.css">
+    <script defer src="assets/intervention-goals.js"></script>
+    <script defer src="assets/intervention.js"></script>
 </head>
 <body class="text-baby-textDark font-sans h-full w-full flex flex-col antialiased bg-slate-50">
 
@@ -124,6 +142,8 @@
                 <nav class="home-tools app-home-tools" aria-label="أدوات التطبيق">
                     <button type="button" class="home-icon app-home-icon" data-open-download aria-label="تنزيل التطبيق للعمل دون اتصال" title="تنزيل التطبيق للعمل دون اتصال" aria-haspopup="dialog" aria-controls="offline-dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg></button>
                     
+                    <button type="button" class="home-icon app-home-icon" data-suite-control="plan" data-open-plan hidden aria-haspopup="dialog" aria-label="خطة التدخل" title="خطة التدخل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H6a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-3M9 3h6v3H9zM8.5 11l1.5 1.5 3-3M8.5 17l1.5 1.5 3-3M15 11.5h1M15 17.5h1"/></svg></button>
+                    <button type="button" class="home-icon app-home-icon" data-suite-control="therapist" data-therapist aria-pressed="false" aria-haspopup="dialog" aria-label="وضع المعالج" title="وضع المعالج"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><circle cx="12" cy="10" r="2.5"/><path d="M8.5 16c.7-1.6 2-2.5 3.5-2.5s2.8.9 3.5 2.5"/></svg></button>
                     <button type="button" class="home-icon app-home-icon" onclick="app.modals.open('info-modal')" aria-label="معلومات التطبيق" title="معلومات التطبيق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/></svg></button>
                 </nav>
             </div>

@@ -6,6 +6,10 @@ Published at https://hamada013.github.io/vocabulary-builder/.
 
 The app is standalone. It has its own launch animation and logo, its own installation and offline download, and no links to other apps or websites. There are no child accounts: one learner per device is created automatically on first launch, and progress is stored in this browser under `vocabulary-builder-v1`.
 
+## Therapist mode and intervention plan
+
+The shield button in the home header asks for the therapist password (**013**). Therapist mode lasts for the current tab: it opens every word level and shows the **خطة التدخل** button. There the therapist picks short-term goals from a goal bank of six long-term goals (comprehension, naming, categorisation, basic concepts, functional communication, generalisation), rates each 20/40/60/80%, and downloads a PDF progress report: goals in progress, then goals achieved at 80% on a separate page, then references. See [docs/intervention-goals.md](docs/intervention-goals.md).
+
 ## Run locally
 
 Serve the repository root over HTTPS or localhost (for example `npx serve .`) and open `index.html`. Opening the file directly does not provide the service worker.

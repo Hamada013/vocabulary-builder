@@ -16,7 +16,7 @@
  };
  function button(label,icon){const b=document.createElement('button');b.type='button';b.className='suite-icon';b.innerHTML=icons[icon];b.title=label;b.setAttribute('aria-label',label);return b;}
  // Physical left-to-right order also defines keyboard order.
- const controlOrder={settings:0,activities:10,download:30,end:35,info:40,family:45,report:50,back:70};
+ const controlOrder={settings:0,activities:10,download:30,end:35,info:40,family:45,report:50,plan:55,therapist:60,back:70};
  function controlKind(node){
   if(node.dataset.suiteControl)return node.dataset.suiteControl;
   for(const [kind,selector]of Object.entries({back:'.game-back,#go-home,#activityHomeBtn,#home-link',report:'[data-child-report],#open-report,[aria-label="تقرير الطفل"]',family:'[data-family-lesson],[aria-label="تدريب العائلة"]',info:'[aria-label="معلومات التطبيق"]',end:'[data-session-end]',download:'[data-open-download],#pwaDownloadToggle,#open-offline,#install',activities:'[data-suite-menu]',settings:'[data-suite-settings]'}))if(node.matches(selector))return kind;

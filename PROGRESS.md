@@ -18,6 +18,10 @@ The plan carries the exact workplace cards. Choice counts are capped by the sele
 
 Run `npm test`, `npm run test:browser` and `npm run test:progress:browser`. Browser commands accept `VOC_PLAYWRIGHT` (or `APP_PLAYWRIGHT`) to locate Playwright. Rebuild the release with `npm run build:pwa` after production edits.
 
+## Therapist mode
+
+Therapist mode (password 013, current tab only) makes every word level available without marking any level completed; the child's own results still count. The intervention plan is stored on the learner as `intervention` and merges safely with other open tabs. See [docs/intervention-goals.md](docs/intervention-goals.md).
+
 ## Activity reports
 
 

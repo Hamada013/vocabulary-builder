@@ -2,6 +2,7 @@
 ((root) => {
     'use strict';
     const STORAGE = 'vocabulary-builder-v1';
+    const THERAPIST = 'vocabulary-builder-therapist';
     const modes = ['matching', 'memory', 'rapid', 'test'];
     const difficulties = ['easy', 'moderate', 'advanced'];
     // Listening difficulty is the actual choice count; naming uses the response timer.
@@ -34,7 +35,7 @@
                 const before = baseline.children.find(saved => saved.id === child.id);
                 let saved = merged.children.find(entry => entry.id === child.id);
                 if (!saved) { merged.children.push(clone(child)); continue; }
-                for (const field of ['name', 'role', 'created', 'apps', 'words', 'workspace', 'plan', 'sessions', 'homeLesson', 'wordLevels']) {
+                for (const field of ['name', 'role', 'created', 'apps', 'words', 'workspace', 'plan', 'sessions', 'homeLesson', 'wordLevels', 'intervention']) {
                     if (same(child[field], before?.[field])) continue;
                     if (field === 'apps') { saved.apps = { ...saved.apps, ...Object.fromEntries(Object.entries(child.apps || {}).filter(([, value]) => value === true)) }; }
                     else if (field === 'words') {
@@ -84,6 +85,8 @@
         if (!data.children.some(child => child.role === 'admin')) data.children.push({ id: 'hamada-admin', name: 'Hamada', role: 'admin', created: new Date().toISOString(), words: {}, workspace: null, plan: null, sessions: [] });
         const active = () => data.children.find(child => child.id === data.active) || null;
         const isAdmin = () => active()?.role === 'admin';
+        // Therapist mode (password-protected, this tab only) opens every level without changing the child's records.
+        const therapist = () => { try { return root.sessionStorage?.getItem(THERAPIST) === 'on'; } catch { return false; } };
         const key = item => typeof item === 'string' ? item : `${item.catId}_${item.id}`;
         const mastered = (item, domain) => {
             const word = !isAdmin() && active()?.words[key(item)];
@@ -99,7 +102,7 @@
         };
         const wordLevelUnlocked = level => {
             if (!level || !active()) return false;
-            if (isAdmin() || !level.previousId) return true;
+            if (isAdmin() || therapist() || !level.previousId) return true;
             const previous = active().wordLevels?.[level.previousId];
             return previous?.completed === true && sameKeys(previous.keys, level.previousKeys);
         };
@@ -179,7 +182,9 @@
             }
             persist(); return currentRound();
         }
-        return { key, active, isAdmin, mastered, inLibrary, assessmentDifficulty, wordLevelCompleted, wordLevelUnlocked, completeWordLevel, signIn, record, logSession, startPlan, currentRound, advancePlan, storageOK: () => storageOK,
+        return { key, active, isAdmin, therapist, mastered,
+            intervention: () => clone(active()?.intervention || null),
+            saveIntervention: plan => { if (!active()) return false; active().intervention = clone(plan); return persist(); }, inLibrary, assessmentDifficulty, wordLevelCompleted, wordLevelUnlocked, completeWordLevel, signIn, record, logSession, startPlan, currentRound, advancePlan, storageOK: () => storageOK,
             children: () => data.children.map(({ id, name, role }) => ({ id, name, role })),
             reportChildren: id => {
                 if (!active()) return [];
