@@ -5,6 +5,8 @@
  * not a published norm. Sources are listed below and in docs/intervention-goals.md. */
 ((root) => {
     'use strict';
+    // This app: name for the report, therapist-mode key (shared with progress.js), and its progress store.
+    const APP = { id: 'voc', name: 'كلمة', therapistKey: 'vocabulary-builder-therapist', unlocksLevels: true, progress: () => root.VocProgress };
     const SOURCES = {
         'asha-sld': {
             label: 'ASHA Practice Portal: Spoken Language Disorders',
@@ -107,7 +109,7 @@
     const LEVELS = [20, 40, 60, 80];
     const ACHIEVED = 80;
     const byId = new Map(GOALS.flatMap(goal => goal.short.map(item => [item.id, { ...item, long: goal }])));
-    const api = { SOURCES, GOALS, LEVELS, ACHIEVED, short: id => byId.get(id) || null };
+    const api = { APP, SOURCES, GOALS, LEVELS, ACHIEVED, short: id => byId.get(id) || null };
     if (typeof module !== 'undefined') module.exports = api;
-    root.VocInterventionGoals = api;
+    root.InterventionGoals = api;
 })(globalThis);

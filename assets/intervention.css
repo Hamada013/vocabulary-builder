@@ -1,5 +1,6 @@
 /* Therapist mode and intervention plan. Calm white cards, compact icon controls. */
 [data-open-plan][hidden], .voc-plan [hidden], .voc-therapist [hidden] { display: none !important; }
+body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-plan]) { display: none !important; }
 [data-therapist][aria-pressed="true"] { color: #2f7a52 !important; position: relative; }
 [data-therapist][aria-pressed="true"]::after { content: ''; position: absolute; top: 7px; inset-inline-end: 7px; width: 8px; height: 8px; border-radius: 50%; background: #34a26a; box-shadow: 0 0 0 2px #fff; }
 

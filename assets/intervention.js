@@ -1,13 +1,15 @@
-/* Therapist mode (password 013) and the learner's intervention plan.
- * Therapist mode lasts for this tab only: it opens every word level and shows the plan button.
+/* Therapist mode (password 013) and the learner's intervention plan. Shared by كلمة, جملة and مقطع;
+ * each app's assets/intervention-goals.js supplies its name, goal bank and progress store.
+ * Therapist mode lasts for this tab only: it shows the plan button (and opens every level where the app has levels).
  * The plan holds goals chosen from the goal bank, each rated 20/40/60/80%. 80% counts as achieved.
  * The PDF progress report lists goals still in progress, then achieved goals on their own page. */
 (() => {
     'use strict';
-    const KEY = 'vocabulary-builder-therapist';
-    const PASSWORD = '013';
-    const P = window.VocProgress, G = window.VocInterventionGoals;
-    if (!P || !G) return;
+    const G = window.InterventionGoals;
+    if (!G) return;
+    const APP = G.APP, KEY = APP.therapistKey, PASSWORD = '013';
+    // The progress store may load after this script (module apps), so look it up when needed.
+    const P = { intervention: () => APP.progress()?.intervention() ?? null, saveIntervention: plan => APP.progress()?.saveIntervention(plan) ?? false };
     const svg = path => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
     const ICONS = {
         close: svg('<path d="m6 6 12 12M18 6 6 18"/>'),
@@ -46,7 +48,7 @@
         if (!gate) {
             gate = document.createElement('dialog'); gate.className = 'voc-therapist'; gate.dir = 'rtl'; gate.setAttribute('aria-labelledby', 'voc-therapist-title');
             gate.innerHTML = `<header>${ICONS.lock}<h2 id="voc-therapist-title">وضع المعالج</h2><button type="button" class="voc-plan-icon" data-close aria-label="إغلاق" title="إغلاق">${ICONS.close}</button></header>
-                <form novalidate><p id="voc-therapist-help">أدخل كلمة مرور المعالج لفتح كل المستويات وخطة التدخل.</p>
+                <form novalidate><p id="voc-therapist-help">${APP.unlocksLevels ? 'أدخل كلمة مرور المعالج لفتح كل المستويات وخطة التدخل.' : 'أدخل كلمة مرور المعالج لفتح خطة التدخل.'}</p>
                 <input type="password" inputmode="numeric" autocomplete="off" maxlength="8" aria-label="كلمة مرور المعالج" aria-describedby="voc-therapist-help voc-therapist-error">
                 <p id="voc-therapist-error" role="alert" hidden></p>
                 <div class="voc-therapist-actions"><button type="submit" class="primary">دخول</button></div></form>`;
@@ -58,7 +60,7 @@
                 if (digits(input.value) !== PASSWORD) {
                     error.textContent = 'كلمة المرور غير صحيحة.'; error.hidden = false; input.setAttribute('aria-invalid', 'true'); input.select(); return;
                 }
-                gate.close(); setActive(true); toast('تم تفعيل وضع المعالج: كل المستويات مفتوحة', 'success');
+                gate.close(); setActive(true); toast(APP.unlocksLevels ? 'تم تفعيل وضع المعالج: كل المستويات مفتوحة' : 'تم تفعيل وضع المعالج', 'success');
             };
         }
         const input = gate.querySelector('input'); input.value = ''; input.removeAttribute('aria-invalid'); gate.querySelector('[role=alert]').hidden = true;
@@ -68,7 +70,7 @@
         if (!leave) {
             leave = document.createElement('dialog'); leave.className = 'voc-therapist'; leave.dir = 'rtl'; leave.setAttribute('aria-labelledby', 'voc-therapist-leave-title');
             leave.innerHTML = `<header>${ICONS.lock}<h2 id="voc-therapist-leave-title">إنهاء وضع المعالج؟</h2></header>
-                <p>تُقفل المستويات حسب تقدّم الطفل وتختفي خطة التدخل. تبقى الخطة محفوظة.</p>
+                <p>${APP.unlocksLevels ? 'تُقفل المستويات حسب تقدّم الطفل وتختفي خطة التدخل.' : 'يختفي زر خطة التدخل.'} تبقى الخطة محفوظة.</p>
                 <div class="voc-therapist-actions"><button type="button" class="primary" data-end>إنهاء</button><button type="button" data-cancel>إلغاء</button></div>`;
             document.body.append(leave);
             leave.querySelector('[data-cancel]').onclick = () => leave.close();
@@ -183,7 +185,7 @@
         if (!isActive()) { openGate(); return; }
         if (!plan) build();
         model = load(); tab = model.goals.length ? 'plan' : 'bank'; render();
-        window.dispatchEvent(new Event('voc-profile-open'));
+        window.dispatchEvent(new Event(`${APP.id}-profile-open`)); window.dispatchEvent(new Event('suite-navigation-open'));
         plan.showModal(); plan.querySelector('[data-plan-close]').focus();
     }
 
@@ -197,7 +199,7 @@
     async function pdfFor(report) {
         const jsPDF = await loadPDF(); await document.fonts.load('700 32px Cairo'); await document.fonts.load('400 24px Cairo'); await document.fonts.ready;
         const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
-        doc.setProperties({ title: `كلمة - تقرير خطة التدخل - ${report.childName || ''}`, creator: 'كلمة' });
+        doc.setProperties({ title: `${APP.name} - تقرير خطة التدخل - ${report.childName || ''}`, creator: APP.name });
         const width = 1240, height = 1754, margin = 80, pages = [];
         let canvas, c, y;
         const font = (size, weight = 700) => { c.font = `${weight} ${size}px Cairo`; };
@@ -214,7 +216,7 @@
         const newPage = (title, subtitle) => {
             canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height; c = canvas.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0, 0, width, height); pages.push(canvas);
             box(margin, 60, width - margin * 2, 180, '#f1f8fc');
-            text('كلمة · تقرير تقدّم خطة التدخل', width - margin - 28, 105, 24, '#0284c7');
+            text(`${APP.name} · تقرير تقدّم خطة التدخل`, width - margin - 28, 105, 24, '#0284c7');
             text(report.childName || 'الطفل', width - margin - 28, 158, 36);
             text([report.therapist && `المعالج: ${report.therapist}`, report.start && `بداية الخطة: ${formatDate(report.start)}`].filter(Boolean).join('   ·   '), width - margin - 28, 210, 22, '#587082', 'right', 600);
             text(formatDate(report.date), margin + 28, 105, 24, '#587082', 'left');
@@ -223,12 +225,13 @@
             if (subtitle) { text(subtitle, width - margin, y, 22, '#587082', 'right', 600); y += 46; }
         };
         const ensure = (needed, title) => { if (y + needed > height - 110) newPage(title); };
-        const goalBlock = (entry, achieved) => {
+        const goalBlock = (entry, achieved, goal) => {
             const textWidth = width - margin * 2 - 60, rows = lines(entry.text, textWidth, 25, 600);
             const historyText = entry.history.length ? entry.history.map(step => `${step.rating}% (${formatDate(step.date)})`).join('  ←  ') : 'لم يُقيّم بعد';
             const historyRows = lines(`التقييمات: ${historyText}`, textWidth, 20, 600);
             const blockHeight = 40 + rows.length * 39 + 34 + 62 + historyRows.length * 31 + 24;
-            ensure(blockHeight + 10, achieved ? 'أهداف تحققت (تابع)' : 'أهداف قيد العمل (تابع)');
+            // A goal that moves to a new page keeps its long-term goal heading.
+            if (y + blockHeight + 10 > height - 110) { newPage(achieved ? 'أهداف تحققت (تابع)' : 'أهداف قيد العمل (تابع)'); text(`الهدف بعيد المدى: ${goal.title} (تابع)`, width - margin, y + 14, 27, '#0369a1'); y += 52; }
             const top = y; box(margin, top, width - margin * 2, blockHeight, achieved ? '#f2fbf5' : '#fbfdff', achieved ? '#bfe5cd' : '#e2eef5');
             y = top + 26; paragraph(entry.text, width - margin - 30, textWidth, 25, '#18394b', 600, 1.55);
             text(entry.where, width - margin - 30, y + 12, 19, '#7b8f9d', 'right', 600); y += 40;
@@ -251,7 +254,7 @@
                 ensure(140, achieved ? 'أهداف تحققت (تابع)' : 'أهداف قيد العمل (تابع)');
                 text(`الهدف بعيد المدى: ${goal.title}`, width - margin, y + 14, 27, '#0369a1'); y += 46;
                 paragraph(goal.text, width - margin, width - margin * 2, 22, '#587082', 600, 1.5); y += 10;
-                for (const entry of items) goalBlock(entry, achieved);
+                for (const entry of items) goalBlock(entry, achieved, goal);
                 y += 10;
             }
         };
@@ -295,6 +298,6 @@
         document.querySelectorAll('[data-open-plan]').forEach(button => { button.onclick = open; });
         syncHeader();
     }
-    window.VocIntervention = { open, isActive, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
+    window.InterventionPlan = { open, isActive, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
