@@ -9,7 +9,7 @@
     "build:pwa": "node scripts/build-pwa.cjs",
     "build": "npm run build:css && npm run build:pwa",
     "check": "node scripts/build-pwa.cjs --check",
-    "test": "node tests/static.cjs && node tests/games-model.cjs && node tests/progress.cjs && node tests/admin-report.cjs && node tests/word-levels.cjs",
+    "test": "node tests/static.cjs && node tests/games-model.cjs && node tests/progress.cjs && node tests/admin-report.cjs && node tests/word-levels.cjs && node tests/acquisition-reports.cjs && node tests/demo-position.cjs && node tests/session-homework.cjs",
     "test:browser": "node tests/standalone-browser.cjs",
     "test:progress:browser": "node tests/guided-browser.cjs"
   },

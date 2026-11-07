@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const VOC=require('../assets/reports.js');
+const now=new Date('2026-10-18T18:00:00Z'),date='2026-10-18T09:00:00Z';
+const session=(id,domain,records,extra={})=>({id,date,domain,kind:'assessment',records,...extra});
+const bank=[{id:1,name:'أفعال',items:Array.from({length:100},(_,i)=>({id:i+1}))},{id:2,name:'حروف',items:Array.from({length:5},(_,i)=>({id:i+1}))},{id:3,name:'لم تبدأ',items:[{id:1}]}];
+const words=Array.from({length:5},(_,i)=>({key:`1_${i+1}`,correct:1,total:1}));
+const child={id:'a',name:'علي',sessions:[session('a','receptive',words),session('b','expressive',words),session('c','receptive',[{key:'2_1',correct:1,total:1}])]};
+let report=VOC.summarize([child],'all',now,bank);
+assert.equal(report.acquisition.length,2,'Unworked categories stay out of charts');
+assert.deepEqual(report.acquisition[0].receptive,{acquired:5,total:100,tested:5,percentage:5});assert.equal(report.acquisition[0].expressive.percentage,5);assert.equal(report.acquisition[1].receptive.percentage,20);assert.equal(report.acquisition[1].expressive.percentage,0);
+child.sessions.push(session('repeat','receptive',words));assert.equal(VOC.summarize([child],'all',now,bank).acquisition[0].receptive.acquired,5,'Repeated words never inflate progress');
+child.sessions.push(session('lower','receptive',[{key:'1_1',correct:0,total:1}],{date:'2026-10-18T10:00:00Z'}));assert.equal(VOC.summarize([child],'all',now,bank).acquisition[0].receptive.percentage,4,'Latest failure can lower acquisition');
+child.sessions.push(session('partial','receptive',[{key:'1_1',correct:1,total:1}],{partial:true,date:'2026-10-18T11:00:00Z'}));assert.equal(VOC.summarize([child],'all',now,bank).acquisition[0].receptive.percentage,4);
+child.sessions.push(session('practice','expressive',[{key:'3_1',correct:1,total:1}],{kind:'practice'}));const practice=VOC.summarize([child],'all',now,bank).acquisition[2];assert.equal(practice.worked,1);assert.equal(practice.expressive.acquired,0);
+const another={id:'b',sessions:[session('other','receptive',[{key:'1_1',correct:1,total:1}])]};const all=VOC.summarize([child,another],'all',now,bank);assert.equal(all.acquisition[0].total,200);assert.equal(all.acquisition[0].receptive.acquired,5,'Each child has independent acquisition opportunities');
+assert.equal(VOC.summarize([child],'day',new Date('2026-10-19T18:00:00Z'),bank).acquisition.length,0);
+console.log('PASS: VOC true category denominators (5/100, 1/5), independent skills, latest-result decline, no duplicate inflation and worked-only categories.');
