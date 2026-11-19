@@ -1,6 +1,6 @@
 # كلمة · Vocabulary Builder
 
-Arabic vocabulary practice with pictures and recordings: 994 words in 40 categories, a workplace for sessions, matching, memory, quick cards and listen-and-choose games, and a learner report.
+Arabic vocabulary practice with pictures and recordings: 985 words in 40 categories, a workplace for sessions, matching, memory, quick cards and listen-and-choose games, and a learner report.
 
 Published at https://hamada013.github.io/vocabulary-builder/.
 
@@ -8,7 +8,7 @@ The app is standalone. It has its own launch animation and logo, its own install
 
 ## Therapist mode and intervention plan
 
-The shield button in the home header asks for the therapist password (**013**). Therapist mode lasts for the current tab: it opens every word level and shows the **خطة التدخل** button. There the therapist picks short-term goals from a goal bank of six long-term goals (comprehension, naming, categorisation, basic concepts, functional communication, generalisation), rates each 20/40/60/80%, and downloads a PDF progress report: goals in progress, then goals achieved at 80% on a separate page, then references. See [docs/intervention-goals.md](docs/intervention-goals.md).
+The therapist switch in the home header works like the articulation app's: a lock when closed, an open lock when open. Tapping the lock asks for the password (**013**); one tap locks it again. It stays open on this device until locked. While open, every word level is unlocked. Everything therapist-only is shown only while it is open: the **خطة التدخل** button, the plan with its long- and short-term goals, ready-made plans (بداية / متوسط / متقدم) that add their goals in one tap, each goal's 20/40/60/80% rating, each long-term goal's and the whole plan's achievement percentage, the goals section in the child's progress report, and the goals PDF (goals in progress, then goals achieved at 80% on a separate page, then references). Progress stays saved in this browser. See [docs/intervention-goals.md](docs/intervention-goals.md).
 
 ## Run locally
 

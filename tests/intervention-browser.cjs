@@ -44,8 +44,9 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   const pages=await page.evaluate(()=>window.__pages);assert.equal(pages.length,3,'In-progress page, achieved page, references');
   // reload keeps plan; exit therapist mode hides plan and relocks
   await page.reload();await page.waitForFunction(()=>!window.SuiteWelcome?.pending);
-  assert.equal(await page.locator('[data-open-plan]').isVisible(),true,'Therapist mode lasts in this tab');
-  await page.locator('[data-therapist]').click();await page.locator('.voc-therapist[open] [data-end]').click();
+  assert.equal(await page.locator('[data-open-plan]').isVisible(),true,'The therapist switch stays open on this device');
+  await page.locator('[data-therapist]').click();// one tap locks the switch again (like the articulation app)
+  assert.equal(await page.locator('.voc-therapist[open]').count(),0,'Locking needs no confirmation');
   assert.equal(await page.locator('[data-open-plan]').isVisible(),false);
   if(levels)assert.equal(await page.evaluate(()=>VocProgress.wordLevelUnlocked({id:'x',previousId:'y',keys:['1_1','1_2']})),false,'Levels lock again');
   // A second child account has its own, empty plan; the first child's plan is kept.

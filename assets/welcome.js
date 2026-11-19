@@ -79,7 +79,7 @@
    try{
     const {progress,create}=await connection,owner=progress.active()?.id;
     // Adding a second child is a parent action.
-    if((owner||progress.children().some(child=>child.role!=='admin'&&child.name?.trim().toLowerCase()!=='hamada'))&&!await root.ChildAccountGate.request())return;
+    if((owner||progress.children().length)&&!await root.ChildAccountGate.request())return;
     if(owner!==progress.active()?.id)throw Error('تغيّر الحساب النشط. أعد المحاولة.');
     create(name);
     if(!progress.active())throw Error('تعذّر إنشاء الحساب. أعد المحاولة.');

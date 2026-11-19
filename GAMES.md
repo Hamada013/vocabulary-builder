@@ -1,6 +1,17 @@
 # Vocabulary games
 
-Open `games.html` for all four Arabic games. Each game supports category/search selection, adjustable difficulty, a finite session, pause/resume, saved progress on this device, results, and optional missed-word review. Switching apps automatically pauses play and audio. Tap controls and keyboard buttons work alongside matching-card dragging.
+## Simple games (no settings screen)
+
+`where.html` (وين؟) and `balloons.html` (البالونات) start with one tap on a category; the automatic plan plays them with the workplace cards. Each picture is introduced with a spoken prompt («وين …» + the word), praise after a right answer and a gentle «جرّب كمان مرة» after a wrong one. Difficulty adapts while playing: two first-try answers in a row add a picture (up to 4), a mistake removes one (down to 2). In «وين؟» a wrong picture fades out; in the balloons game a wrong balloon drifts away; after two mistakes the right picture glows, so every trial ends in success. Results are logged as practice and never count as assessment.
+
+Prompts come from `assets/prompts.js`. Each plays `sounds/prompts/<name>.m4a` once recorded (the list is in `docs/sound-recording-list.pdf`); until then the device's Arabic voice reads it, and with no Arabic voice it is skipped. Recorded prompts install with the app.
+
+Engine: `assets/mini-games.js` and `assets/mini-games.css`; layout `scripts/mini-page.html` (regenerate with `npm run build:games`). Tests: `node tests/mini-games.cjs`.
+
+## Listening and naming games
+
+
+Open `games.html` for the games. Matching and memory (below) are no longer listed in the menus; their pages stay so plans saved earlier can finish. Each game supports category/search selection, adjustable difficulty, a finite session, pause/resume, saved progress on this device, results, and optional missed-word review. Switching apps automatically pauses play and audio. Tap controls and keyboard buttons work alongside matching-card dragging.
 
 Settings use direct radio choice cards for picture/pair counts, session length, and observation time. The category browser provides a swipeable row of illustrated tiles plus a searchable grid of all 40 categories. “تحديد” toggles the current category/search results; “تحديد الكل” toggles the entire bank. Selecting a category clears the cross-category word search, and the selected category/settings persist on this device.
 
@@ -15,7 +26,7 @@ Matching, rapid, and listening sessions sample up to 6, 10, or 20 words from the
 
 ## Shared vocabulary and bounded loading
 
-`scripts/build-game-data.cjs` reads the authoritative categories and labels from `index.html`, preserving item IDs. Only pairs with existing WebP and M4A files enter `assets/game-data.js`. The current bank contains 979 items; 15 entries lack images and are excluded from games. The PWA still downloads every existing source media file. Duplicate written words or identical image content are excluded from a session so choices remain distinct.
+`scripts/build-game-data.cjs` reads the authoritative categories and labels from `index.html`, preserving item IDs. Only pairs with existing WebP and M4A files enter `assets/game-data.js`. The current bank contains 985 items. Nine words (six repeats, بسكوت, يموت, يعيش) were removed from the mapping (left as `null` so other words keep their numbers and files). The PWA still downloads every existing source media file. Duplicate written words or identical image content are excluded from a session so choices remain distinct.
 
 The chooser renders at most 24 preview cards, even when all categories are selected. Play loads at most 12 memory images or 7 matching images and uses one audio element. Delayed game actions are canceled on pause, exit, or restart. Cached media uses the same revisioned service worker storage as the main vocabulary app; use the home screen install icon to open the offline download popup before offline field use.
 

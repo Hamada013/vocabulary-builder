@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="assets/welcome.css">
+    <script defer src="assets/welcome.js" data-app="voc"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>البالونات - كلمة</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0284C7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="كلمة">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <link rel="stylesheet" href="assets/utilities.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome.css">
+    <link rel="stylesheet" href="assets/vendor/cairo.css">
+    <link rel="stylesheet" href="assets/pwa.css">
+    <link rel="stylesheet" href="assets/games.css">
+    <link rel="stylesheet" href="assets/mini-games.css">
+    <script defer src="assets/prompts.js"></script>
+    <script defer src="assets/mini-games.js"></script>
+    <link rel="stylesheet" href="assets/updates.css">
+    <script defer src="assets/updates.js"></script>
+    <script defer src="assets/pwa.js"></script>
+    <script defer src="assets/game-data.js"></script>
+    <link rel="stylesheet" href="assets/progress.css">
+    <script defer src="assets/progress.js"></script>
+    <script defer src="assets/countdown.js"></script>
+    <link rel="stylesheet" href="assets/acquisition-charts.css">
+    <script defer src="assets/acquisition-charts.js"></script>
+    <script defer src="assets/reports.js"></script>
+    <link rel="stylesheet" href="assets/parent-gate.css">
+    <script defer src="assets/parent-gate.js"></script>
+    <script defer src="assets/progress-ui.js"></script>
+    <link rel="stylesheet" href="assets/flow-ui.css">
+    <script defer src="assets/flow-ui.js"></script>
+    <script defer src="assets/accounts.js"></script>
+    <link rel="stylesheet" href="assets/session-homework.css">
+    <script defer src="assets/session-homework.js" data-app="voc"></script>
+    <link rel="stylesheet" href="assets/app-navigation.css">
+    <script defer src="assets/app-navigation.js" data-app="voc"></script>
+</head>
+<body class="game-page mini-page" data-mini="balloons">
+    <header class="game-header">
+        <div class="game-brand"><img src="images/logo.webp" alt="" width="54" height="54"><h1>البالونات</h1></div>
+        <a class="game-back" href="games.html" aria-label="العودة إلى قائمة الألعاب"><i class="fas fa-arrow-right" aria-hidden="true"></i><span>الألعاب</span></a>
+    </header>
+    <main id="mini-main" class="mini-shell">
+        <section id="mini-choose" class="mini-choose" aria-labelledby="mini-choose-title" hidden>
+            <h2 id="mini-choose-title">فقّع البالون اللي فيه الصورة</h2>
+            <p class="mini-subtitle">اختر الكلمات، واللعبة تبدأ فوراً.</p>
+            <div id="mini-sources" class="mini-sources"></div>
+        </section>
+        <section id="mini-play" class="mini-play" aria-label="البالونات" hidden>
+            <div class="mini-bar">
+                <button id="mini-stop" type="button" class="mini-round" aria-label="إيقاف" title="إيقاف"><i class="fas fa-times" aria-hidden="true"></i></button>
+                <div id="mini-stars" class="mini-stars" role="progressbar" aria-label="التقدم"></div>
+                <button id="mini-replay" type="button" class="mini-round mini-replay" aria-label="أعد سماع الكلمة" title="أعد سماع الكلمة"><i class="fas fa-volume-up" aria-hidden="true"></i></button>
+            </div>
+            <div id="mini-stage" class="mini-stage"></div>
+        </section>
+        <section id="mini-done" class="mini-done" aria-labelledby="mini-done-title" hidden>
+            <div class="mini-done-star" aria-hidden="true"><i class="fas fa-star"></i></div>
+            <h2 id="mini-done-title" tabindex="-1">برافو! خلصنا</h2>
+            <p id="mini-done-text"></p>
+            <div class="mini-done-actions">
+                <button id="mini-again" type="button" class="mini-big green"><i class="fas fa-redo" aria-hidden="true"></i><span>نلعب كمان</span></button>
+                <button id="mini-other" type="button" class="mini-big"><i class="fas fa-th-large" aria-hidden="true"></i><span>كلمات ثانية</span></button>
+            </div>
+        </section>
+        <div id="mini-tap" class="mini-tap" hidden><button type="button" class="mini-tap-button" aria-label="ابدأ"><i class="fas fa-play" aria-hidden="true"></i></button><p>اضغط لنبدأ</p></div>
+        <dialog id="mini-pause" class="mini-pause" aria-labelledby="mini-pause-title">
+            <h2 id="mini-pause-title">استراحة</h2>
+            <div class="mini-done-actions">
+                <button type="button" class="mini-big green" data-pause="continue"><i class="fas fa-play" aria-hidden="true"></i><span>متابعة</span></button>
+                <button type="button" class="mini-big rose" data-pause="stop"><i class="fas fa-times" aria-hidden="true"></i><span>إنهاء</span></button>
+            </div>
+        </dialog>
+        <noscript><p class="game-alert">فعّل JavaScript لتشغيل الألعاب.</p></noscript>
+    </main>
+</body>
+</html>

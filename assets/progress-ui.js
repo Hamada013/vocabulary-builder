@@ -2,9 +2,9 @@
     'use strict';
     const P = window.VocProgress;
     function init() {
-        const dialog = document.createElement('dialog'); dialog.className = 'voc-dialog'; dialog.id = 'child-dialog';
+        const dialog = document.createElement('dialog'); dialog.className = 'suite-account-dialog'; dialog.id = 'child-dialog';
         dialog.setAttribute('aria-labelledby', 'child-title');
-        dialog.innerHTML = `<div class="voc-dialog-heading"><h2 id="child-title">ملف الطفل</h2><button type="button" class="voc-choice voc-icon" id="admin-all-report" aria-label="تقرير جميع الأطفال" title="تقرير جميع الأطفال" hidden><i class="fas fa-chart-bar" aria-hidden="true"></i></button></div><form><label for="child-name">اسم الطفل</label><input id="child-name" name="name" autocomplete="off" maxlength="60" required><div id="saved-children" class="voc-choices"></div><footer><button type="button" class="voc-choice" id="child-close">إغلاق</button><button class="voc-action" type="submit">دخول</button></footer></form>`;
+        dialog.innerHTML = `<div class="account-head"><h2 id="child-title">حسابات الأطفال</h2><div class="account-head-tools"><button type="button" id="child-close" aria-label="إغلاق" title="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></div><form class="account-add"><label for="child-name">فتح أو إضافة طفل</label><div class="account-add-row"><input id="child-name" name="name" autocomplete="off" maxlength="60" required dir="auto" placeholder="اسم الطفل"><button type="submit">دخول / إضافة</button></div></form><div id="saved-children"></div>`;
         document.body.append(dialog);
         let authorized = false, opening = false;
         const enter = name => {
@@ -20,7 +20,7 @@
             if (previous !== P.active().id && P.storageOK()) { window.SuiteWelcome?.skipNextLoad(); location.reload(); }
             else {
                 dialog.close();
-                document.querySelectorAll('[data-child-profile]').forEach(button => { button.querySelector('span').textContent = P.active().name; button.setAttribute('aria-label', `ملف الطفل: ${P.active().name}`); });
+                document.querySelectorAll('[data-child-profile]').forEach(button => { button.querySelector('.child-name').textContent = P.active().name; button.setAttribute('aria-label', `ملف الطفل: ${P.active().name}`); });
                 document.querySelectorAll('[data-child-report]').forEach(report => { report.disabled = !P.active(); report.setAttribute('aria-label', P.isAdmin() ? 'تقرير جميع الأطفال' : 'تقرير الطفل'); report.title = report.getAttribute('aria-label'); });
                 window.dispatchEvent(new Event('voc-profile-memorychange'));
             }
@@ -30,28 +30,21 @@
             opening = true; authorized = false;
             window.dispatchEvent(new Event('voc-profile-open'));
             const owner = P.active()?.id || null;
-            const needsGate = !!owner || P.children().some(child => child.role !== 'admin');
+            const needsGate = !!owner || P.children().length > 0;
             try {
                 if (needsGate && !await (window.ChildAccountGate?.request() || Promise.resolve(false))) return;
                 if (owner !== (P.active()?.id || null)) return;
                 authorized = true;
-                dialog.querySelector('#child-name').value = typeof requestedName === 'string' ? requestedName : P.active()?.name || '';
+                dialog.querySelector('#child-name').value = typeof requestedName === 'string' ? requestedName : '';
                 dialog.querySelector('#child-close').hidden = !P.active();
-                dialog.querySelector('#child-title').textContent = P.isAdmin() ? 'Hamada' : 'ملف الطفل';
-                dialog.querySelector('#admin-all-report').hidden = !P.isAdmin();
                 const savedChildren = dialog.querySelector('#saved-children');
                 window.SuiteAccounts.render(savedChildren,P.children(),child=>{
                     const button=document.createElement('button');button.type='button';button.className='voc-choice';button.textContent=child.name;button.onclick=()=>enter(child.name);
-                    const actions=[];
-                    if(P.isAdmin()){
-                        const report=document.createElement('button');report.type='button';report.className='voc-choice voc-icon';report.dataset.reportChild=child.id;report.setAttribute('aria-label',`تقرير ${child.name}`);report.title=`تقرير ${child.name}`;report.innerHTML='<i class="fas fa-chart-bar" aria-hidden="true"></i>';report.onclick=()=>{dialog.close();window.VocReports.open(child.id);};actions.push(report);
-                    }
-                    return window.SuiteAccounts.row(child,button,actions);
+                    return window.SuiteAccounts.row(child,button);
                 });
-                dialog.showModal();
+                dialog.showModal(); dialog.querySelector('#child-name').focus();
             } finally { opening = false; }
         };
-        dialog.querySelector('#admin-all-report').addEventListener('click', () => { dialog.close(); window.VocReports.open(); });
         dialog.querySelector('form').addEventListener('submit', event => { event.preventDefault(); enter(dialog.querySelector('input').value); });
         dialog.querySelector('#child-close').addEventListener('click', () => { if (P.active()) dialog.close(); });
         dialog.addEventListener('close', () => { authorized = false; });
@@ -60,7 +53,11 @@
             const button = document.createElement('button'); button.type = 'button'; button.className = 'child-button'; button.dataset.childProfile = ''; if (P.isAdmin()) button.classList.add('admin-profile');
             button.setAttribute('aria-label', `ملف الطفل: ${P.active()?.name || 'دخول'}`);
             const icon = document.createElement('i'); icon.className = P.isAdmin() ? 'fas fa-user-shield' : 'fas fa-user'; icon.setAttribute('aria-hidden', 'true');
-            const name = document.createElement('span'); name.textContent = P.active()?.name || 'اسم الطفل'; button.append(icon, name);
+            const name = document.createElement('span'); name.className = 'child-name'; name.textContent = P.active()?.name || 'اسم الطفل'; button.append(icon, name);
+            // The active child's drawn head replaces the generic person icon (accounts.js loads after this file).
+            const showHead = () => { const chip = !P.isAdmin() && P.active() && window.SuiteAccounts?.avatarFor(P.active()); if (!chip) return; const holder = document.createElement('span'); holder.className = 'suite-account-chip'; holder.append(chip); button.firstElementChild.replaceWith(holder); };
+            if (window.SuiteAccounts) showHead(); else window.addEventListener('DOMContentLoaded', showHead, { once: true });
+            window.addEventListener('suite-avatar-change', showHead);
             button.addEventListener('click', open); host.append(button);
             const report = document.createElement('button'); report.type = 'button'; report.className = 'child-report-button'; report.dataset.childReport = '';
             report.setAttribute('aria-label', P.isAdmin() ? 'تقرير جميع الأطفال' : 'تقرير الطفل'); report.title = report.getAttribute('aria-label');

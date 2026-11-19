@@ -288,12 +288,16 @@
         session.review = review;
         if (activePlan) { session.planId = activePlan.id; session.planPosition = activePlan.position; }
         $('#game-alert').hidden = true;
-        if (['memory','test','rapid'].includes(mode)) session.guide = { index: 0, done: false };
+        // Later rounds of the automatic plan skip the demonstration: earlier rounds already played every word.
+        if (['memory','test','rapid'].includes(mode) && !(activePlan && activePlan.position > 0)) session.guide = { index: 0, done: false };
         selectionPreferences(); save(); void launch();
     }
     async function launch() {
         clearWork(); phase = 'countdown'; show('play');
-        if (!await window.VocCountdown.start()) {
+        // The plan moves straight from one game to the next; the 1-2-3 plays only at its start or after a pause.
+        const continuing = activePlan && activePlan.position > 0 && !session.launched;
+        session.launched = true;
+        if (!continuing && !await window.VocCountdown.start()) {
             phase = 'paused'; save(); show('pause'); $('#pause-description').textContent = 'اضغط المتابعة عندما تكون مستعداً.'; return;
         }
         void renderCurrent();
@@ -713,7 +717,9 @@
         : mode === 'memory' ? 'ابدأ بزوجين، ثم زد العدد تدريجياً. الصور المخفية لا تظهر أسماؤها لقارئ الشاشة.'
             : mode === 'test' ? 'يجب تشغيل الكلمة قبل الإجابة. تُحتسب الدقة من أول اختيار، حتى لو نجح الطفل بعد المحاولة مجدداً.' : 'يمكن المطابقة باللمس أو بالسحب أو بلوحة المفاتيح. كل جلسة تنتهي بنتيجة واضحة.';
     const preferences = read(`${prefix}-preferences`);
-    selected = new Set((Array.isArray(preferences?.selected) ? preferences.selected : bank.categories[0].items.slice(0, 6).map(item => item.key)).filter(key => byKey.has(key) && inLibrary(key)));
+    // Every game opens with no session cards selected; an earlier selection (including the
+    // old six-card default saved by previous versions) is not restored.
+    selected = new Set();
     if (preferences?.settings) {
         const p = preferences.settings;
         if ([2, 4, 6].includes(p.level)) pick('game-level', p.level);
@@ -801,6 +807,15 @@
         selected = new Set(round.keys);
         const draft = read(`${prefix}-draft`);
         if (validDraft(draft) && draft.planId === plan.id && draft.planPosition === plan.position) { session = draft; phase = 'paused'; show('pause'); $('#pause-description').textContent = 'حُفظ المسار. اضغط المتابعة لإكماله.'; }
-        else begin(pool, false, round);
+        else tapToStart(() => begin(pool, false, round));
+    }
+    // Arriving from the previous game is not a touch on this page, so the browser would block the
+    // first word. One big play button gives that touch, then the game starts straight away.
+    function tapToStart(then) {
+        if (navigator.userActivation?.hasBeenActive) { then(); return; }
+        const gate = document.createElement('div'); gate.className = 'plan-tap';
+        gate.innerHTML = '<button type="button" aria-label="ابدأ"><i class="fas fa-play" aria-hidden="true"></i></button><p>اضغط لنبدأ</p>';
+        document.body.append(gate); gate.querySelector('button').focus();
+        gate.querySelector('button').addEventListener('click', () => { gate.remove(); then(); }, { once: true });
     }
 })();

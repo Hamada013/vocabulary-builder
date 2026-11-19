@@ -48,22 +48,20 @@
             height: 100dvh;
         }
 
-        .workspace-container {
-            height: calc(100dvh - 68px);
-            max-height: calc(100dvh - 68px);
-        }
+        .workspace-container { flex: 1 1 0; min-height: 0; }
+        #workspace-content-wrapper { container-type: size; min-height: 0; }
 
         .workplace-slot-image { width: 100%; flex: 1; min-height: 0; overflow: hidden; }
         .workplace-slot-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
         .workplace-slot-caption { flex-shrink: 0; }
 
-        /* Phone layout */
-        .grid-template-1 { grid-template-columns: minmax(0, 1fr); max-width: min(85vw, 270px); }
-        .grid-template-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(92vw, 420px); }
-        .grid-template-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: min(96vw, 540px); }
-        .grid-template-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(88vw, 360px); }
-        .grid-template-5, .grid-template-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: min(96vw, 440px); }
-        .grid-template-7, .grid-template-8, .grid-template-9 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: min(96vw, 430px); }
+        /* Phone layout: as large as the width and the remaining height allow. */
+        .grid-template-1 { grid-template-columns: minmax(0, 1fr); max-width: min(72vw, 100cqh); }
+        .grid-template-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(96vw, 200cqh); }
+        .grid-template-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: min(98vw, 300cqh); }
+        .grid-template-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(96vw, 100cqh); }
+        .grid-template-5, .grid-template-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(96vw, 66cqh); }
+        .grid-template-7, .grid-template-8, .grid-template-9 { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: min(98vw, 100cqh); }
 
         /* Tablet / iPad layout */
         @media (min-width: 640px) {
@@ -86,7 +84,7 @@
         }
 
         @media (min-width: 640px) {
-            #workspace-content-wrapper { container-type: size; min-height: 0; }
+            .grid-template-5, .grid-template-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
             /* Square cards: limit each layout's width to what the available height can show,
                so every row stays visible on landscape phones and short tablet windows. */
             .grid-template-1 { max-width: min(60vw, 400px, 100cqh); }
@@ -107,6 +105,31 @@
 
         .star-active { color: #FACC15; text-shadow: 0 0 6px rgba(250, 204, 21, 0.4); }
         .star-inactive { color: #E2E8F0; }
+
+        .picker-dialog { height: min(88dvh, 720px); }
+        .picker-body { flex: 1; min-height: 0; display: flex; }
+        .picker-categories { width: 34%; max-width: 230px; flex-shrink: 0; border-left: 1px solid #e2e8f0; background: #f8fafc; overflow-y: auto; padding: 6px; }
+        .picker-categories > button[aria-pressed="true"] { background: #d1fae5; border-color: #34d399; }
+        .picker-items { flex: 1; min-width: 0; overflow-y: auto; padding: 12px; background: #fff; }
+        .picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+        .picker-item { display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+        .picker-item:hover, .picker-item:focus-visible { border-color: #34d399; box-shadow: 0 4px 12px #0f172a14; }
+        .picker-item:active { transform: scale(.97); }
+        .picker-item-image { aspect-ratio: 1; display: block; background: #fff; border-radius: 12px; overflow: hidden; }
+        .picker-item-image img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        .picker-item-name { font-weight: 800; font-size: 15px; line-height: 1.35; color: #334155; text-align: center; padding: 2px 4px; overflow-wrap: anywhere; }
+        /* Phones: categories become one swipeable row so the pictures use the full width. */
+        @media (max-width: 639px) {
+            .picker-dialog { height: 92dvh; max-height: none; }
+            .picker-body { flex-direction: column; }
+            .picker-categories { width: auto; max-width: none; display: flex; gap: 6px; overflow-x: auto; overflow-y: hidden; border-left: 0; border-bottom: 1px solid #e2e8f0; scrollbar-width: none; }
+            .picker-categories::-webkit-scrollbar { display: none; }
+            .picker-categories > button { width: auto !important; flex-shrink: 0; white-space: nowrap; margin: 0 !important; border: 1px solid #e2e8f0 !important; background: #fff; padding: 8px 14px !important; font-size: 14px !important; }
+            .picker-categories > button[aria-pressed="true"] { background: #d1fae5; border-color: #34d399 !important; }
+            .picker-items { padding: 10px; }
+            .picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .picker-item-name { font-size: 16px; }
+        }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -176,7 +199,7 @@
 
                 <div class="w-px h-6 bg-slate-200 mx-0.5"></div>
                 
-                <button onclick="app.modals.open('template-modal')" class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-baby-blue hover:bg-sky-200 text-baby-blueDark font-bold transition active:scale-95" title="القوالب (١-٩)">
+                <button onclick="app.modals.open('template-modal')" class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-baby-blue hover:bg-sky-200 text-baby-blueDark font-bold transition active:scale-95" title="عدد البطاقات">
                     <i class="fas fa-th-large text-lg"></i>
                 </button>
                 
@@ -302,7 +325,7 @@
     </div>
 
     <div id="category-modal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-200 p-2 sm:p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl md:max-w-4xl h-[82vh] max-h-[640px] flex flex-col border-2 border-baby-mintMed overflow-hidden">
+        <div class="picker-dialog bg-white rounded-3xl shadow-2xl w-full max-w-2xl md:max-w-4xl flex flex-col border-2 border-baby-mintMed overflow-hidden">
             
             <div class="p-3 sm:p-4 border-b border-slate-100 bg-slate-50 flex flex-col gap-2.5 flex-shrink-0">
                 <div class="flex justify-between items-center">
@@ -318,11 +341,11 @@
                 </div>
             </div>
 
-            <div class="flex-grow flex overflow-hidden">
-                <div class="w-5/12 sm:w-4/12 border-l border-slate-200 bg-slate-50 overflow-y-auto p-1.5 space-y-1" id="categories-list">
+            <div class="picker-body">
+                <div class="picker-categories" id="categories-list">
                 </div>
                 
-                <div class="w-7/12 sm:w-8/12 p-2.5 sm:p-4 overflow-y-auto bg-white" id="items-grid">
+                <div class="picker-items" id="items-grid">
                     <div class="h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center">
                         <i class="fas fa-hand-pointer text-3xl mb-2 text-baby-mintMed"></i>
                         <p class="text-xs sm:text-sm font-semibold">اختر فئة من القائمة أو ابحث للوصول إلى الصور.</p>
@@ -386,7 +409,7 @@
             "معصبة", "معصبين", "مالل", "مالة", "بيبي تبكي", "بيبي يبكي",
             "ولد يبكي", "بنت تبكي", "ما تعرف", "ما يعرف", "ما بدو",
             "ولد سعيد", "بنت سعيدة", "ولد يعيط", "بنت تعيط", "بيبي مبسوط",
-            "بيبي مبسوط", "ولد سعيد", "وجه سعيد", "بنت سعيدة", "ولد يحب",
+            null, null, "وجه سعيد", null, "ولد يحب",
             "ولد حزين", "وجه حزين", "بنت حزينة", "بنت خايفة ولد يصرخ",
             "ولد خايف", "بنت خايفة", "خايف من الكلب", "بنت تصرخ", "ولد يصرخ",
             "ولد وجه مضحك", "بنت وجها مضحك", "بابا معصب", "ولد متفاجئ",
@@ -395,7 +418,7 @@
 
         const CAT_5_FOOD = [
             "كبب مشوي", "بسكويت", "خبز", "كعكة", "دجاج", "شبيس",
-            "قهوة", "بسكوت", "مقرمشات", "كب كيك", "دونات", "بيض",
+            "قهوة", null, "مقرمشات", "كب كيك", "دونات", "بيض",
             "همبرغر", "سمك", "بطاطا", "فواكه", "عصير جبس", "عصير",
             "مصاصة", "لحم", "حليب", "زيت", "بيتزا", "فشار",
             "بوظة", "ارز", "سلطة", "ملح", "سندويشة", "شاورما",
@@ -465,7 +488,7 @@
         const CAT_14_ADJECTIVES = [
             "ضجة", "هدوء", "نايم", "فايق", "كبير", "صغير",
             "نظيف", "وسخ", "مسكر", "مفتوح", "بارد", "ساخن",
-            "نهار", "ليل", "يموت", "يعيش", "انزل", "اطلع",
+            "نهار", "ليل", null, null, "انزل", "اطلع",
             "ناشف", "مبلول", "فاضي", "مليان", "قاسي", "ناعم",
             "ثقيل", "خفيف", "جوا", "برا", "بالداخل", "بالخارج",
             "ضيق", "واسع", "جديد", "قديم", "قصير", "طويل",
@@ -534,7 +557,7 @@
             "فرن", "مخدة", "صحن", "صحون", "طنجرة", "دوش",
             "مغسلة", "صابون", "صوفا", "ملعقة", "غاز", "طاولة",
             "حنفية", "محارم", "مرحاض", "فرشاة أسنان", "منشفة",
-            "تلفزيون", "مغسلة", "غسالة ملابس", "شباك"
+            "تلفزيون", null, "غسالة ملابس", "شباك"
         ];
 
         const CAT_25_WEATHER = [
@@ -595,13 +618,13 @@
             "ضجر", "متحمس", "شجاع", "خوف", "هادئ", "محبط",
             "رخيص", "غالي", "نظيف", "قذر", "يتسلق", "ينزل",
             "مغلق", "مفتوح", "بارد", "ساخن", "يأتي", "يذهب",
-            "صحيح", "خطأ", "يبكي", "يضحك", "متفقين", "مختلفين",
+            "صحيح", "خطأ", "يبكي", "يضحك", "متفقين", null,
             "أسفل", "أعلى", "جاف", "مبلل", "فارغ", "ممتلئ",
             "سريع", "بطيء", "سمين", "نحيف", "يحب", "يعطي",
             "يأخذ", "سعيد", "حزين", "يكره", "صحة", "مريض",
             "ثقيل", "خفيف", "ضخم", "صغير جداً", "جائع", "شبعان",
             "يسار", "يمين", "فوضى", "مرتب", "بين", "بجانب",
-            "ضجيج", "هادئ", "على", "تحت", "فقير", "غني",
+            "ضجيج", null, "على", "تحت", "فقير", "غني",
             "يسحب", "يدفع", "قصير", "طويل", "يجلس", "يقف",
             "قوي", "ضعيف", "سميك", "رفيع", "يطفئ", "يشغل", "عكس"
         ];
@@ -702,13 +725,15 @@
             const name = rawName.substring(3).trim();
             const rawItems = CATEGORY_MAPS[id] || [];
             
+            // null marks a removed duplicate: it is skipped, and every other word keeps its number,
+            // its picture/sound files and the children's saved progress.
             const items = rawItems.map((itemName, i) => ({
                 id: i + 1,
                 catId: id,
                 name: itemName,
                 image: `images/${id}/${i + 1}.webp`,
                 audio: `sounds/${id}/${i + 1}.m4a`
-            }));
+            })).filter(item => item.name);
 
             return { id, name, items };
         });
@@ -757,6 +782,7 @@
 
             showToast(message, type = 'info') {
                 const container = document.getElementById('toast-container');
+                container.replaceChildren();
                 const toast = document.createElement('div');
                 
                 let bgColor = 'bg-slate-800';
@@ -812,11 +838,15 @@
                 if (this.state.deleteMode) this.setDeleteMode(false);
                 if(this.state.testState.active) this.exitTestMode(false);
                 
+                // Keep the cards already chosen; only cards beyond the new count are removed.
+                const kept = this.state.slotsData.map(slot => slot.item).filter(Boolean);
                 this.state.slotsCount = num;
                 this.resetSlots();
+                kept.slice(0, num).forEach((item, i) => { this.state.slotsData[i].item = item; });
                 this.renderSlotsLayout();
                 this.modals.close('template-modal');
-                this.showToast(`تم اختيار قالب ${num} بطاقات`, 'success');
+                const removed = Math.max(0, kept.length - num);
+                this.showToast(removed ? `قالب ${num} بطاقات · أُزيلت ${removed} من البطاقات` : `قالب ${num} بطاقات`, removed ? 'warning' : 'success');
             },
 
             renderSlotsLayout() {
@@ -1181,7 +1211,6 @@
                 } else {
                     overlay.className = 'absolute inset-0 flex items-center justify-center transition-all z-10 bg-rose-500 bg-opacity-35 rounded-2xl md:rounded-3xl';
                     icon.className = 'fas fa-times text-rose-600 text-5xl md:text-7xl drop-shadow-md';
-                    this.setStars(this.state.stars - 1);
 
                     setTimeout(() => {
                         overlay.classList.add('hidden');
@@ -1244,6 +1273,11 @@
 
             selectCategory(catId) {
                 this.state.activeCategory = catId;
+                document.querySelectorAll('#categories-list > button').forEach((button, i) => {
+                    const on = CATEGORIES[i]?.id === catId;
+                    button.setAttribute('aria-pressed', String(on));
+                    if (on) button.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+                });
                 const cat = CATEGORIES.find(c => c.id === catId);
                 if (cat) this.renderItemsGrid(cat.items);
             },
@@ -1263,22 +1297,17 @@
                 }
 
                 const gridContainer = document.createElement('div');
-                gridContainer.className = 'grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3';
+                gridContainer.className = 'picker-grid';
 
                 items.forEach(item => {
                     const itemEl = document.createElement('button');
                     itemEl.type = 'button';
                     itemEl.setAttribute('aria-label', item.name);
-                    itemEl.className = 'aspect-square bg-slate-50 rounded-2xl overflow-hidden cursor-pointer hover:shadow-md transition transform hover:-translate-y-0.5 border border-slate-200 hover:border-baby-mintMed flex flex-col items-center justify-between p-1.5 sm:p-2';
-                    
+                    itemEl.className = 'picker-item';
                     itemEl.innerHTML = `
-                        <div class="w-full h-full p-1 flex items-center justify-center overflow-hidden">
-                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-contain pointer-events-none" 
-                                onerror="this.onerror=null; this.src='images/placeholder.svg';">
-                        </div>
-                        <div class="w-full text-center text-xs sm:text-sm font-bold text-slate-700 truncate px-1 py-0.5 bg-slate-100 rounded-lg">
-                            ${item.name}
-                        </div>
+                        <span class="picker-item-image"><img src="${item.image}" alt="" loading="lazy" decoding="async"
+                                onerror="this.onerror=null; this.src='images/placeholder.svg';"></span>
+                        <span class="picker-item-name">${item.name}</span>
                     `;
                     
                     itemEl.onclick = () => this.selectItemForSlot(item);

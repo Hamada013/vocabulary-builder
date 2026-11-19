@@ -82,3 +82,40 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
     .app-home-shell .app-home-tools.suite-toolbar { gap: 1px; }
     .app-home-shell .app-home-tools.suite-toolbar [data-suite-control] { flex-basis: 36px; width: 36px; min-width: 36px; max-width: 36px; height: 40px; padding: 7px; }
 }
+
+/* Therapist switch (2026-11-19, like the articulation app): a lock when closed, an open lock in green when open. */
+[data-therapist].voc-therapist-switch svg { width: 22px; height: 22px; }
+[data-therapist].voc-therapist-switch[aria-pressed="true"] { background: #edf6f0; color: #2f7a52; border-color: #bfe0cc; }
+[data-therapist].voc-therapist-switch[aria-pressed="true"]::after { content: none; }
+
+/* Plan goals inside the child's progress report. */
+.voc-plan-report { margin: 18px 0 6px; padding: 14px; border: 1px solid #e2eef5; border-radius: 18px; background: #fbfdff; direction: rtl; text-align: start; }
+.voc-plan-report > header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.voc-plan-report h3 { margin: 0; font-size: 18px; font-weight: 800; color: #18394b; }
+.voc-plan-report .voc-plan-icon { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #dceaf4; border-radius: 13px; background: #fff; color: #0369a1; cursor: pointer; }
+.voc-plan-report .voc-plan-icon svg { width: 22px; height: 22px; }
+.voc-plan-report .voc-plan-icon:disabled { opacity: .5; }
+.voc-plan-report .voc-goal { margin-top: 10px; }
+.voc-plan-report .voc-goal h4 { display: flex; justify-content: space-between; gap: 8px; margin: 0 0 4px; font-size: 15px; color: #0369a1; }
+.voc-plan-report .voc-goal h4 small { flex: none; font-size: 12px; color: #587082; font-weight: 600; }
+.voc-plan-report .voc-goal > p { margin: 0 0 6px; font-size: 13px; color: #587082; line-height: 1.7; }
+.voc-plan-report-row { display: grid; grid-template-columns: minmax(0, 1fr) 90px auto; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid #eef3f6; font-size: 14px; line-height: 1.6; }
+.voc-plan-report-bar { position: relative; height: 10px; border-radius: 5px; background: #eaf0f4; overflow: hidden; direction: ltr; }
+.voc-plan-report-bar i { position: absolute; inset-block: 0; left: 0; border-radius: 5px; background: #0284c7; }
+.voc-plan-report-bar i[data-state="done"] { background: #2f7a52; }
+.voc-plan-report-empty { margin: 0; font-size: 14px; color: #587082; line-height: 1.8; }
+@media (max-width: 480px) { .voc-plan-report-row { grid-template-columns: minmax(0, 1fr) 70px; } .voc-plan-report-row .voc-status { grid-column: 1 / -1; justify-self: start; } }
+
+/* Ready-made plans and achievement percentages (2026-11-19). */
+.voc-ready { margin: 14px 0; padding: 12px; border: 1px solid #e2eef5; border-radius: 16px; background: #f7fbfd; }
+.voc-ready h3 { margin: 0 0 4px; font-size: 16px; font-weight: 800; color: #18394b; }
+.voc-ready > p { margin: 0 0 10px; font-size: 13px; color: #587082; line-height: 1.7; }
+.voc-ready-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.voc-ready-card { display: flex; flex-direction: column; gap: 4px; padding: 10px; border: 1px solid #dceaf4; border-radius: 14px; background: #fff; }
+.voc-ready-card b { font-size: 16px; color: #0369a1; }
+.voc-ready-card span { font-size: 13px; color: #22445a; line-height: 1.6; }
+.voc-ready-card small { font-size: 12px; color: #7b8f9d; }
+.voc-ready-card .voc-add { margin-top: auto; align-self: flex-start; }
+.voc-ready-card .voc-add:disabled { opacity: .7; cursor: default; }
+.voc-goal-percent { margin-inline-start: 6px; padding: 1px 8px; border-radius: 999px; background: #e7f3fb; color: #0369a1; font-size: 13px; font-weight: 700; }
+.voc-plan-report .voc-plan-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }

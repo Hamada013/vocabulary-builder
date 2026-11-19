@@ -1,6 +1,8 @@
 /* Therapist mode (password 013) and the active child's intervention plan. Shared by كلمة, جملة and مقطع;
  * each app's assets/intervention-goals.js supplies its name, goal bank and progress store.
- * Therapist mode lasts for this tab only: it shows the plan button (and opens every level where the app has levels).
+ * Therapist mode is one lock/open switch, like the articulation app: password 013 opens it, one tap locks it again.
+ * It stays open on this device until locked; it shows the plan button (and opens every level where the app has levels).
+ * The active child's progress report also shows the plan's goals (InterventionPlan.reportSection).
  * The plan holds goals chosen from the goal bank, each rated 20/40/60/80%. 80% counts as achieved.
  * The PDF progress report lists goals still in progress, then achieved goals on their own page. */
 (() => {
@@ -14,6 +16,7 @@
     const ICONS = {
         close: svg('<path d="m6 6 12 12M18 6 6 18"/>'),
         lock: svg('<rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>'),
+        open: svg('<rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 7.6-1.8M12 14v3"/>'),
         pdf: svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6m-3-3 3 3 3-3"/>'),
         plus: svg('<path d="M12 5v14M5 12h14"/>'),
         check: svg('<path d="m5 12 4.5 4.5L19 7"/>'),
@@ -24,26 +27,29 @@
     const formatDate = iso => { const d = new Date(iso); return Number.isNaN(d.getTime()) ? '' : new Intl.DateTimeFormat('en-GB').format(d); };
     const digits = value => String(value).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).trim();
 
-    const isActive = () => { try { return sessionStorage.getItem(KEY) === 'on'; } catch { return false; } };
+    // Remembered on this device (localStorage) like the articulation app; the old tab-only flag still counts once.
+    const isActive = () => { try { return localStorage.getItem(KEY) === 'on' || sessionStorage.getItem(KEY) === 'on'; } catch { return false; } };
     function setActive(on) {
-        try { on ? sessionStorage.setItem(KEY, 'on') : sessionStorage.removeItem(KEY); } catch {}
+        try { on ? localStorage.setItem(KEY, 'on') : localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); } catch {}
         syncHeader();
         window.dispatchEvent(new CustomEvent('voc-therapist-change', { detail: { active: on } }));
     }
     function syncHeader() {
         const on = isActive();
         document.querySelectorAll('[data-therapist]').forEach(button => {
-            button.setAttribute('aria-pressed', String(on));
-            const label = on ? 'وضع المعالج مفعّل — اضغط للإنهاء' : 'وضع المعالج';
+            button.setAttribute('aria-pressed', String(on)); button.classList.add('voc-therapist-switch');
+            button.innerHTML = on ? ICONS.open : ICONS.lock;
+            const label = on ? 'وضع المعالج مفتوح · اضغط للقفل' : 'وضع المعالج مقفل · اضغط وأدخل الرمز';
             button.setAttribute('aria-label', label); button.title = label;
         });
         document.querySelectorAll('[data-open-plan]').forEach(button => { button.hidden = !on; });
+        document.querySelectorAll('[data-plan-report-section]').forEach(section => section.replaceWith(reportSection()));
         if (!on && plan?.open) plan.close();
     }
     const toast = (message, type) => window.app?.showToast?.(message, type);
 
     // ---- Password and exit dialogs ----
-    let gate, leave;
+    let gate;
     function openGate() {
         if (!gate) {
             gate = document.createElement('dialog'); gate.className = 'voc-therapist'; gate.dir = 'rtl'; gate.setAttribute('aria-labelledby', 'voc-therapist-title');
@@ -66,19 +72,6 @@
         const input = gate.querySelector('input'); input.value = ''; input.removeAttribute('aria-invalid'); gate.querySelector('[role=alert]').hidden = true;
         gate.showModal(); input.focus();
     }
-    function openLeave() {
-        if (!leave) {
-            leave = document.createElement('dialog'); leave.className = 'voc-therapist'; leave.dir = 'rtl'; leave.setAttribute('aria-labelledby', 'voc-therapist-leave-title');
-            leave.innerHTML = `<header>${ICONS.lock}<h2 id="voc-therapist-leave-title">إنهاء وضع المعالج؟</h2></header>
-                <p>${APP.unlocksLevels ? 'تُقفل المستويات حسب تقدّم الطفل وتختفي خطة التدخل.' : 'يختفي زر خطة التدخل.'} تبقى الخطة محفوظة.</p>
-                <div class="voc-therapist-actions"><button type="button" class="primary" data-end>إنهاء</button><button type="button" data-cancel>إلغاء</button></div>`;
-            document.body.append(leave);
-            leave.querySelector('[data-cancel]').onclick = () => leave.close();
-            leave.querySelector('[data-end]').onclick = () => { leave.close(); setActive(false); toast('تم إنهاء وضع المعالج', 'info'); };
-        }
-        leave.showModal(); leave.querySelector('[data-cancel]').focus();
-    }
-
     // ---- Plan model ----
     function load() {
         const saved = P.intervention() || {};
@@ -101,6 +94,22 @@
         if (index >= 0) model.goals.splice(index, 1);
         else model.goals.push({ id, rating: null, history: [], added: today() });
         save(); render();
+    }
+    // A ready-made plan adds its short-term goals; goals already in the plan keep their ratings.
+    function addPlan(planId) {
+        const ready = (G.PLANS || []).find(entry => entry.id === planId); if (!ready) return;
+        for (const id of ready.goals) if (G.short(id) && !goalOf(id)) model.goals.push({ id, rating: null, history: [], added: today() });
+        save(); tab = 'plan'; render(); toast(`أضيفت خطة «${ready.title}»`, 'success');
+    }
+    // Achievement percentage: the average of the latest ratings; unrated goals count as 0%.
+    const percentOf = goals => goals.length ? Math.round(goals.reduce((sum, goal) => sum + (goal.rating || 0), 0) / goals.length) : 0;
+    function readyPlans() {
+        if (!G.PLANS?.length) return '';
+        return `<div class="voc-ready"><h3>خطط جاهزة</h3><p>اضغط «إضافة» لتضع أهداف الخطة كلها، ثم احذف أو أضف ما تريد. كل هدف يتحقق عند ${G.ACHIEVED}%.</p><div class="voc-ready-list">`
+            + G.PLANS.map(entry => { const have = entry.goals.filter(id => goalOf(id)).length, all = have === entry.goals.length;
+                return `<div class="voc-ready-card"><b>${escape(entry.title)}</b><span>${escape(entry.text)}</span><small>${entry.goals.length} أهداف${have && !all ? ` · ${have} في الخطة` : ''}</small>`
+                    + `<button type="button" class="voc-add" data-add-plan="${entry.id}" ${all ? 'disabled aria-pressed="true"' : ''} aria-label="${all ? 'الخطة مضافة' : 'إضافة خطة'}: ${escape(entry.title)}">${all ? ICONS.check + 'مضافة' : ICONS.plus + 'إضافة'}</button></div>`; }).join('')
+            + '</div></div>';
     }
     function rate(id, level) {
         const goal = goalOf(id); if (!goal || goal.rating === level) return;
@@ -153,6 +162,7 @@
             if (button.dataset.toggle) { toggleGoal(button.dataset.toggle); refocus(`[data-toggle="${button.dataset.toggle}"]`); }
             else if (button.dataset.rate) { rate(button.dataset.rate, Number(button.dataset.level)); refocus(`[data-rate="${button.dataset.rate}"][data-level="${button.dataset.level}"]`); }
             else if (button.dataset.remove) { toggleGoal(button.dataset.remove); refocus('#voc-tab-plan'); }
+            else if (button.dataset.addPlan) { addPlan(button.dataset.addPlan); refocus('#voc-tab-plan'); }
             else if (button.dataset.goBank !== undefined) { tab = 'bank'; render(); plan.querySelector('#voc-tab-bank').focus(); }
         });
     }
@@ -167,9 +177,9 @@
         plan.querySelector('[data-plan-pdf]').disabled = !counts.total;
 
         const planPanel = plan.querySelector('[data-panel=plan]');
-        if (!counts.total) planPanel.innerHTML = `<div class="voc-plan-empty">لم تُضف أهداف بعد.<br>اختر الأهداف المناسبة للطفل من بنك الأهداف.<br><button type="button" class="voc-add" data-go-bank>${ICONS.plus}بنك الأهداف</button></div>`;
-        else planPanel.innerHTML = `<div class="voc-plan-summary"><div><strong>${counts.total}</strong><span>أهداف الخطة</span></div><div><strong>${counts.done}</strong><span>تحقق (80%)</span></div><div><strong>${counts.working}</strong><span>قيد العمل</span></div></div>`
-            + G.GOALS.filter(goal => goal.short.some(item => goalOf(item.id))).map(goal => `<article class="voc-goal"><h3>الهدف بعيد المدى: ${escape(goal.title)}</h3><p>${escape(goal.text)}</p>`
+        if (!counts.total) planPanel.innerHTML = `<div class="voc-plan-empty">لم تُضف أهداف بعد.<br>اختر خطة جاهزة أو أهدافاً من بنك الأهداف.<br><button type="button" class="voc-add" data-go-bank>${ICONS.plus}بنك الأهداف</button></div>` + readyPlans();
+        else planPanel.innerHTML = `<div class="voc-plan-summary"><div><strong>${percentOf(model.goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${counts.done}</strong><span>تحقق (${G.ACHIEVED}%)</span></div><div><strong>${counts.working}</strong><span>قيد العمل</span></div></div>`
+            + G.GOALS.filter(goal => goal.short.some(item => goalOf(item.id))).map(goal => `<article class="voc-goal"><h3>الهدف بعيد المدى: ${escape(goal.title)} <span class="voc-goal-percent" dir="ltr">${percentOf(goal.short.map(item => goalOf(item.id)).filter(Boolean))}%</span></h3><p>${escape(goal.text)}</p>`
                 + goal.short.filter(item => goalOf(item.id)).map(item => {
                     const saved = goalOf(item.id), state = stateOf(saved);
                     return `<div class="voc-short"><div class="voc-short-text">${escape(item.text)}<small>${escape(item.where)}</small></div>
@@ -177,7 +187,7 @@
                         <div class="voc-rating" role="group" aria-label="نسبة الإنجاز">${G.LEVELS.map(level => `<button type="button" data-rate="${item.id}" data-level="${level}" aria-pressed="${saved.rating === level}">${level}%</button>`).join('')}</div></div>`;
                 }).join('') + '</article>').join('');
 
-        plan.querySelector('[data-panel=bank]').innerHTML = G.GOALS.map(goal => `<article class="voc-goal"><h3>${escape(goal.title)}</h3><p>الهدف بعيد المدى: ${escape(goal.text)}</p>`
+        plan.querySelector('[data-panel=bank]').innerHTML = readyPlans() + G.GOALS.map(goal => `<article class="voc-goal"><h3>${escape(goal.title)}</h3><p>الهدف بعيد المدى: ${escape(goal.text)}</p>`
             + goal.short.map(item => { const added = !!goalOf(item.id); return `<div class="voc-short"><div class="voc-short-text">${escape(item.text)}<small>${escape(item.where)}</small></div>
                 <button type="button" class="voc-add" data-toggle="${item.id}" aria-pressed="${added}" aria-label="${added ? 'إزالة من الخطة' : 'إضافة إلى الخطة'}: ${escape(item.text)}">${added ? ICONS.check + 'في الخطة' : ICONS.plus + 'إضافة'}</button></div>`; }).join('')
             + sourceLine(goal) + '</article>').join('');
@@ -263,7 +273,7 @@
         const done = entries.filter(entry => entry.rating != null && entry.rating >= G.ACHIEVED), working = entries.filter(entry => !done.includes(entry));
 
         newPage('أهداف قيد العمل', 'الأهداف التي لم تبلغ 80% بعد، مع آخر تقييم وتاريخ التقييمات.');
-        const metrics = [[entries.length, 'أهداف الخطة', '#0284c7'], [done.length, 'تحققت (80%)', '#2f7a52'], [working.length, 'قيد العمل', '#a66a00']];
+        const metrics = [[`${entries.length ? Math.round(entries.reduce((sum, entry) => sum + (entry.rating || 0), 0) / entries.length) : 0}%`, `إنجاز الخطة · ${entries.length} أهداف`, '#0284c7'], [done.length, 'تحققت (80%)', '#2f7a52'], [working.length, 'قيد العمل', '#a66a00']];
         metrics.forEach(([number, name, color], index) => { const x = width - margin - 340 - index * 370; box(x, y, 340, 120, '#f7fafc'); text(number, x + 170, y + 42, 42, color, 'center'); text(name, x + 170, y + 92, 23, '#587082', 'center', 600); });
         y += 160;
         if (working.length) section(working, false); else { text('كل أهداف الخطة تحققت.', width - margin, y + 14, 25, '#2f7a52'); y += 50; }
@@ -294,11 +304,47 @@
         } finally { busy = false; button.disabled = !model.goals.length; }
     }
 
+    // ---- Goals inside the child's progress report ----
+    // Long-term goals with their chosen short-term goals, the latest rating and status, and the goals PDF.
+    function reportSection() {
+        const section = document.createElement('section'); section.className = 'voc-plan-report'; section.dataset.planReportSection = '';
+        // Goals, plans and percentages stay locked behind the therapist switch.
+        if (!isActive()) { section.hidden = true; return section; }
+        section.setAttribute('aria-labelledby', `voc-plan-report-${APP.id}`);
+        const saved = load(), goals = saved.goals;
+        const head = `<header><h3 id="voc-plan-report-${APP.id}">أهداف خطة التدخل</h3>${goals.length ? `<button type="button" class="voc-plan-icon" data-plan-report-pdf aria-label="تنزيل تقرير الأهداف PDF" title="تنزيل تقرير الأهداف PDF">${ICONS.pdf}</button>` : ''}</header>`;
+        if (!goals.length) {
+            section.innerHTML = head + `<p class="voc-plan-report-empty">لا توجد خطة تدخل لهذا الطفل بعد. أضف الأهداف من زر خطة التدخل.</p>`;
+            return section;
+        }
+        const done = goals.filter(goal => stateOf(goal) === 'done').length;
+        const percent = list => list.length ? Math.round(list.reduce((sum, goal) => sum + (goal.rating || 0), 0) / list.length) : 0;
+        section.innerHTML = head + `<div class="voc-plan-summary"><div><strong>${percent(goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${done} / ${goals.length}</strong><span>أهداف تحققت</span></div></div>`
+            + G.GOALS.filter(goal => goal.short.some(item => goals.some(entry => entry.id === item.id))).map(goal => {
+                const items = goal.short.filter(item => goals.some(entry => entry.id === item.id));
+                const reached = items.filter(item => stateOf(goals.find(entry => entry.id === item.id)) === 'done').length;
+                return `<article class="voc-goal"><h4>الهدف بعيد المدى: ${escape(goal.title)} <small>${percent(items.map(item => goals.find(entry => entry.id === item.id)))}% · ${reached} / ${items.length} تحقق</small></h4><p>${escape(goal.text)}</p>`
+                    + items.map(item => {
+                        const entry = goals.find(saved => saved.id === item.id), state = stateOf(entry), level = entry.rating ?? 0;
+                        return `<div class="voc-plan-report-row"><span class="voc-short-text">${escape(item.text)}</span>`
+                            + `<span class="voc-plan-report-bar" role="img" aria-label="${entry.rating == null ? 'لم يُقيّم' : entry.rating + '%'}"><i style="width:${level}%" data-state="${state}"></i></span>`
+                            + `<span class="voc-status" data-state="${state}">${entry.rating == null ? statusLabel.new : `${entry.rating}% · ${statusLabel[state]}`}</span></div>`;
+                    }).join('') + '</article>';
+            }).join('');
+        section.querySelector('[data-plan-report-pdf]').onclick = async event => {
+            const button = event.currentTarget; button.disabled = true;
+            try { const report = { ...load(), date: new Date().toISOString() }; const doc = await pdfFor(report); doc.save(`أهداف-${(report.childName || 'الطفل').replace(/[^\p{L}\p{N}_-]/gu, '_')}-${formatDate(report.date).replaceAll('/', '-')}.pdf`); }
+            catch { toast('تعذّر إنشاء تقرير الأهداف. أعد المحاولة.', 'error'); }
+            finally { button.disabled = false; }
+        };
+        return section;
+    }
+
     function init() {
-        document.querySelectorAll('[data-therapist]').forEach(button => { button.onclick = () => isActive() ? openLeave() : openGate(); });
+        document.querySelectorAll('[data-therapist]').forEach(button => { button.onclick = () => { if (isActive()) { setActive(false); toast('تم قفل وضع المعالج', 'info'); } else openGate(); }; });
         document.querySelectorAll('[data-open-plan]').forEach(button => { button.onclick = open; });
         syncHeader();
     }
-    window.InterventionPlan = { open, isActive, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
+    window.InterventionPlan = { open, isActive, reportSection, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

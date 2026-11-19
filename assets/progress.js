@@ -3,7 +3,10 @@
     'use strict';
     const STORAGE = 'vocabulary-builder-v1';
     const THERAPIST = 'vocabulary-builder-therapist';
-    const modes = ['matching', 'memory', 'rapid', 'test'];
+    // Plan order: practise the words, then test comprehension and naming.
+    // Matching and memory stay playable for plans saved before the simple games replaced them.
+    const modes = ['where', 'balloons', 'test', 'rapid', 'matching', 'memory'];
+    const LEVELS = [2, 4, 6];
     const difficulties = ['easy', 'moderate', 'advanced'];
     // Listening difficulty is the actual choice count; naming uses the response timer.
     function assessmentDifficulty(domain, settings, poolSize) {
@@ -71,7 +74,7 @@
         // Preserve old word summaries without inventing a historical session log.
         for (const child of data.children) {
             child.words ||= {};
-            child.role = child.name?.toLocaleLowerCase() === 'hamada' ? 'admin' : 'child';
+            child.role = 'child';
             if (!Array.isArray(child.sessions)) {
                 child.sessions = [];
                 for (const [key, word] of Object.entries(child.words)) for (const domain of ['receptive', 'expressive']) {
@@ -82,11 +85,10 @@
             }
             child.created ||= child.sessions.map(session => session.date).filter(Boolean).sort()[0] || null;
         }
-        if (!data.children.some(child => child.role === 'admin')) data.children.push({ id: 'hamada-admin', name: 'Hamada', role: 'admin', created: new Date().toISOString(), words: {}, workspace: null, plan: null, sessions: [] });
         const active = () => data.children.find(child => child.id === data.active) || null;
         const isAdmin = () => active()?.role === 'admin';
         // Therapist mode (password-protected, this tab only) opens every level without changing the child's records.
-        const therapist = () => { try { return root.sessionStorage?.getItem(THERAPIST) === 'on'; } catch { return false; } };
+        const therapist = () => { try { return root.localStorage?.getItem(THERAPIST) === 'on' || root.sessionStorage?.getItem(THERAPIST) === 'on'; } catch { return false; } };
         const key = item => typeof item === 'string' ? item : `${item.catId}_${item.id}`;
         const mastered = (item, domain) => {
             const word = !isAdmin() && active()?.words[key(item)];
@@ -169,10 +171,33 @@
             }
             active().plan = { id: `${Date.now()}-${Math.random().toString(36).slice(2)}`, difficulty, keys, rounds, position: 0 }; persist(); return active().plan;
         }
-        const currentRound = () => { const plan = active()?.plan; return plan?.rounds?.[plan.position] || null; };
-        function advancePlan(planId, position, evidence = null) {
+        const currentRound = () => {
+            const plan = active()?.plan;
+            // A round for a game that no longer exists (e.g. اكشف الصورة) is skipped.
+            if (plan?.rounds) { const from = plan.position; while (plan.rounds[plan.position] && !modes.includes(plan.rounds[plan.position].mode)) plan.position++; if (plan.position !== from) persist(); }
+            return plan?.rounds?.[plan.position] || null;
+        };
+        // Adapt the rest of the plan to the round just played: 90%+ first-try answers make the
+        // next games one step harder, under 60% one step easier, and a practice game under 50%
+        // is played once more (at the easiest level) before the test.
+        function adaptPlan(plan, position, score) {
+            if (!score || !(score.total > 0)) return;
+            const accuracy = score.correct / score.total, round = plan.rounds[position];
+            const shift = accuracy >= .9 ? 1 : accuracy < .6 ? -1 : 0;
+            plan.adapted ||= [];
+            plan.adapted.push({ mode: round.mode, accuracy: Math.round(accuracy * 100), shift });
+            if (shift) for (const later of plan.rounds.slice(position + 1)) {
+                if (later.mode === 'memory') continue;
+                const index = Math.max(0, Math.min(2, LEVELS.indexOf(later.settings.level) + shift));
+                later.settings = { ...later.settings, level: LEVELS[index], duration: [6, 4, 2][index] };
+            }
+            if (accuracy < .5 && ['where', 'balloons'].includes(round.mode) && !round.repeat)
+                plan.rounds.splice(position + 1, 0, { ...clone(round), repeat: true, settings: { ...round.settings, level: 2, duration: 6 } });
+        }
+        function advancePlan(planId, position, evidence = null, score = null) {
             const plan = active()?.plan;
             if (!plan || plan.id !== planId || plan.position !== position) return null;
+            adaptPlan(plan, position, score || (evidence?.records?.length ? { correct: evidence.records.filter(record => record.correct === true).length, total: evidence.records.length } : null));
             plan.evidence ||= [];
             if (evidence && ['receptive', 'expressive'].includes(evidence.domain)) plan.evidence.push({ domain: evidence.domain, records: evidence.records.filter(record => plan.keys.includes(record.key)).map(record => ({ key: record.key, correct: record.correct === true })) });
             plan.position++;

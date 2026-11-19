@@ -49,7 +49,7 @@
   if(appId==='taffaha')return [['الرئيسية',()=>window.TaffahaApp.go('home')],['تدريب المقاطع',()=>window.TaffahaApp.go('practice')],['الصورة وعدد المقاطع',()=>window.TaffahaApp.test('count')],['المقاطع والصورة',()=>window.TaffahaApp.test('picture')],['تقرير الطفل',()=>window.TaffahaReports.open()]];
   if(appId==='senb')return [['الرئيسية',()=>navigateTo('home')],['لوحة بناء الجمل',()=>navigateTo('workplace')],['مهام التكرار',()=>openActivitySetup('repetition')],['اختبار الطفل',()=>openActivitySetup('test')],['البطاقة الناقصة',()=>openActivitySetup('game')],['تقرير الطفل',()=>window.SenbSessionReports.openReport()]];
   const local=(page)=>()=>{location.href=new URL(page,base);};
-  return [['الرئيسية',()=>typeof app!=='undefined'?app.switchView('home'):local('index.html')()],['بدء العمل',()=>typeof app!=='undefined'?app.switchView('workplace'):local('index.html?workplace=1')()],['المطابقة',local('matching.html')],['الذاكرة',local('memory.html')],['البطاقات السريعة',local('rapid.html')],['استمع واختر',local('test.html')],['تقرير الطفل',()=>window.VocReports.open()]];
+  return [['الرئيسية',()=>typeof app!=='undefined'?app.switchView('home'):local('index.html')()],['بدء العمل',()=>typeof app!=='undefined'?app.switchView('workplace'):local('index.html?workplace=1')()],['وين؟',local('where.html')],['البالونات',local('balloons.html')],['البطاقات السريعة',local('rapid.html')],['استمع واختر',local('test.html')],['تقرير الطفل',()=>window.VocReports.open()]];
  }
  function openMenu(b){
   if(bar&&!bar.hidden){closeBar();return;}closeSettings();pause();trigger=b;

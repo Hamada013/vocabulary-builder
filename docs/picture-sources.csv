@@ -1,0 +1,757 @@
+app_picture,source_in_picture_bank,old_px,new_px
+images/32/4.webp,"app bank/colors/كرتون 3/colors.png",320,591
+images/32/12.webp,"app bank/colors/كرتون 3/yellow.png",320,591
+images/32/11.webp,"app bank/colors/كرتون 3/white.png",320,591
+images/35/15.webp,"app bank/music/whistle.png",320,567
+images/35/5.webp,"app bank/music/flute.png",320,567
+images/35/9.webp,"app bank/music/oud.png",320,567
+images/35/8.webp,"app bank/music/maraca.png",320,567
+images/35/4.webp,"app bank/music/drums.png",320,567
+images/35/14.webp,"app bank/music/violin.png",320,567
+images/35/13.webp,"app bank/music/tambourine.png",320,567
+images/35/3.webp,"app bank/music/drum.png",320,567
+images/35/2.webp,"app bank/music/clarinet.png",320,567
+images/35/1.webp,"app bank/music/bell.png",320,567
+images/35/11.webp,"app bank/music/saxophone.png",320,567
+images/35/10.webp,"app bank/music/piano.png",320,567
+images/35/7.webp,"app bank/music/horn.png",320,567
+images/35/16.webp,"app bank/music/xylophone.png",320,567
+images/35/6.webp,"app bank/music/guitar.png",320,567
+images/34/15.webp,"app bank/school/play.png",320,567
+images/34/5.webp,"app bank/school/bus.png",320,567
+images/34/19.webp,"app bank/school/student_boy.png",320,567
+images/34/9.webp,"app bank/school/desk.png",320,567
+images/34/8.webp,"app bank/school/colors.png",320,567
+images/34/4.webp,"app bank/school/books.png",320,567
+images/34/14.webp,"app bank/school/pens.png",320,567
+images/34/3.webp,"app bank/school/book.png",320,567
+images/34/2.webp,"app bank/school/board.png",320,567
+images/34/12.webp,"app bank/school/numbers.png",320,567
+images/34/1.webp,"app bank/school/backpack.png",320,567
+images/34/11.webp,"app bank/school/launchbox.png",320,567
+images/34/10.webp,"app bank/school/friends.png",320,567
+images/34/7.webp,"app bank/school/class.png",320,567
+images/34/17.webp,"app bank/school/story.png",320,567
+images/34/21.webp,"app bank/school/teacher.png",320,567
+images/34/20.webp,"app bank/school/student_girl.png",320,567
+images/34/16.webp,"app bank/school/shapes.png",320,567
+images/33/54.webp,"app bank/oppo/52.png",320,591
+images/33/15.webp,"app bank/oppo/15.png",320,591
+images/33/42.webp,"app bank/oppo/42.png",320,591
+images/33/39.webp,"app bank/oppo/39.png",320,591
+images/33/78.webp,"app bank/oppo/68.png",320,591
+images/33/58.webp,"app bank/oppo/56.png",320,591
+images/33/19.webp,"app bank/oppo/19.png",320,591
+images/33/35.webp,"app bank/oppo/35.png",320,591
+images/33/9.webp,"app bank/oppo/9.png",320,591
+images/33/74.webp,"app bank/oppo/64.png",320,591
+images/33/23.webp,"app bank/oppo/23.png",320,591
+images/33/22.webp,"app bank/oppo/22.png",320,591
+images/33/75.webp,"app bank/oppo/65.png",320,591
+images/33/34.webp,"app bank/oppo/34.png",320,591
+images/33/18.webp,"app bank/oppo/18.png",320,591
+images/33/59.webp,"app bank/oppo/57.png",320,591
+images/33/79.webp,"app bank/oppo/69.png",320,591
+images/33/4.webp,"app bank/oppo/4.png",320,591
+images/33/38.webp,"app bank/oppo/38.png",320,591
+images/33/14.webp,"app bank/oppo/14.png",320,591
+images/33/55.webp,"app bank/oppo/53.png",320,591
+images/33/33.webp,"app bank/oppo/33.png",320,591
+images/33/72.webp,"app bank/oppo/62.png",320,591
+images/33/25.webp,"app bank/oppo/25.png",320,591
+images/33/52.webp,"app bank/oppo/50.png",320,591
+images/33/13.webp,"app bank/oppo/13.png",320,591
+images/33/87.webp,"app bank/oppo/77.png",320,591
+images/33/3.webp,"app bank/oppo/3.png",320,591
+images/33/91.webp,"app bank/oppo/81.png",320,591
+images/33/29.webp,"app bank/oppo/70.png",320,640
+images/33/2.webp,"app bank/oppo/tiny.png",320,800
+images/33/86.webp,"app bank/oppo/76.png",320,591
+images/33/45.webp,"app bank/oppo/43.png",320,591
+images/33/12.webp,"app bank/oppo/12.png",320,591
+images/33/24.webp,"app bank/oppo/24.png",320,591
+images/33/73.webp,"app bank/oppo/63.png",320,591
+images/33/65.webp,"app bank/oppo/59.png",320,591
+images/33/49.webp,"app bank/oppo/47.png",320,591
+images/33/27.webp,"app bank/oppo/27.png",320,591
+images/33/66.webp,"app bank/oppo/60.png",320,591
+images/33/89.webp,"app bank/oppo/79.png",320,591
+images/33/93.webp,"app bank/oppo/83.png",320,591
+images/33/1.webp,"app bank/oppo/1.png",320,591
+images/33/85.webp,"app bank/oppo/75.png",320,591
+images/33/46.webp,"app bank/oppo/44.png",320,591
+images/33/11.webp,"app bank/oppo/11.png",320,591
+images/33/50.webp,"app bank/oppo/48.png",320,591
+images/33/51.webp,"app bank/oppo/49.png",320,591
+images/33/10.webp,"app bank/oppo/10.png",320,591
+images/33/47.webp,"app bank/oppo/45.png",320,591
+images/33/84.webp,"app bank/oppo/74.png",320,591
+images/33/88.webp,"app bank/oppo/78.png",320,591
+images/33/71.webp,"app bank/oppo/61.png",320,591
+images/33/26.webp,"app bank/oppo/26.png",320,591
+images/33/95.webp,"app bank/oppo/85.png",320,591
+images/33/7.webp,"app bank/oppo/7.png",320,591
+images/33/83.webp,"app bank/oppo/73.png",320,591
+images/33/40.webp,"app bank/oppo/40.png",320,591
+images/33/17.webp,"app bank/oppo/17.png",320,591
+images/33/56.webp,"app bank/oppo/54.png",320,591
+images/33/21.webp,"app bank/oppo/21.png",320,591
+images/33/76.webp,"app bank/oppo/66.png",320,591
+images/33/36.webp,"app bank/oppo/36.png",320,591
+images/33/77.webp,"app bank/oppo/67.png",320,591
+images/33/20.webp,"app bank/oppo/front_of.png",320,640
+images/33/57.webp,"app bank/oppo/55.png",320,591
+images/33/16.webp,"app bank/oppo/16.png",320,591
+images/33/41.webp,"app bank/oppo/41.png",320,591
+images/33/6.webp,"app bank/oppo/6.png",320,591
+images/33/94.webp,"app bank/oppo/84.png",320,591
+images/20/15.webp,"app bank/jungle/owl.png",320,591
+images/20/5.webp,"app bank/jungle/fox.png",320,591
+images/20/19.webp,"app bank/jungle/rhino.png",320,591
+images/20/9.webp,"app bank/jungle/hyena.png",320,591
+images/20/23.webp,"app bank/jungle/zebra.png",320,591
+images/20/22.webp,"app bank/jungle/tiger.png",320,591
+images/20/8.webp,"app bank/jungle/gorilla.png",320,591
+images/20/18.webp,"app bank/jungle/raccon.png",320,591
+images/20/4.webp,"app bank/jungle/flamingo.png",320,591
+images/20/14.webp,"app bank/jungle/monkey.png",320,591
+images/20/13.webp,"app bank/jungle/lion.png",320,591
+images/20/3.webp,"app bank/jungle/elephant.png",320,591
+images/20/2.webp,"app bank/jungle/bear.png",320,591
+images/20/12.webp,"app bank/jungle/leopard.png",320,591
+images/20/11.webp,"app bank/jungle/kangaroo.png",320,591
+images/20/10.webp,"app bank/jungle/jungle_animals.png",320,591
+images/20/7.webp,"app bank/jungle/giraffe.png",320,591
+images/20/21.webp,"app bank/jungle/Squirrel.png",320,591
+images/20/20.webp,"app bank/jungle/snake.png",320,591
+images/20/16.webp,"app bank/jungle/panda.png",320,591
+images/20/6.webp,"app bank/jungle/gazelle.png",320,591
+images/18/5.webp,"app bank/insects/butterfly.png",320,640
+images/18/9.webp,"app bank/insects/grasshopper.png",320,640
+images/18/4.webp,"app bank/insects/beetle.png",320,640
+images/18/14.webp,"app bank/insects/spider.png",320,640
+images/18/13.webp,"app bank/insects/snail.png",320,640
+images/18/3.webp,"app bank/insects/bee.png",320,640
+images/18/2.webp,"app bank/insects/ant.png",320,640
+images/18/12.webp,"app bank/insects/scorpion.png",320,640
+images/18/1.webp,"app bank/insects/ praying_mantis.png",320,640
+images/18/11.webp,"app bank/insects/mosquito.png",320,640
+images/18/10.webp,"app bank/insects/insects.png",320,640
+images/18/7.webp,"app bank/insects/dragonfly.png",320,640
+images/18/16.webp,"app bank/insects/worm.png",320,640
+images/18/6.webp,"app bank/insects/cockroach.png",320,640
+images/27/15.webp,"app bank/garden/plant.png",320,567
+images/27/5.webp,"app bank/garden/dirt.png",320,567
+images/27/19.webp,"app bank/garden/shovel.png",320,567
+images/27/9.webp,"app bank/garden/gateway.png",320,567
+images/27/23.webp,"app bank/garden/trampoline.png",320,567
+images/27/22.webp,"app bank/garden/street.png",320,567
+images/27/8.webp,"app bank/garden/garden.png",320,567
+images/27/4.webp,"app bank/garden/dandelion.png",320,567
+images/27/14.webp,"app bank/garden/leaf.png",320,567
+images/27/25.webp,"app bank/garden/tree_house.png",320,567
+images/27/13.webp,"app bank/garden/lawnmower.png",320,567
+images/27/3.webp,"app bank/garden/bush.png",320,567
+images/27/2.webp,"app bank/garden/bird_house.png",320,567
+images/27/12.webp,"app bank/garden/hose.png",320,567
+images/27/24.webp,"app bank/garden/trashcan.png",320,567
+images/27/1.webp,"app bank/garden/backyard.png",320,567
+images/27/11.webp,"app bank/garden/hammock.png",320,567
+images/27/10.webp,"app bank/garden/grass.png",320,567
+images/27/7.webp,"app bank/garden/flower.png",320,567
+images/27/17.webp,"app bank/garden/puddle.png",320,567
+images/27/21.webp,"app bank/garden/stink.png",320,567
+images/27/16.webp,"app bank/garden/pool.png",320,567
+images/27/6.webp,"app bank/garden/fence.png",320,567
+images/9/9.webp,"app bank/family/helping_mom.png",320,640
+images/9/8.webp,"app bank/family/grandpa.png",320,640
+images/9/4.webp,"app bank/family/family_eating.png",320,800
+images/9/3.webp,"app bank/family/dad.png",320,640
+images/9/12.webp,"app bank/family/brother.png",320,600
+images/9/1.webp,"app bank/family/dad_mom.png",320,600
+images/9/11.webp,"app bank/family/sister.png",320,600
+images/9/10.webp,"app bank/family/mom.png",320,600
+images/9/7.webp,"app bank/family/grandpa_grandma.png",320,600
+images/9/6.webp,"app bank/family/grandma.png",320,640
+images/11/15.webp,"app bank/common itelms/fan.png",320,567
+images/11/39.webp,"app bank/common itelms/vacuum.png",320,567
+images/11/5.webp,"app bank/common itelms/bathtub.png",320,567
+images/11/19.webp,"app bank/common itelms/groom.png",320,567
+images/11/9.webp,"app bank/common itelms/candle.png",320,567
+images/11/23.webp,"app bank/common itelms/money.png",320,567
+images/11/8.webp,"app bank/common itelms/cake.png",320,567
+images/11/34.webp,"app bank/common itelms/toothbrush.png",320,567
+images/11/18.webp,"app bank/common itelms/glasses.png",320,567
+images/11/4.webp,"app bank/common itelms/basket.png",320,567
+images/11/38.webp,"app bank/common itelms/umbrella.png",320,567
+images/11/14.webp,"app bank/common itelms/dustpan.png",320,567
+images/11/33.webp,"app bank/common itelms/toilet.png",320,567
+images/11/25.webp,"app bank/common itelms/plate.png",320,567
+images/11/3.webp,"app bank/common itelms/band_aid.png",320,567
+images/11/29.webp,"app bank/common itelms/spoon.png",320,567
+images/11/28.webp,"app bank/common itelms/soap.png",320,567
+images/11/2.webp,"app bank/common itelms/balloon.png",320,567
+images/11/12.webp,"app bank/common itelms/comb.png",320,567
+images/11/24.webp,"app bank/common itelms/phone.png",320,567
+images/11/32.webp,"app bank/common itelms/toilet_tissue.png",320,567
+images/11/27.webp,"app bank/common itelms/shampoo.png",320,567
+images/11/31.webp,"app bank/common itelms/tissue.png",320,567
+images/11/1.webp,"app bank/common itelms/bag.png",320,567
+images/11/11.webp,"app bank/common itelms/chair.png",320,567
+images/11/30.webp,"app bank/common itelms/table.png",320,567
+images/11/26.webp,"app bank/common itelms/ring.png",320,567
+images/11/7.webp,"app bank/common itelms/box.png",320,567
+images/11/40.webp,"app bank/common itelms/wallet.png",320,567
+images/11/17.webp,"app bank/common itelms/glass.png",320,567
+images/11/21.webp,"app bank/common itelms/knife.png",320,567
+images/11/37.webp,"app bank/common itelms/tshirt.png",320,567
+images/11/36.webp,"app bank/common itelms/trashcan.png",320,567
+images/11/20.webp,"app bank/common itelms/keys.png",320,567
+images/11/16.webp,"app bank/common itelms/gift.png",320,567
+images/11/41.webp,"app bank/common itelms/watch.png",320,567
+images/11/6.webp,"app bank/common itelms/bottle.png",320,567
+images/7/15.webp,"app bank/vegetables/mushrooms.png",320,640
+images/7/5.webp,"app bank/vegetables/cabbage.png",320,640
+images/7/19.webp,"app bank/vegetables/peas.png",320,640
+images/7/9.webp,"app bank/vegetables/cucumbers.png",320,640
+images/7/23.webp,"app bank/vegetables/radish.png",320,640
+images/7/22.webp,"app bank/vegetables/pumpkin.png",320,640
+images/7/8.webp,"app bank/vegetables/corn.png",320,640
+images/7/18.webp,"app bank/vegetables/parsley.png",320,640
+images/7/4.webp,"app bank/vegetables/broccoli.png",320,640
+images/7/14.webp,"app bank/vegetables/mint.png",320,640
+images/7/25.webp,"app bank/vegetables/squash.png",320,640
+images/7/13.webp,"app bank/vegetables/lettuce.png",320,640
+images/7/3.webp,"app bank/vegetables/beetroot.png",320,640
+images/7/29.webp,"app bank/vegetables/asparagus.png",320,640
+images/7/28.webp,"app bank/vegetables/vegetables.png",320,640
+images/7/2.webp,"app bank/vegetables/beans.png",320,640
+images/7/24.webp,"app bank/vegetables/spinach.png",320,640
+images/7/27.webp,"app bank/vegetables/tomatoes.png",320,640
+images/7/1.webp,"app bank/vegetables/aubergine.png",320,640
+images/7/10.webp,"app bank/vegetables/garlic.png",320,640
+images/7/26.webp,"app bank/vegetables/sweet potato.png",320,640
+images/7/7.webp,"app bank/vegetables/cauliflower.png",320,640
+images/7/17.webp,"app bank/vegetables/onions.png",320,640
+images/7/21.webp,"app bank/vegetables/potatoes.png",320,640
+images/7/20.webp,"app bank/vegetables/peppers.png",320,640
+images/7/16.webp,"app bank/vegetables/okra.png",320,640
+images/7/6.webp,"app bank/vegetables/carrot.png",320,640
+images/29/9.webp,"app bank/places/inside/playground.png",320,640
+images/29/8.webp,"app bank/places/inside/pharmacy.png",320,640
+images/29/4.webp,"app bank/places/inside/carage.png",320,640
+images/29/3.webp,"app bank/places/inside/bedroom.png",320,640
+images/29/2.webp,"app bank/places/inside/bathroom.png",320,640
+images/29/12.webp,"app bank/places/inside/waiting_room.png",320,640
+images/29/1.webp,"app bank/places/inside/basement.png",320,640
+images/29/11.webp,"app bank/places/inside/storage.png",320,640
+images/29/10.webp,"app bank/places/inside/stairs.png",320,640
+images/29/7.webp,"app bank/places/inside/living_room.png",320,640
+images/29/6.webp,"app bank/places/inside/kitchen.png",320,640
+images/16/5.webp,"app bank/birds/cock.png",320,640
+images/16/9.webp,"app bank/birds/Goose.png",320,640
+images/16/8.webp,"app bank/birds/Flamingo.png",320,640
+images/16/13.webp,"app bank/birds/penguin.png",320,640
+images/16/3.webp,"app bank/birds/birds.png",320,640
+images/16/2.webp,"app bank/birds/bird.png",320,640
+images/16/1.webp,"app bank/birds/eagle.png",320,640
+images/16/11.webp,"app bank/birds/owl.png",320,640
+images/16/10.webp,"app bank/birds/ostrich.png",320,640
+images/16/7.webp,"app bank/birds/duck.png",320,640
+images/16/16.webp,"app bank/birds/vulture.png",320,640
+images/16/6.webp,"app bank/birds/crow.png",320,640
+images/6/9.webp,"app bank/fruits/fruit.png",320,591
+images/6/8.webp,"app bank/fruits/fig.png",320,591
+images/6/18.webp,"app bank/fruits/pear.png",320,591
+images/6/4.webp,"app bank/fruits/bananas.png",320,591
+images/6/14.webp,"app bank/fruits/melon.png",320,591
+images/6/3.webp,"app bank/fruits/banana.png",320,591
+images/6/12.webp,"app bank/fruits/lemon.png",320,591
+images/6/10.webp,"app bank/fruits/grapes.png",320,591
+images/6/7.webp,"app bank/fruits/citrus.png",320,591
+images/6/17.webp,"app bank/fruits/peaches.png",320,591
+images/6/21.webp,"app bank/fruits/watermelon.png",320,591
+images/6/20.webp,"app bank/fruits/strawberry.png",320,591
+images/6/16.webp,"app bank/fruits/peach.png",320,591
+images/28/15.webp,"app bank/rooms/wall.png",320,567
+images/28/5.webp,"app bank/rooms/ceiling.png",320,567
+images/28/9.webp,"app bank/rooms/kitchen.png",320,567
+images/28/8.webp,"app bank/rooms/hallway.png",320,567
+images/28/4.webp,"app bank/rooms/carpet.png",320,567
+images/28/13.webp,"app bank/rooms/office.png",320,567
+images/28/3.webp,"app bank/rooms/bedroom.png",320,567
+images/28/2.webp,"app bank/rooms/bathroom.png",320,567
+images/28/12.webp,"app bank/rooms/living_room.png",320,567
+images/28/1.webp,"app bank/rooms/balcony.png",320,567
+images/28/11.webp,"app bank/rooms/laundry_room.png",320,567
+images/28/10.webp,"app bank/rooms/knob.png",320,567
+images/28/7.webp,"app bank/rooms/floor.png",320,567
+images/28/6.webp,"app bank/rooms/door.png",320,567
+images/17/15.webp,"app bank/sea creatures/turtle.png",320,591
+images/17/9.webp,"app bank/sea creatures/pufferfish.png",320,591
+images/17/8.webp,"app bank/sea creatures/penguin.png",320,591
+images/17/4.webp,"app bank/sea creatures/fish.png",320,591
+images/17/14.webp,"app bank/sea creatures/starfish.png",320,591
+images/17/13.webp,"app bank/sea creatures/squid.png",320,591
+images/17/3.webp,"app bank/sea creatures/dolphin.png",320,591
+images/17/2.webp,"app bank/sea creatures/crab.png",320,591
+images/17/12.webp,"app bank/sea creatures/shark.png",320,591
+images/17/11.webp,"app bank/sea creatures/seal.png",320,591
+images/17/7.webp,"app bank/sea creatures/octopus.png",320,591
+images/17/16.webp,"app bank/sea creatures/whale.png",320,591
+images/17/6.webp,"app bank/sea creatures/jellyfish.png",320,591
+images/1/15.webp,"app bank/01 core words/up.png",320,640
+images/1/5.webp,"app bank/01 core words/eat.png",320,640
+images/1/19.webp,"app bank/01 core words/you.png",320,640
+images/1/9.webp,"app bank/01 core words/help.png",320,640
+images/1/8.webp,"app bank/01 core words/hello.png",320,640
+images/1/4.webp,"app bank/01 core words/drink.png",320,640
+images/1/14.webp,"app bank/01 core words/thank_you.png",320,640
+images/1/13.webp,"app bank/01 core words/stop.png",320,640
+images/1/3.webp,"app bank/01 core words/down.png",320,640
+images/1/2.webp,"app bank/01 core words/break.png",320,640
+images/1/12.webp,"app bank/01 core words/out.png",320,640
+images/1/1.webp,"app bank/01 core words/bad.png",320,640
+images/1/11.webp,"app bank/01 core words/more.png",320,640
+images/1/10.webp,"app bank/01 core words/in.png",320,640
+images/1/7.webp,"app bank/01 core words/good.png",320,640
+images/1/17.webp,"app bank/01 core words/i.png",320,640
+images/1/16.webp,"app bank/01 core words/want.png",320,640
+images/1/6.webp,"app bank/01 core words/go.png",320,640
+images/10/15.webp,"app bank/toys/microphone.png",320,640
+images/10/5.webp,"app bank/toys/blocks.png",320,640
+images/10/19.webp,"app bank/toys/scooter.png",320,640
+images/10/9.webp,"app bank/toys/car.png",320,640
+images/10/23.webp,"app bank/toys/stroller.png",320,640
+images/10/22.webp,"app bank/toys/slinky.png",320,640
+images/10/8.webp,"app bank/toys/bucket.png",320,640
+images/10/18.webp,"app bank/toys/rackets.png",320,640
+images/10/4.webp,"app bank/toys/bicycle.png",320,640
+images/10/14.webp,"app bank/toys/lego.png",320,640
+images/10/25.webp,"app bank/toys/toys.png",320,640
+images/10/13.webp,"app bank/toys/kite.png",320,640
+images/10/3.webp,"app bank/toys/beads.png",320,640
+images/10/2.webp,"app bank/toys/ball.png",320,640
+images/10/24.webp,"app bank/toys/teddy_bear.png",320,640
+images/10/1.webp,"app bank/toys/ambulance_car.png",320,640
+images/10/11.webp,"app bank/toys/fire_truck.png",320,640
+images/10/10.webp,"app bank/toys/doll.png",320,640
+images/10/26.webp,"app bank/toys/train.png",320,640
+images/10/7.webp,"app bank/toys/bubbles.png",320,640
+images/10/17.webp,"app bank/toys/police_car.png",320,640
+images/10/21.webp,"app bank/toys/skipping_rope.png",320,640
+images/10/20.webp,"app bank/toys/shovel.png",320,640
+images/10/16.webp,"app bank/toys/playdough.png",320,640
+images/10/6.webp,"app bank/toys/book.png",320,640
+images/19/5.webp,"app bank/reptiles/snake.png",320,640
+images/19/3.webp,"app bank/reptiles/lizard.png",320,640
+images/19/2.webp,"app bank/reptiles/chameleon.png",320,640
+images/19/6.webp,"app bank/reptiles/turtle.png",320,640
+images/26/5.webp,"app bank/playground/monkey_bars.png",320,425
+images/26/9.webp,"app bank/playground/stairs.png",320,425
+images/26/8.webp,"app bank/playground/slide.png",320,425
+images/26/4.webp,"app bank/playground/ladder.png",320,425
+images/26/3.webp,"app bank/playground/gazebo.png",320,425
+images/26/2.webp,"app bank/playground/fence.png",320,425
+images/26/12.webp,"app bank/playground/tunnel.png",320,425
+images/26/1.webp,"app bank/playground/bench.png",320,425
+images/26/6.webp,"app bank/playground/playground.png",320,425
+images/8/15.webp,"app bank/drinks/tea.png",320,640
+images/8/5.webp,"app bank/drinks/juice.png",320,640
+images/8/9.webp,"app bank/drinks/berry_smoothie.png",320,640
+images/8/8.webp,"app bank/drinks/glass_of_water.png",320,640
+images/8/4.webp,"app bank/drinks/juices.png",320,640
+images/8/14.webp,"app bank/drinks/fruit_smoothie.png",320,640
+images/8/13.webp,"app bank/drinks/banana_smoothie.png",320,640
+images/8/3.webp,"app bank/drinks/soda.png",320,640
+images/8/2.webp,"app bank/drinks/water.png",320,640
+images/8/12.webp,"app bank/drinks/raspberry_smoothie.png",320,640
+images/8/1.webp,"app bank/drinks/milk.png",320,640
+images/8/11.webp,"app bank/drinks/kiwi_juice.png",320,640
+images/8/10.webp,"app bank/drinks/carrot_juice.png",320,640
+images/8/7.webp,"app bank/drinks/lemonade.png",320,640
+images/8/16.webp,"app bank/drinks/coffee.png",320,640
+images/8/6.webp,"app bank/drinks/orange_juice.png",320,640
+images/21/15.webp,"app bank/farm/pigeon.png",320,640
+images/21/5.webp,"app bank/farm/cock.png",320,640
+images/21/8.webp,"app bank/farm/donkey.png",320,640
+images/21/18.webp,"app bank/farm/sheep.png",320,640
+images/21/14.webp,"app bank/farm/mouse.png",320,640
+images/21/13.webp,"app bank/farm/horse.png",320,640
+images/21/3.webp,"app bank/farm/chick.png",320,640
+images/21/12.webp,"app bank/farm/goose.png",320,640
+images/21/1.webp,"app bank/farm/bull.png",320,640
+images/21/11.webp,"app bank/farm/goat.png",320,640
+images/21/10.webp,"app bank/farm/farm_animals.png",320,640
+images/21/17.webp,"app bank/farm/rabbit.png",320,640
+images/21/16.webp,"app bank/farm/pig.png",320,640
+images/38/5.webp,"app bank/shapes/كرتون 4/diamond 2.png",320,416
+images/38/9.webp,"app bank/shapes/كرتون 4/moon.PNG",320,416
+images/38/8.webp,"app bank/shapes/كرتون 4/pentagon.PNG",320,416
+images/38/14.webp,"app bank/shapes/كرتون 4/triangle 2.png",320,416
+images/38/13.webp,"app bank/shapes/كرتون 4/oval.PNG",320,416
+images/38/3.webp,"app bank/shapes/كرتون 4/trapezoid.PNG",320,416
+images/38/2.webp,"app bank/shapes/كرتون 4/star 2.png",320,416
+images/38/12.webp,"app bank/shapes/كرتون 4/circle 2.png",320,416
+images/38/1.webp,"app bank/shapes/كرتون 4/shapes.png",320,600
+images/38/11.webp,"app bank/shapes/plus.png",320,416
+images/38/10.webp,"app bank/shapes/كرتون 4/heart 2.png",320,416
+images/38/7.webp,"app bank/shapes/كرتون 4/square.PNG",320,416
+images/38/6.webp,"app bank/shapes/كرتون 4/rectangle.PNG",320,416
+images/36/5.webp,"app bank/Electronics/ipad.png",320,425
+images/36/9.webp,"app bank/Electronics/outlet.png",320,425
+images/36/8.webp,"app bank/Electronics/mouse.png",320,425
+images/36/14.webp,"app bank/Electronics/tv.png",320,425
+images/36/13.webp,"app bank/Electronics/remote.png",320,425
+images/36/3.webp,"app bank/Electronics/cord.png",320,425
+images/36/2.webp,"app bank/Electronics/controller.png",320,425
+images/36/12.webp,"app bank/Electronics/plug.png",320,425
+images/36/1.webp,"app bank/Electronics/camera.png",320,425
+images/36/11.webp,"app bank/Electronics/phone.png",320,425
+images/36/10.webp,"app bank/Electronics/phone_charger.png",320,425
+images/36/7.webp,"app bank/Electronics/laptop.png",320,425
+images/36/6.webp,"app bank/Electronics/keyboard.png",320,425
+images/31/15.webp,"app bank/places/urban/police.png",320,640
+images/31/5.webp,"app bank/places/urban/city.png",320,640
+images/31/9.webp,"app bank/places/urban/garden.png",320,640
+images/31/8.webp,"app bank/places/urban/flower_shop.png",320,640
+images/31/18.webp,"app bank/places/urban/zoo.png",320,640
+images/31/4.webp,"app bank/places/urban/camping_site.png",320,640
+images/31/14.webp,"app bank/places/urban/market.png",320,640
+images/31/13.webp,"app bank/places/urban/library.png",320,640
+images/31/3.webp,"app bank/places/urban/bakery.png",320,640
+images/31/2.webp,"app bank/places/urban/aquarium.png",320,640
+images/31/12.webp,"app bank/places/urban/jail.png",320,640
+images/31/1.webp,"app bank/places/urban/airport.png",320,640
+images/31/11.webp,"app bank/places/urban/hospital.png",320,640
+images/31/10.webp,"app bank/places/urban/gas_station.png",320,640
+images/31/7.webp,"app bank/places/urban/fire_station.png",320,640
+images/31/17.webp,"app bank/places/urban/stadium.png",320,640
+images/31/16.webp,"app bank/places/urban/school.png",320,640
+images/31/6.webp,"app bank/places/urban/cloth_store.png",320,640
+images/30/15.webp,"app bank/places/OUTSIDE/waterfall.png",320,640
+images/30/5.webp,"app bank/places/OUTSIDE/grove.png",320,640
+images/30/9.webp,"app bank/places/OUTSIDE/pond.png",320,640
+images/30/8.webp,"app bank/places/OUTSIDE/parking.png",320,640
+images/30/4.webp,"app bank/places/OUTSIDE/farm.png",320,640
+images/30/14.webp,"app bank/places/OUTSIDE/vally.png",320,640
+images/30/13.webp,"app bank/places/OUTSIDE/tunnel.png",320,640
+images/30/3.webp,"app bank/places/OUTSIDE/desert.png",320,640
+images/30/2.webp,"app bank/places/OUTSIDE/bus_stop.png",320,640
+images/30/12.webp,"app bank/places/OUTSIDE/street.png",320,640
+images/30/1.webp,"app bank/places/OUTSIDE/bridge.png",320,640
+images/30/11.webp,"app bank/places/OUTSIDE/sidewalk.png",320,640
+images/30/10.webp,"app bank/places/OUTSIDE/river.png",320,640
+images/30/7.webp,"app bank/places/OUTSIDE/mountain.png",320,640
+images/30/6.webp,"app bank/places/OUTSIDE/medow.png",320,640
+images/37/15.webp,"app bank/occopation/1/herp.png",320,652
+images/37/5.webp,"app bank/occopation/chef_male.png",320,425
+images/37/35.webp,"app bank/occopation/1/witch.png",320,652
+images/37/9.webp,"app bank/occopation/doctor_male.png",320,425
+images/37/23.webp,"app bank/occopation/photographer_male.png",320,425
+images/37/22.webp,"app bank/occopation/photographer_female.png",320,425
+images/37/8.webp,"app bank/occopation/doctor_female.png",320,425
+images/37/34.webp,"app bank/occopation/teacher_male.png",320,425
+images/37/4.webp,"app bank/occopation/chef_female.png",320,425
+images/37/14.webp,"app bank/occopation/firefighter_male.png",320,425
+images/37/33.webp,"app bank/occopation/teacher_female.png",320,425
+images/37/25.webp,"app bank/occopation/player_female.png",320,425
+images/37/13.webp,"app bank/occopation/firefighter_female.png",320,425
+images/37/3.webp,"app bank/occopation/captain.png",320,425
+images/37/29.webp,"app bank/occopation/prince.png",320,425
+images/37/28.webp,"app bank/occopation/police_officer_male.png",320,425
+images/37/2.webp,"app bank/occopation/ballerina.png",320,425
+images/37/12.webp,"app bank/occopation/farmer_male.png",320,425
+images/37/24.webp,"app bank/occopation/1/طيار.png",320,652
+images/37/27.webp,"app bank/occopation/police_officer_female.png",320,425
+images/37/31.webp,"app bank/occopation/singer_female.png",320,425
+images/37/1.webp,"app bank/occopation/1/astronuant.png",320,652
+images/37/11.webp,"app bank/occopation/farmer_female.png",320,425
+images/37/10.webp,"app bank/occopation/1/fairytail.png",320,652
+images/37/30.webp,"app bank/occopation/1/اميرة ازرق.png",320,652
+images/37/26.webp,"app bank/occopation/player_male.png",320,425
+images/37/7.webp,"app bank/occopation/1/clown_male.png",320,652
+images/37/17.webp,"app bank/occopation/hunter_male.png",320,425
+images/37/21.webp,"app bank/occopation/painter_male.png",320,425
+images/37/16.webp,"app bank/occopation/hunter_female.png",320,425
+images/37/6.webp,"app bank/occopation/1/clown_female.png",320,652
+images/24/15.webp,"app bank/furnturies/fork.png",320,737
+images/24/42.webp,"app bank/furnturies/tv.png",320,737
+images/24/39.webp,"app bank/furnturies/toilet.png",320,737
+images/24/19.webp,"app bank/furnturies/iron.png",320,737
+images/24/35.webp,"app bank/furnturies/stove.png",320,737
+images/24/9.webp,"app bank/furnturies/cup.png",320,737
+images/24/23.webp,"app bank/furnturies/lightbulb.png",320,737
+images/24/8.webp,"app bank/furnturies/comb.png",320,737
+images/24/34.webp,"app bank/furnturies/spoon.png",320,737
+images/24/18.webp,"app bank/furnturies/house.png",320,737
+images/24/4.webp,"app bank/furnturies/cattle.png",320,737
+images/24/38.webp,"app bank/furnturies/tissue.png",320,737
+images/24/14.webp,"app bank/furnturies/fan.png",320,454
+images/24/25.webp,"app bank/furnturies/oven.png",320,737
+images/24/13.webp,"app bank/furnturies/door.png",320,737
+images/24/44.webp,"app bank/furnturies/washing_machine.png",320,737
+images/24/3.webp,"app bank/furnturies/blanket.png",320,737
+images/24/29.webp,"app bank/furnturies/pot.png",320,737
+images/24/28.webp,"app bank/furnturies/plates.png",320,737
+images/24/2.webp,"app bank/furnturies/bed.png",320,737
+images/24/45.webp,"app bank/furnturies/window.png",320,737
+images/24/12.webp,"app bank/furnturies/door_bell.png",320,472
+images/24/24.webp,"app bank/furnturies/mirror.png",320,737
+images/24/32.webp,"app bank/furnturies/soap.png",320,737
+images/24/27.webp,"app bank/furnturies/plate.png",320,737
+images/24/31.webp,"app bank/furnturies/sink.png",320,737
+images/24/1.webp,"app bank/furnturies/bathtub.png",320,737
+images/24/11.webp,"app bank/furnturies/desk.png",320,737
+images/24/10.webp,"app bank/furnturies/cutting_board.png",320,737
+images/24/30.webp,"app bank/furnturies/shower.png",320,737
+images/24/26.webp,"app bank/furnturies/pillow.png",320,737
+images/24/7.webp,"app bank/furnturies/closet.png",320,737
+images/24/40.webp,"app bank/furnturies/toothbrush.png",320,737
+images/24/17.webp,"app bank/furnturies/gas.png",320,737
+images/24/37.webp,"app bank/furnturies/tape.png",320,737
+images/24/36.webp,"app bank/furnturies/table.png",320,454
+images/24/20.webp,"app bank/furnturies/kitchen.png",320,737
+images/24/16.webp,"app bank/furnturies/fridge.png",320,737
+images/24/41.webp,"app bank/furnturies/towel.png",320,737
+images/24/6.webp,"app bank/furnturies/clock.png",320,737
+images/23/15.webp,"app bank/transportation/tank_truck.png",320,640
+images/23/5.webp,"app bank/transportation/car.png",320,640
+images/23/19.webp,"app bank/transportation/transportation.png",320,640
+images/23/9.webp,"app bank/transportation/rocket.png",320,640
+images/23/8.webp,"app bank/transportation/railway.png",320,640
+images/23/18.webp,"app bank/transportation/train.png",320,640
+images/23/4.webp,"app bank/transportation/bus.png",320,640
+images/23/14.webp,"app bank/transportation/submarine.png",320,640
+images/23/13.webp,"app bank/transportation/street.png",320,640
+images/23/3.webp,"app bank/transportation/boat.png",320,640
+images/23/2.webp,"app bank/transportation/bicycle.png",320,640
+images/23/12.webp,"app bank/transportation/sky.png",320,640
+images/23/1.webp,"app bank/transportation/airballoon.png",320,640
+images/23/11.webp,"app bank/transportation/ship.png",320,640
+images/23/10.webp,"app bank/transportation/sea.png",320,640
+images/23/7.webp,"app bank/transportation/plane.png",320,640
+images/23/17.webp,"app bank/transportation/tractor.png",320,640
+images/23/20.webp,"app bank/transportation/truck.png",320,640
+images/23/16.webp,"app bank/transportation/taxi.png",320,640
+images/23/6.webp,"app bank/transportation/helicopter.png",320,640
+images/15/9.webp,"app bank/pets/pets.png",320,640
+images/15/1.webp,"app bank/pets/bird.png",320,640
+images/15/11.webp,"app bank/pets/turtle.png",320,640
+images/15/10.webp,"app bank/pets/rabbit.png",320,640
+images/3/15.webp,"app bank/body parts/eyebrow.png",320,640
+images/3/5.webp,"app bank/body parts/back.png",320,640
+images/3/19.webp,"app bank/body parts/girl_head.png",320,640
+images/3/9.webp,"app bank/body parts/cheek.png",320,640
+images/3/23.webp,"app bank/body parts/legs.png",320,640
+images/3/22.webp,"app bank/body parts/knee.png",320,640
+images/3/8.webp,"app bank/body parts/boy_head.png",320,640
+images/3/18.webp,"app bank/body parts/feet.png",320,640
+images/3/4.webp,"app bank/body parts/arm.png",320,640
+images/3/14.webp,"app bank/body parts/eye.png",320,640
+images/3/25.webp,"app bank/body parts/mouth.png",320,640
+images/3/13.webp,"app bank/body parts/elebow.png",320,640
+images/3/3.webp,"app bank/body parts/fingers.png",320,640
+images/3/28.webp,"app bank/body parts/shoulder.png",320,640
+images/3/2.webp,"app bank/body parts/tongue.png",320,640
+images/3/12.webp,"app bank/body parts/ear.png",320,640
+images/3/24.webp,"app bank/body parts/lips.png",320,640
+images/3/27.webp,"app bank/body parts/nose.png",320,640
+images/3/1.webp,"app bank/body parts/finger.png",320,640
+images/3/11.webp,"app bank/body parts/chin.png",320,640
+images/3/10.webp,"app bank/body parts/chest.png",320,640
+images/3/26.webp,"app bank/body parts/neck.png",320,640
+images/3/17.webp,"app bank/body parts/eyelash.png",320,640
+images/3/21.webp,"app bank/body parts/hand.png",320,640
+images/3/20.webp,"app bank/body parts/hair.png",320,640
+images/3/16.webp,"app bank/body parts/eyebrows.png",320,640
+images/3/6.webp,"app bank/body parts/belly.png",320,640
+images/12/5.webp,"app bank/prepositions/in_front_of.png",320,567
+images/12/9.webp,"app bank/prepositions/on.png",320,567
+images/12/8.webp,"app bank/prepositions/next_to.png",320,567
+images/12/4.webp,"app bank/prepositions/far.png",320,567
+images/12/3.webp,"app bank/prepositions/down.png",320,567
+images/12/2.webp,"app bank/prepositions/between.png",320,567
+images/12/1.webp,"app bank/prepositions/behind.png",320,567
+images/12/11.webp,"app bank/prepositions/up.png",320,567
+images/12/10.webp,"app bank/prepositions/under.png",320,567
+images/12/7.webp,"app bank/prepositions/near.png",320,567
+images/12/6.webp,"app bank/prepositions/inside.png",320,567
+images/2/9.webp,"app bank/tenses/male/image11.png",320,425
+images/13/5.webp,"app bank/senses/كرتون 2/touch.PNG",320,591
+images/13/4.webp,"app bank/senses/كرتون 2/taste.PNG",320,591
+images/13/3.webp,"app bank/senses/كرتون 2/smell.PNG",320,591
+images/13/2.webp,"app bank/senses/كرتون 2/see.PNG",320,591
+images/13/1.webp,"app bank/senses/كرتون 2/hear.PNG",320,591
+images/14/42.webp,"app bank/adj/40.png",320,567
+images/14/39.webp,"app bank/adj/37.png",320,567
+images/14/5.webp,"app bank/adj/5.png",320,567
+images/14/35.webp,"app bank/adj/33.png",320,567
+images/14/9.webp,"app bank/adj/9.png",320,567
+images/14/23.webp,"app bank/adj/23.png",320,567
+images/14/8.webp,"app bank/adj/8.png",320,567
+images/14/34.webp,"app bank/adj/32.png",320,567
+images/14/18.webp,"app bank/adj/18.png",320,567
+images/14/4.webp,"app bank/adj/4.png",320,567
+images/14/38.webp,"app bank/adj/36.png",320,567
+images/14/14.webp,"app bank/adj/14.png",320,567
+images/14/33.webp,"app bank/adj/31.png",320,567
+images/14/3.webp,"app bank/adj/3.png",320,567
+images/14/29.webp,"app bank/adj/27.png",320,567
+images/14/28.webp,"app bank/adj/26.png",320,567
+images/14/2.webp,"app bank/adj/2.png",320,567
+images/14/12.webp,"app bank/adj/12.png",320,567
+images/14/24.webp,"app bank/adj/24.png",320,567
+images/14/32.webp,"app bank/adj/30.png",320,567
+images/14/27.webp,"app bank/adj/25.png",320,567
+images/14/31.webp,"app bank/adj/29.png",320,567
+images/14/1.webp,"app bank/adj/1.png",320,567
+images/14/11.webp,"app bank/adj/11.png",320,567
+images/14/10.webp,"app bank/adj/10.png",320,567
+images/14/30.webp,"app bank/adj/28.png",320,567
+images/14/7.webp,"app bank/adj/7.png",320,567
+images/14/40.webp,"app bank/adj/38.png",320,567
+images/14/17.webp,"app bank/adj/17.png",320,567
+images/14/37.webp,"app bank/adj/35.png",320,567
+images/14/20.webp,"app bank/adj/20.png",320,567
+images/14/41.webp,"app bank/adj/39.png",320,567
+images/14/6.webp,"app bank/adj/6.png",320,567
+images/22/15.webp,"app bank/clothes/pants.png",320,425
+images/22/5.webp,"app bank/clothes/diaper.png",320,425
+images/22/19.webp,"app bank/clothes/skirt.png",320,425
+images/22/9.webp,"app bank/clothes/gloves.png",320,425
+images/22/23.webp,"app bank/clothes/tie.png",320,425
+images/22/22.webp,"app bank/clothes/t_shirt.png",320,425
+images/22/8.webp,"app bank/clothes/glasses.png",320,425
+images/22/18.webp,"app bank/clothes/shorts.png",320,425
+images/22/4.webp,"app bank/clothes/clothes.png",320,425
+images/22/14.webp,"app bank/clothes/pajamas.png",320,425
+images/22/13.webp,"app bank/clothes/mask.png",320,425
+images/22/3.webp,"app bank/clothes/boots.png",320,425
+images/22/2.webp,"app bank/clothes/belt.png",320,425
+images/22/24.webp,"app bank/clothes/underwear.png",320,425
+images/22/1.webp,"app bank/clothes/cap.png",320,425
+images/22/10.webp,"app bank/clothes/high_heels.png",320,425
+images/22/7.webp,"app bank/clothes/flip_flop.png",320,425
+images/22/17.webp,"app bank/clothes/shoes.png",320,425
+images/22/21.webp,"app bank/clothes/sweater.png",320,425
+images/22/20.webp,"app bank/clothes/socks.png",320,425
+images/22/16.webp,"app bank/clothes/scarf.png",320,425
+images/22/6.webp,"app bank/clothes/dress.png",320,425
+images/25/15.webp,"app bank/weather/socks.png",320,640
+images/25/5.webp,"app bank/weather/flip_flop.png",320,640
+images/25/19.webp,"app bank/weather/cold.PNG",320,640
+images/25/9.webp,"app bank/weather/jacket.png",320,640
+images/25/23.webp,"app bank/weather/cloudy.PNG",320,640
+images/25/8.webp,"app bank/weather/hat.png",320,640
+images/25/34.webp,"app bank/weather/winter.png",320,640
+images/25/4.webp,"app bank/weather/dress.png",320,640
+images/25/14.webp,"app bank/weather/shorts.png",320,640
+images/25/33.webp,"app bank/weather/summer.png",320,640
+images/25/25.webp,"app bank/weather/snow.PNG",320,640
+images/25/13.webp,"app bank/weather/T_shirt.png",320,640
+images/25/3.webp,"app bank/weather/boots.png",320,640
+images/25/29.webp,"app bank/weather/tornado.PNG",320,640
+images/25/28.webp,"app bank/weather/thunder.PNG",320,640
+images/25/2.webp,"app bank/weather/boot.png",320,640
+images/25/12.webp,"app bank/weather/scarf.png",320,640
+images/25/24.webp,"app bank/weather/rainy.PNG",320,640
+images/25/27.webp,"app bank/weather/sunny.PNG",320,640
+images/25/31.webp,"app bank/weather/autumn.png",320,640
+images/25/1.webp,"app bank/weather/beanie.png",320,640
+images/25/11.webp,"app bank/weather/sandals.png",320,640
+images/25/10.webp,"app bank/weather/pants.png",320,640
+images/25/30.webp,"app bank/weather/windy.PNG",320,640
+images/25/26.webp,"app bank/weather/storm.PNG",320,640
+images/25/7.webp,"app bank/weather/gloves.png",320,640
+images/25/17.webp,"app bank/weather/tshirt_and_shorts.png",320,640
+images/25/21.webp,"app bank/weather/rainbow.PNG",320,640
+images/25/20.webp,"app bank/weather/hot.PNG",320,640
+images/25/16.webp,"app bank/weather/sweater.png",320,640
+images/25/6.webp,"app bank/weather/glasses.png",320,640
+images/13/40.webp,"مفاهيم/فواكه/جبس.jpg",320,800
+images/15/2.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/قطة.PNG",320,800
+images/15/4.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/كلب.PNG",320,800
+images/15/5.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/بطة.PNG",320,800
+images/15/6.webp,"1 VOCABULARY/حيوانات/كرتون/أليفة/سمكة.PNG",320,800
+images/15/8.webp,"1 VOCABULARY/حيوانات/كرتون/غابة/ببغاء.jpg",320,600
+images/17/1.webp,"1 VOCABULARY/حيوانات/كرتون/أليفة/سمكة.PNG",320,800
+images/19/1.webp,"1 VOCABULARY/حيوانات/كرتون/غابة/تمساح.PNG",320,800
+images/2/1.webp,"1 VOCABULARY/tenses/verbs/1.png",320,800
+images/2/10.webp,"1 VOCABULARY/tenses/verbs/10.png",320,800
+images/2/11.webp,"1 VOCABULARY/tenses/verbs/11.png",320,800
+images/2/12.webp,"1 VOCABULARY/tenses/verbs/12.png",320,800
+images/2/13.webp,"1 VOCABULARY/tenses/verbs/13.png",320,800
+images/2/15.webp,"1 VOCABULARY/tenses/verbs/15.png",320,800
+images/2/16.webp,"1 VOCABULARY/tenses/verbs/17.png",320,800
+images/2/17.webp,"1 VOCABULARY/tenses/verbs/16.png",320,800
+images/2/18.webp,"1 VOCABULARY/tenses/verbs/18.png",320,800
+images/2/19.webp,"1 VOCABULARY/tenses/verbs/19.png",320,800
+images/2/2.webp,"1 VOCABULARY/tenses/verbs/2.png",320,800
+images/2/20.webp,"1 VOCABULARY/tenses/verbs/20.png",320,800
+images/2/22.webp,"1 VOCABULARY/tenses/verbs/22.png",320,800
+images/2/23.webp,"1 VOCABULARY/tenses/verbs/23.png",320,800
+images/2/24.webp,"1 VOCABULARY/tenses/verbs/24.png",320,800
+images/2/25.webp,"1 VOCABULARY/tenses/verbs/25.png",320,800
+images/2/26.webp,"1 VOCABULARY/tenses/verbs/26.png",320,800
+images/2/27.webp,"1 VOCABULARY/tenses/verbs/27.png",320,800
+images/2/28.webp,"1 VOCABULARY/tenses/verbs/28.png",320,800
+images/2/29.webp,"1 VOCABULARY/tenses/verbs/29.png",320,800
+images/2/3.webp,"1 VOCABULARY/tenses/verbs/3.png",320,800
+images/2/30.webp,"1 VOCABULARY/tenses/verbs/30.png",320,800
+images/2/31.webp,"1 VOCABULARY/tenses/verbs/31.png",320,800
+images/2/32.webp,"1 VOCABULARY/tenses/verbs/32.png",320,800
+images/2/33.webp,"1 VOCABULARY/tenses/verbs/33.png",320,800
+images/2/34.webp,"1 VOCABULARY/tenses/verbs/34.png",320,800
+images/2/35.webp,"1 VOCABULARY/tenses/verbs/35.png",320,800
+images/2/36.webp,"1 VOCABULARY/tenses/verbs/36.png",320,800
+images/2/37.webp,"1 VOCABULARY/tenses/verbs/37.png",320,800
+images/2/38.webp,"1 VOCABULARY/tenses/verbs/38.png",320,800
+images/2/39.webp,"1 VOCABULARY/tenses/verbs/39.png",320,800
+images/2/4.webp,"1 VOCABULARY/tenses/verbs/4.png",320,800
+images/2/40.webp,"1 VOCABULARY/tenses/verbs/40.png",320,800
+images/2/5.webp,"1 VOCABULARY/tenses/verbs/5.png",320,800
+images/2/6.webp,"1 VOCABULARY/tenses/verbs/6.png",320,800
+images/2/7.webp,"1 VOCABULARY/tenses/verbs/7.png",320,800
+images/2/8.webp,"1 VOCABULARY/tenses/verbs/8.png",320,800
+images/20/1.webp,"1 VOCABULARY/حيوانات/كرتون/غابة/تمساح.PNG",320,800
+images/20/17.webp,"1 VOCABULARY/حيوانات/كرتون/غابة/ببغاء.jpg",320,600
+images/21/2.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/قطة.PNG",320,800
+images/21/7.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/كلب.PNG",320,800
+images/21/9.webp,"1 VOCABULARY/حيوانات/كرتون/مزرعة/بطة.PNG",320,800
+images/22/11.webp,"1 VOCABULARY/ملابس/jacket.png",320,680
+images/22/12.webp,"1 VOCABULARY/ادوات واثاث المنزل/سلة غسيل.png",320,737
+images/24/22.webp,"1 VOCABULARY/ادوات واثاث المنزل/سلة غسيل.png",320,737
+images/24/5.webp,"1 VOCABULARY/ادوات واثاث المنزل/كرسي.png",320,737
+images/32/10.webp,"1 VOCABULARY/الوان/كرتون 3/احمر.png",320,800
+images/33/96.webp,"1 VOCABULARY/عكوس/كرتون 1/turn on.PNG",320,800
+images/34/18.webp,"1 VOCABULARY/مدرسة/1/طالب وانسة.png",320,624
+images/34/6.webp,"1 VOCABULARY/ادوات واثاث المنزل/كرسي.png",320,737
+images/35/12.webp,"water color/music/sticks.png",320,800
+images/37/19.webp,"1 VOCABULARY/مهن/كرتون 4/عازف.png",320,652
+images/39/1.webp,"water color/Arabic letters/alif.png",320,609
+images/39/10.webp,"water color/Arabic letters/raa.png",320,609
+images/39/12.webp,"1 VOCABULARY/نطق/س/س.png",320,800
+images/39/13.webp,"1 VOCABULARY/نطق/ش/ش.png",320,800
+images/39/14.webp,"water color/Arabic letters/saad.png",320,609
+images/39/15.webp,"water color/Arabic letters/daad.png",320,609
+images/39/16.webp,"water color/Arabic letters/tah.png",320,609
+images/39/18.webp,"water color/Arabic letters/ain.png",320,609
+images/39/19.webp,"water color/Arabic letters/ghain.png",320,609
+images/39/2.webp,"1 VOCABULARY/نطق/ب/ب.png",320,609
+images/39/22.webp,"water color/Arabic letters/kaaf.png",320,609
+images/39/23.webp,"1 VOCABULARY/نطق/م/م.png",320,609
+images/39/24.webp,"water color/Arabic letters/noon.png",320,609
+images/39/25.webp,"water color/Arabic letters/laam.png",320,609
+images/39/27.webp,"water color/Arabic letters/yaa.png",320,609
+images/39/3.webp,"water color/Arabic letters/taa.png",320,609
+images/39/30.webp,"water color/Arabic letters/taaa.png",320,609
+images/39/5.webp,"1 VOCABULARY/نطق/ج/ج.png",320,609
+images/39/6.webp,"water color/Arabic letters/haa.png",320,609
+images/39/7.webp,"water color/Arabic letters/khaa.png",320,609
+images/6/1.webp,"1 VOCABULARY/فواكه/كرتون 1/تفاحة.jpg",320,600
+images/6/11.webp,"1 VOCABULARY/فواكه/كرتون 1/كيوي.jpg",320,600
+images/6/13.webp,"1 VOCABULARY/فواكه/كرتون 1/مانجا.jpg",320,600
+images/6/15.webp,"1 VOCABULARY/فواكه/كرتون 1/برتقال.jpg",320,600
+images/6/2.webp,"1 VOCABULARY/فواكه/كرتون 1/افوكادو.jpg",320,600
+images/6/5.webp,"1 VOCABULARY/فواكه/كرتون 1/توت.jpg",320,600

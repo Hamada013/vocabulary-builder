@@ -31,6 +31,8 @@ function createRelease(){
  const media=mediaFiles().map(url=>{const body=fs.readFileSync(path.join(ROOT,url));return {module:MODULE,url,bytes:body.length,revision:sha(body)};});
  media.sort((a,b)=>a.url.localeCompare(b.url));
  const shell=walk('').filter(file=>{
+  // Spoken prompts are small and needed by every game, so they install with the app.
+  if(/^sounds\/prompts\/[\w-]+\.m4a$/.test(file))return MODULE==='voc';
   if(/^(images|sounds)\//.test(file))return MODULE==='voc'&&/^(images\/41\/|images\/(logo\.webp|placeholder\.svg)$)/.test(file);
   if(/^assets\/(images|sounds)\//.test(file))return false;
   return /\.(html|css|js|svg|json|png|webp|woff2|txt|webmanifest)$/.test(file)&&!['package.json','package-lock.json','sw.js','assets/pwa-release.js','manifest.json'].includes(file);
