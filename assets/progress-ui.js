@@ -1,10 +1,11 @@
 (() => {
     'use strict';
     const P = window.VocProgress;
+    const levelOptions = selected => Object.entries(P.LEVEL_NAMES).map(([value, name]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${name}</option>`).join('');
     function init() {
         const dialog = document.createElement('dialog'); dialog.className = 'suite-account-dialog'; dialog.id = 'child-dialog';
         dialog.setAttribute('aria-labelledby', 'child-title');
-        dialog.innerHTML = `<div class="account-head"><h2 id="child-title">حسابات الأطفال</h2><div class="account-head-tools"><button type="button" id="child-close" aria-label="إغلاق" title="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></div><form class="account-add"><label for="child-name">فتح أو إضافة طفل</label><div class="account-add-row"><input id="child-name" name="name" autocomplete="off" maxlength="60" required dir="auto" placeholder="اسم الطفل"><button type="submit">دخول / إضافة</button></div></form><div id="saved-children"></div>`;
+        dialog.innerHTML = `<div class="account-head"><h2 id="child-title">حسابات الأطفال</h2><div class="account-head-tools"><button type="button" id="child-close" aria-label="إغلاق" title="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></div><form class="account-add"><label for="child-name">فتح أو إضافة طفل</label><div class="account-add-row"><input id="child-name" name="name" autocomplete="off" maxlength="60" required dir="auto" placeholder="اسم الطفل"><select id="child-level" name="level" aria-label="مستوى الطفل" title="مستوى الطفل">${levelOptions('easy')}</select><button type="submit">دخول / إضافة</button></div></form><div id="saved-children"></div>`;
         document.body.append(dialog);
         let authorized = false, opening = false;
         const enter = name => {
@@ -15,7 +16,7 @@
             authorized = false;
             window.dispatchEvent(new Event('voc-profile-beforechange'));
             const previous = P.active()?.id;
-            if (!P.signIn(name)) return;
+            if (!P.signIn(name, dialog.querySelector('#child-level').value)) return;
             window.AppNavigation?.register();
             if (previous !== P.active().id && P.storageOK()) { window.SuiteWelcome?.skipNextLoad(); location.reload(); }
             else {
@@ -38,13 +39,35 @@
                 dialog.querySelector('#child-name').value = typeof requestedName === 'string' ? requestedName : '';
                 dialog.querySelector('#child-close').hidden = !P.active();
                 const savedChildren = dialog.querySelector('#saved-children');
-                window.SuiteAccounts.render(savedChildren,P.children(),child=>{
+                const draw = () => window.SuiteAccounts.render(savedChildren,P.children(),child=>{
                     const button=document.createElement('button');button.type='button';button.className='voc-choice';button.textContent=child.name;button.onclick=()=>enter(child.name);
-                    return window.SuiteAccounts.row(child,button);
+                    return window.SuiteAccounts.row(child,button,childTools(child, draw));
                 });
+                draw();
                 dialog.showModal(); dialog.querySelector('#child-name').focus();
             } finally { opening = false; }
         };
+        // Per-child tools in the list: the level (changes at once) and a rename button.
+        function childTools(child, redraw) {
+            const level = document.createElement('select'); level.className = 'account-level'; level.innerHTML = levelOptions(child.level);
+            level.setAttribute('aria-label', `مستوى ${child.name}`); level.title = 'المستوى';
+            level.onchange = () => { if (!P.setLevel(child.id, level.value)) { level.value = child.level; return; } if (child.id === P.active()?.id) window.dispatchEvent(new Event('voc-level-change')); };
+            const rename = document.createElement('button'); rename.type = 'button'; rename.className = 'account-rename';
+            rename.setAttribute('aria-label', `تعديل اسم ${child.name}`); rename.title = 'تعديل الاسم';
+            rename.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4ZM13 7l4 4"/></svg>';
+            rename.onclick = () => {
+                const row = rename.closest('.suite-account-row'), nameBox = row.querySelector('.suite-account-select');
+                const form = document.createElement('form'); form.className = 'account-rename-form';
+                const input = document.createElement('input'); input.value = child.name; input.maxLength = 60; input.dir = 'auto'; input.required = true; input.setAttribute('aria-label', 'الاسم الجديد');
+                const save = document.createElement('button'); save.type = 'submit'; save.textContent = 'حفظ';
+                form.append(input, save); nameBox.replaceWith(form); input.focus(); input.select();
+                const done = () => { if (P.rename(child.id, input.value)) { if (child.id === P.active()?.id) document.querySelectorAll('[data-child-profile] .child-name').forEach(el => { el.textContent = P.active().name; }); redraw(); } else { input.setCustomValidity('هذا الاسم مستخدم أو فارغ'); input.reportValidity(); } };
+                form.onsubmit = event => { event.preventDefault(); done(); };
+                input.onkeydown = event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); redraw(); } };
+                input.oninput = () => input.setCustomValidity('');
+            };
+            return [level, rename];
+        }
         dialog.querySelector('form').addEventListener('submit', event => { event.preventDefault(); enter(dialog.querySelector('input').value); });
         dialog.querySelector('#child-close').addEventListener('click', () => { if (P.active()) dialog.close(); });
         dialog.addEventListener('close', () => { authorized = false; });

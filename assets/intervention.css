@@ -119,3 +119,20 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
 .voc-ready-card .voc-add:disabled { opacity: .7; cursor: default; }
 .voc-goal-percent { margin-inline-start: 6px; padding: 1px 8px; border-radius: 999px; background: #e7f3fb; color: #0369a1; font-size: 13px; font-weight: 700; }
 .voc-plan-report .voc-plan-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Goal colours: red = in progress, green = achieved, yellow = suggested next goals. */
+.voc-status[data-state="working"] { background: #fdecea; color: #b42318; }
+.voc-status[data-state="suggested"] { background: #fef6dc; color: #a16207; }
+.voc-plan-report-bar i[data-state="working"] { background: #d64545; }
+.voc-short[data-state="done"] { background: #f0faf4; border-color: #bfe5cd; }
+.voc-short[data-state="working"] { border-inline-start: 4px solid #e57373; }
+.voc-short[data-state="done"] { border-inline-start: 4px solid #2f7a52; }
+.voc-estimate { display: block; margin-top: 3px; color: #0369a1; font-weight: 700; }
+.voc-plan-group { margin: 10px 0; padding: 10px 12px; border-radius: 16px; border: 1.5px solid; }
+.voc-plan-group h4 { margin: 0 0 6px; font-size: 15px; }
+.voc-plan-group h4 small { font-weight: 600; opacity: .75; }
+.voc-plan-group[data-state="working"] { background: #fdf3f2; border-color: #f2c4bf; }
+.voc-plan-group[data-state="working"] h4 { color: #b42318; }
+.voc-plan-group[data-state="done"] { background: #f2fbf5; border-color: #bfe5cd; }
+.voc-plan-group[data-state="done"] h4 { color: #2f7a52; }
+.voc-plan-group[data-state="suggested"] { background: #fffbeb; border-color: #f6dfa0; }
+.voc-plan-group[data-state="suggested"] h4 { color: #a16207; }

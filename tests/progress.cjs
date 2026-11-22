@@ -34,7 +34,8 @@ p.signIn('سارة'); assert.equal(p.active().id, first); assert.equal(p.active(
 p = create(storage); assert.equal(p.mastered('1_1'), true); assert.equal(p.active().name, 'سارة');
 for (const [difficulty, level, duration] of [['easy',2,6],['moderate',4,4],['advanced',6,2]]) {
  const keys = Array.from({length:9}, (_,i)=>`1_${i+1}`);
- const plan = p.startPlan(keys, difficulty, ['memory','rapid','test']);
+ const plan = p.startPlan(keys, ['memory','rapid','test'], difficulty);
+ assert.equal(plan.rounds[0].mode,'where','«وين؟» always opens the route');
  assert.equal(plan.rounds.some(round=>round.mode==='matching'),false);
  assert.deepEqual(plan.rounds.filter(round=>round.mode==='memory').flatMap(round=>round.keys), keys);
  assert.ok(plan.rounds.every(round=>round.settings.level===level && round.settings.duration===duration));
@@ -43,9 +44,10 @@ for (const [difficulty, level, duration] of [['easy',2,6],['moderate',4,4],['adv
  while(p.currentRound()) {const at=p.active().plan; p.advancePlan(at.id,at.position);}
  assert.equal(p.active().plan,null);
 }
-p.startPlan(['1_1'], 'easy', ['matching','memory','rapid','test']);
+p.startPlan(['1_1'], ['matching','memory','rapid','test'], 'easy');
+assert.deepEqual(p.active().plan.rounds.map(round=>round.mode),['where','matching','memory','test','rapid'],'Route order: وين؟, matching, memory, listening test, naming test');
 const M = require('../assets/game-model.js');
-for (const round of p.active().plan.rounds) {
+for (const round of p.active().plan.rounds.filter(round=>round.mode!=='where')) {
  const session = M.createSession(round.mode, [{key:'1_1',name:'أريد',imageHash:'one'}], round.settings, 'v');
  assert.deepEqual(session.order,['1_1']);
 }
@@ -54,11 +56,12 @@ let warned=false; create({getItem:()=>'{broken',setItem:()=>{throw Error();}},()
 assert.equal(JSON.parse(map.get(STORAGE)).schema,1);
 console.log('Child profile, mastery, persistence, and automation rules passed.');
 
-p.startPlan(['1_1','1_2'], 'easy', ['rapid','test']);
+p.startPlan(['1_1','1_2'], ['rapid','test'], 'easy');
 let plan=p.active().plan;
-p.advancePlan(plan.id,0,{domain:'expressive',records:[{key:'1_1',correct:true},{key:'1_2',correct:false}]});
-p = create(storage); plan=p.active().plan;
+p.advancePlan(plan.id,0);
 p.advancePlan(plan.id,1,{domain:'receptive',records:[{key:'1_1',correct:false},{key:'1_2',correct:true}]});
+p = create(storage); plan=p.active().plan;
+p.advancePlan(plan.id,2,{domain:'expressive',records:[{key:'1_1',correct:true},{key:'1_2',correct:false}]});
 assert.equal(p.active().homeLesson.evidence.length,2);
 const {text:lessonText}=require('../assets/home-lesson.js');
 const note=lessonText(p.active().name,p.active().homeLesson,[{key:'1_1',name:'كرة'},{key:'1_2',name:'تفاحة'}]);
@@ -67,7 +70,7 @@ assert.ok(note.includes('كنت شاطر بهالكلمات: تفاحة.'));
 assert.ok(note.includes('بحتاج مساعدتكم فيها: كرة.'));
 assert.ok(note.includes('كنت شاطر بهالكلمات: كرة.'));
 assert.ok(!note.includes('undefined'));
-p.startPlan(['1_2'],'easy',['memory']);plan=p.active().plan;p.advancePlan(plan.id,0);
+p.startPlan(['1_2'],['memory'],'easy');plan=p.active().plan;p.advancePlan(plan.id,0);p.advancePlan(plan.id,1);
 assert.deepEqual(p.active().homeLesson.evidence,[],'Practice-only plans must not invent assessment results');
 assert.ok(lessonText('عمر',p.active().homeLesson,[{key:'1_2',name:'تفاحة'}]).includes('ما سجّلنا استجابة'));
 console.log('Completed-plan home lessons preserve separate, session-specific comprehension/production evidence.');

@@ -2,8 +2,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const {build}=require('../assets/word-levels.js'),{create}=require('../assets/progress.js');
 const context={window:{}};vm.runInNewContext(fs.readFileSync(require.resolve('../assets/game-data.js'),'utf8'),context);
 const bank=JSON.parse(JSON.stringify(context.window.VOC_GAME_DATA)),curriculum=build(bank),keys=curriculum.levels.flatMap(level=>level.keys);
-assert.equal(keys.length,985);assert.equal(new Set(keys).size,985,'Rebalancing preserves every word exactly once');
-assert.equal(curriculum.units.length,10);assert.equal(curriculum.categories.length,41);assert.equal(curriculum.levels.length,342);
+assert.equal(keys.length,977);assert.equal(new Set(keys).size,977,'Rebalancing preserves every word exactly once');
+assert.equal(curriculum.units.length,10);assert.equal(curriculum.categories.length,41);assert.equal(curriculum.levels.length,339);
 assert.ok(curriculum.levels.every(level=>level.keys.length>=2&&level.keys.length<=3),'Never fill a single-word level');
 for(const level of curriculum.levels){
  const items=level.keys.map(key=>curriculum.items.find(item=>item.key===key));
@@ -38,4 +38,4 @@ p.signIn('سارة');const a=create(storage),b=create(storage),other=curriculum.
 a.saveWorkspace({slots:first.keys,wordLevel:first});b.saveWorkspace({slots:other.keys,wordLevel:other});
 a.completeWordLevel(first,records,true);b.completeWordLevel(other,other.keys.map(key=>({key,correct:true})),true);
 const fresh=create(storage);assert.equal(fresh.wordLevelCompleted(first),true);assert.equal(fresh.wordLevelCompleted(other),true);
-console.log('PASS word levels: 985 words in 342 two/three-word sets, independent category chains, test-only unlocks, durable child progress, changed-card checks and unrestricted Hamada.');
+console.log('PASS word levels: 977 words in 339 two/three-word sets, independent category chains, test-only unlocks, durable child progress, changed-card checks and unrestricted Hamada.');

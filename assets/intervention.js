@@ -3,8 +3,10 @@
  * Therapist mode is one lock/open switch, like the articulation app: password 013 opens it, one tap locks it again.
  * It stays open on this device until locked; it shows the plan button (and opens every level where the app has levels).
  * The active child's progress report also shows the plan's goals (InterventionPlan.reportSection).
- * The plan holds goals chosen from the goal bank, each rated 20/40/60/80%. 80% counts as achieved.
- * The PDF progress report lists goals still in progress, then achieved goals on their own page. */
+ * The plan holds goals chosen from the goal bank. When the app's goal bank can estimate a goal from the
+ * child's sessions (InterventionGoals.estimate), that estimate builds up or falls back session by session;
+ * the therapist's 20/40/60/80% rating, when newer, takes its place. Achieved goals turn green.
+ * Reports and the PDF have three parts: red = in progress, green = achieved, yellow = suggested next goals. */
 (() => {
     'use strict';
     const G = window.InterventionGoals;
@@ -87,8 +89,20 @@
         if (error) { error.hidden = ok !== false; if (ok === false) error.textContent = 'تعذّر حفظ الخطة على هذا الجهاز. تحقق من مساحة التخزين وأعد المحاولة.'; }
     }
     const goalOf = id => model.goals.find(goal => goal.id === id);
-    const stateOf = goal => !goal || goal.rating == null ? 'new' : goal.rating >= G.ACHIEVED ? 'done' : 'working';
-    const statusLabel = { new: 'لم يُقيّم', working: 'قيد العمل', done: 'تحقق' };
+    // The app's estimates for the active child (empty when the app has no estimator).
+    const estimates = () => { try { return G.estimate?.(APP.progress()?.active()) || {}; } catch { return {}; } };
+    let estimated = {};
+    /** One goal's current value: the therapist's rating when it is newer than the last measured session, else the app's estimate. */
+    function effective(goal, est = estimated[goal?.id]) {
+        if (!goal) return { percent: null, by: null, achieved: null, est };
+        const manualAt = goal.history?.length ? goal.history.at(-1).date : null;
+        const manualFirst = goal.rating != null && (!est?.last || (manualAt && manualAt >= est.last));
+        const percent = manualFirst ? goal.rating : est?.percent ?? goal.rating ?? null;
+        return { percent, by: percent == null ? null : manualFirst ? 'therapist' : 'app', achieved: goal.achieved || est?.achieved || null, est };
+    }
+    const stateOf = (goal, est) => { const value = effective(goal, est); return value.achieved ? 'done' : value.percent == null ? 'new' : 'working'; };
+    const statusLabel = { new: 'لم يُقيّم', working: 'قيد العمل', done: 'تحقق', suggested: 'مقترح' };
+    const estimateLine = est => est ? `<small class="voc-estimate">تقدير التطبيق: ${est.percent}% · من ${est.sessions} ${est.sessions === 1 ? 'جلسة' : est.sessions === 2 ? 'جلستين' : 'جلسات'}${est.achieved ? ` · 3 جلسات متتالية فوق ${G.ACHIEVED}%` : ''}</small>` : '';
     function toggleGoal(id) {
         const index = model.goals.findIndex(goal => goal.id === id);
         if (index >= 0) model.goals.splice(index, 1);
@@ -101,8 +115,8 @@
         for (const id of ready.goals) if (G.short(id) && !goalOf(id)) model.goals.push({ id, rating: null, history: [], added: today() });
         save(); tab = 'plan'; render(); toast(`أضيفت خطة «${ready.title}»`, 'success');
     }
-    // Achievement percentage: the average of the latest ratings; unrated goals count as 0%.
-    const percentOf = goals => goals.length ? Math.round(goals.reduce((sum, goal) => sum + (goal.rating || 0), 0) / goals.length) : 0;
+    // Achievement percentage: the average of each goal's current value; goals without a value count as 0%.
+    const percentOf = goals => goals.length ? Math.round(goals.reduce((sum, goal) => sum + (effective(goal).percent || 0), 0) / goals.length) : 0;
     function readyPlans() {
         if (!G.PLANS?.length) return '';
         return `<div class="voc-ready"><h3>خطط جاهزة</h3><p>اضغط «إضافة» لتضع أهداف الخطة كلها، ثم احذف أو أضف ما تريد. كل هدف يتحقق عند ${G.ACHIEVED}%.</p><div class="voc-ready-list">`
@@ -181,9 +195,9 @@
         else planPanel.innerHTML = `<div class="voc-plan-summary"><div><strong>${percentOf(model.goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${counts.done}</strong><span>تحقق (${G.ACHIEVED}%)</span></div><div><strong>${counts.working}</strong><span>قيد العمل</span></div></div>`
             + G.GOALS.filter(goal => goal.short.some(item => goalOf(item.id))).map(goal => `<article class="voc-goal"><h3>الهدف بعيد المدى: ${escape(goal.title)} <span class="voc-goal-percent" dir="ltr">${percentOf(goal.short.map(item => goalOf(item.id)).filter(Boolean))}%</span></h3><p>${escape(goal.text)}</p>`
                 + goal.short.filter(item => goalOf(item.id)).map(item => {
-                    const saved = goalOf(item.id), state = stateOf(saved);
-                    return `<div class="voc-short"><div class="voc-short-text">${escape(item.text)}<small>${escape(item.where)}</small></div>
-                        <div class="voc-short-tools"><span class="voc-status" data-state="${state}">${statusLabel[state]}</span><button type="button" class="voc-plan-icon" data-remove="${item.id}" aria-label="حذف الهدف من الخطة: ${escape(item.text)}" title="حذف من الخطة">${ICONS.trash}</button></div>
+                    const saved = goalOf(item.id), state = stateOf(saved), value = effective(saved);
+                    return `<div class="voc-short" data-state="${state}"><div class="voc-short-text">${escape(item.text)}<small>${escape(item.where)}</small>${estimateLine(value.est)}</div>
+                        <div class="voc-short-tools"><span class="voc-status" data-state="${state}">${value.percent == null ? statusLabel[state] : `${value.percent}% · ${statusLabel[state]}`}</span><button type="button" class="voc-plan-icon" data-remove="${item.id}" aria-label="حذف الهدف من الخطة: ${escape(item.text)}" title="حذف من الخطة">${ICONS.trash}</button></div>
                         <div class="voc-rating" role="group" aria-label="نسبة الإنجاز">${G.LEVELS.map(level => `<button type="button" data-rate="${item.id}" data-level="${level}" aria-pressed="${saved.rating === level}">${level}%</button>`).join('')}</div></div>`;
                 }).join('') + '</article>').join('');
 
@@ -195,7 +209,7 @@
     function open() {
         if (!isActive()) { openGate(); return; }
         if (!plan) build();
-        model = load(); tab = model.goals.length ? 'plan' : 'bank'; render();
+        model = load(); estimated = estimates(); tab = model.goals.length ? 'plan' : 'bank'; render();
         window.dispatchEvent(new Event(`${APP.id}-profile-open`)); window.dispatchEvent(new Event('suite-navigation-open'));
         plan.showModal(); plan.querySelector('[data-plan-close]').focus();
     }
@@ -236,50 +250,57 @@
             if (subtitle) { text(subtitle, width - margin, y, 22, '#587082', 'right', 600); y += 46; }
         };
         const ensure = (needed, title) => { if (y + needed > height - 110) newPage(title); };
+        const COLORS = { working: ['#fdf3f2', '#f2c4bf', '#c0392b'], done: ['#f2fbf5', '#bfe5cd', '#2f7a52'], suggested: ['#fffbeb', '#f6dfa0', '#a16207'] };
         const goalBlock = (entry, achieved, goal) => {
+            const kind = entry.suggested ? 'suggested' : achieved ? 'done' : 'working', [fill, stroke, ink] = COLORS[kind];
             const textWidth = width - margin * 2 - 60, rows = lines(entry.text, textWidth, 25, 600);
-            const historyText = entry.history.length ? entry.history.map(step => `${step.rating}% (${formatDate(step.date)})`).join('  ←  ') : 'لم يُقيّم بعد';
-            const historyRows = lines(`التقييمات: ${historyText}`, textWidth, 20, 600);
+            const steps = [...entry.history.map(step => ({ date: step.date, text: `${step.rating}%` })), ...(entry.est?.history || []).map(step => ({ date: step.date, text: `${step.percent}% (تقدير)` }))].sort((a, b) => a.date < b.date ? -1 : 1).slice(-6);
+            const historyText = entry.suggested ? 'هدف مقترح للمرحلة القادمة' : steps.length ? steps.map(step => `${step.text} ${formatDate(step.date)}`).join('  ←  ') : 'لم يُقيّم بعد';
+            const historyRows = lines(entry.suggested ? historyText : `التقييمات: ${historyText}`, textWidth, 20, 600);
             const blockHeight = 40 + rows.length * 39 + 34 + 62 + historyRows.length * 31 + 24;
             // A goal that moves to a new page keeps its long-term goal heading.
-            if (y + blockHeight + 10 > height - 110) { newPage(achieved ? 'أهداف تحققت (تابع)' : 'أهداف قيد العمل (تابع)'); text(`الهدف بعيد المدى: ${goal.title} (تابع)`, width - margin, y + 14, 27, '#0369a1'); y += 52; }
-            const top = y; box(margin, top, width - margin * 2, blockHeight, achieved ? '#f2fbf5' : '#fbfdff', achieved ? '#bfe5cd' : '#e2eef5');
+            if (y + blockHeight + 10 > height - 110) { newPage(`${TITLES[kind]} (تابع)`); text(`الهدف بعيد المدى: ${goal.title} (تابع)`, width - margin, y + 14, 27, '#0369a1'); y += 52; }
+            const top = y; box(margin, top, width - margin * 2, blockHeight, fill, stroke);
             y = top + 26; paragraph(entry.text, width - margin - 30, textWidth, 25, '#18394b', 600, 1.55);
             text(entry.where, width - margin - 30, y + 12, 19, '#7b8f9d', 'right', 600); y += 40;
             // Four-step bar: 20, 40, 60, 80%.
             const barWidth = 520, segment = (barWidth - 30) / 4, barRight = width - margin - 30;
             G.LEVELS.forEach((level, index) => {
-                const x = barRight - (index + 1) * segment - index * 10, filled = entry.rating != null && level <= entry.rating;
-                box(x, y, segment, 26, filled ? (achieved ? '#2f7a52' : '#0284c7') : '#eaf0f4');
+                const x = barRight - (index + 1) * segment - index * 10, filled = entry.percent != null && level <= entry.percent;
+                box(x, y, segment, 26, filled ? ink : '#eaf0f4');
                 text(`${level}%`, x + segment / 2, y + 44, 17, '#587082', 'center', 600);
             });
-            text(entry.rating == null ? 'لم يُقيّم' : achieved ? `تحقق ${entry.rating}%${entry.achieved ? ` · ${formatDate(entry.achieved)}` : ''}` : `الآن: ${entry.rating}%`,
-                margin + 30, y + 14, 24, achieved ? '#2f7a52' : '#a66a00', 'left');
+            text(entry.suggested ? 'مقترح' : entry.percent == null ? 'لم يُقيّم' : achieved ? `تحقق ${entry.percent}%${entry.achieved ? ` · ${formatDate(entry.achieved)}` : ''}` : `الآن: ${entry.percent}%${entry.by === 'app' ? ' (تقدير)' : ''}`,
+                margin + 30, y + 14, 24, ink, 'left');
             y += 70;
             for (const row of historyRows) { text(row, width - margin - 30, y + 10, 20, '#587082', 'right', 600); y += 31; }
             y = top + blockHeight + 18;
         };
+        const TITLES = { working: 'أهداف قيد العمل', done: 'أهداف تحققت', suggested: 'أهداف مقترحة' };
         const section = (entries, achieved) => {
             for (const goal of G.GOALS) {
                 const items = entries.filter(entry => entry.long.id === goal.id); if (!items.length) continue;
-                ensure(140, achieved ? 'أهداف تحققت (تابع)' : 'أهداف قيد العمل (تابع)');
+                ensure(140, `${TITLES[items[0].suggested ? 'suggested' : achieved ? 'done' : 'working']} (تابع)`);
                 text(`الهدف بعيد المدى: ${goal.title}`, width - margin, y + 14, 27, '#0369a1'); y += 46;
                 paragraph(goal.text, width - margin, width - margin * 2, 22, '#587082', 600, 1.5); y += 10;
                 for (const entry of items) goalBlock(entry, achieved, goal);
                 y += 10;
             }
         };
-        const entries = report.goals.map(goal => ({ ...G.short(goal.id), ...goal, history: goal.history || [] }));
-        const done = entries.filter(entry => entry.rating != null && entry.rating >= G.ACHIEVED), working = entries.filter(entry => !done.includes(entry));
+        const reportEstimates = report.estimates || {};
+        const entries = report.goals.map(goal => { const value = effective(goal, reportEstimates[goal.id]); return { ...G.short(goal.id), ...goal, history: goal.history || [], percent: value.percent, by: value.by, achieved: value.achieved, est: value.est }; });
+        const done = entries.filter(entry => entry.achieved), working = entries.filter(entry => !done.includes(entry));
+        const suggested = (G.suggest?.(report.goals.map(goal => goal.id), done.map(entry => entry.id)) || []).map(id => ({ ...G.short(id), id, history: [], percent: null, suggested: true }));
 
-        newPage('أهداف قيد العمل', 'الأهداف التي لم تبلغ 80% بعد، مع آخر تقييم وتاريخ التقييمات.');
-        const metrics = [[`${entries.length ? Math.round(entries.reduce((sum, entry) => sum + (entry.rating || 0), 0) / entries.length) : 0}%`, `إنجاز الخطة · ${entries.length} أهداف`, '#0284c7'], [done.length, 'تحققت (80%)', '#2f7a52'], [working.length, 'قيد العمل', '#a66a00']];
+        newPage('أهداف قيد العمل', `الأهداف التي لم تتحقق بعد، مع النسبة الحالية وتاريخ التقييمات. «تقدير» = محسوب من جلسات التطبيق.`);
+        const metrics = [[`${entries.length ? Math.round(entries.reduce((sum, entry) => sum + (entry.percent || 0), 0) / entries.length) : 0}%`, `إنجاز الخطة · ${entries.length} أهداف`, '#0284c7'], [done.length, `تحققت (${G.ACHIEVED}%)`, '#2f7a52'], [working.length, 'قيد العمل', '#c0392b']];
         metrics.forEach(([number, name, color], index) => { const x = width - margin - 340 - index * 370; box(x, y, 340, 120, '#f7fafc'); text(number, x + 170, y + 42, 42, color, 'center'); text(name, x + 170, y + 92, 23, '#587082', 'center', 600); });
         y += 160;
         if (working.length) section(working, false); else { text('كل أهداف الخطة تحققت.', width - margin, y + 14, 25, '#2f7a52'); y += 50; }
 
-        newPage('أهداف تحققت', `أهداف بلغت ${G.ACHIEVED}% وتُعدّ منجزة، مع تاريخ تحققها.`);
+        newPage('أهداف تحققت', `أهداف بلغت ${G.ACHIEVED}% (تقييم المعالج، أو 3 جلسات متتالية في التطبيق) وتُعدّ منجزة، مع تاريخ تحققها.`);
         if (done.length) section(done, true); else { text('لا توجد أهداف محققة بعد.', width - margin, y + 14, 25, '#587082'); y += 50; }
+        if (suggested.length) { newPage('أهداف مقترحة', 'الخطوة التالية بعد الأهداف المحققة، لم تُضف إلى الخطة بعد.'); section(suggested, false); }
 
         const used = [...new Set(entries.flatMap(entry => entry.long.sources))];
         newPage('المراجع', `معيار الإنجاز ${G.ACHIEVED}% محدد في هذه الخطة، وليس معياراً منشوراً.`);
@@ -296,7 +317,7 @@
         if (busy || !model?.goals.length) return;
         busy = true; const button = plan.querySelector('[data-plan-pdf]'); button.disabled = true;
         try {
-            const report = { ...model, date: new Date().toISOString() };
+            const report = { ...model, estimates: estimated, date: new Date().toISOString() };
             const doc = await pdfFor(report);
             doc.save(`خطة-التدخل-${(report.childName || 'الطفل').replace(/[^\p{L}\p{N}_-]/gu, '_')}-${formatDate(report.date).replaceAll('/', '-')}.pdf`);
         } catch {
@@ -317,23 +338,19 @@
             section.innerHTML = head + `<p class="voc-plan-report-empty">لا توجد خطة تدخل لهذا الطفل بعد. أضف الأهداف من زر خطة التدخل.</p>`;
             return section;
         }
-        const done = goals.filter(goal => stateOf(goal) === 'done').length;
-        const percent = list => list.length ? Math.round(list.reduce((sum, goal) => sum + (goal.rating || 0), 0) / list.length) : 0;
-        section.innerHTML = head + `<div class="voc-plan-summary"><div><strong>${percent(goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${done} / ${goals.length}</strong><span>أهداف تحققت</span></div></div>`
-            + G.GOALS.filter(goal => goal.short.some(item => goals.some(entry => entry.id === item.id))).map(goal => {
-                const items = goal.short.filter(item => goals.some(entry => entry.id === item.id));
-                const reached = items.filter(item => stateOf(goals.find(entry => entry.id === item.id)) === 'done').length;
-                return `<article class="voc-goal"><h4>الهدف بعيد المدى: ${escape(goal.title)} <small>${percent(items.map(item => goals.find(entry => entry.id === item.id)))}% · ${reached} / ${items.length} تحقق</small></h4><p>${escape(goal.text)}</p>`
-                    + items.map(item => {
-                        const entry = goals.find(saved => saved.id === item.id), state = stateOf(entry), level = entry.rating ?? 0;
-                        return `<div class="voc-plan-report-row"><span class="voc-short-text">${escape(item.text)}</span>`
-                            + `<span class="voc-plan-report-bar" role="img" aria-label="${entry.rating == null ? 'لم يُقيّم' : entry.rating + '%'}"><i style="width:${level}%" data-state="${state}"></i></span>`
-                            + `<span class="voc-status" data-state="${state}">${entry.rating == null ? statusLabel.new : `${entry.rating}% · ${statusLabel[state]}`}</span></div>`;
-                    }).join('') + '</article>';
-            }).join('');
+        estimated = estimates();
+        const percent = list => list.length ? Math.round(list.reduce((sum, goal) => sum + (effective(goal).percent || 0), 0) / list.length) : 0;
+        const doneGoals = goals.filter(goal => stateOf(goal) === 'done'), workingGoals = goals.filter(goal => !doneGoals.includes(goal));
+        const suggestedIds = G.suggest?.(goals.map(goal => goal.id), doneGoals.map(goal => goal.id)) || [];
+        const row = (item, state, value) => `<div class="voc-plan-report-row" data-state="${state}"><span class="voc-short-text">${escape(item.text)}${state === 'suggested' ? '' : estimateLine(value?.est)}</span>`
+            + (state === 'suggested' ? '' : `<span class="voc-plan-report-bar" role="img" aria-label="${value.percent == null ? 'لم يُقيّم' : value.percent + '%'}"><i style="width:${value.percent ?? 0}%" data-state="${state}"></i></span>`)
+            + `<span class="voc-status" data-state="${state}">${state === 'suggested' ? statusLabel.suggested : value.percent == null ? statusLabel.new : `${value.percent}% · ${statusLabel[state]}`}</span></div>`;
+        const group = (state, title, list) => list.length ? `<div class="voc-plan-group" data-state="${state}"><h4>${title} <small>(${list.length})</small></h4>${list.map(entry => { const item = G.short(entry.id); return row(item, state, state === 'suggested' ? null : effective(entry)); }).join('')}</div>` : '';
+        section.innerHTML = head + `<div class="voc-plan-summary"><div><strong>${percent(goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${doneGoals.length} / ${goals.length}</strong><span>أهداف تحققت</span></div></div>`
+            + group('working', 'قيد العمل', workingGoals) + group('done', 'تحققت', doneGoals) + group('suggested', 'أهداف مقترحة', suggestedIds.map(id => ({ id })));
         section.querySelector('[data-plan-report-pdf]').onclick = async event => {
             const button = event.currentTarget; button.disabled = true;
-            try { const report = { ...load(), date: new Date().toISOString() }; const doc = await pdfFor(report); doc.save(`أهداف-${(report.childName || 'الطفل').replace(/[^\p{L}\p{N}_-]/gu, '_')}-${formatDate(report.date).replaceAll('/', '-')}.pdf`); }
+            try { const report = { ...load(), estimates: estimates(), date: new Date().toISOString() }; const doc = await pdfFor(report); doc.save(`أهداف-${(report.childName || 'الطفل').replace(/[^\p{L}\p{N}_-]/gu, '_')}-${formatDate(report.date).replaceAll('/', '-')}.pdf`); }
             catch { toast('تعذّر إنشاء تقرير الأهداف. أعد المحاولة.', 'error'); }
             finally { button.disabled = false; }
         };

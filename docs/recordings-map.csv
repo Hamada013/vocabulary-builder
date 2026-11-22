@@ -1,0 +1,1011 @@
+card,word,recording
+sounds/1/1.m4a,"خطأ",recordings/01/01.mp3
+sounds/1/2.m4a,"استراحة",recordings/01/02.mp3
+sounds/1/3.m4a,"تحت",recordings/01/03.mp3
+sounds/1/4.m4a,"اشرب",recordings/01/04.mp3
+sounds/1/5.m4a,"اكل",recordings/01/05.mp3
+sounds/1/6.m4a,"روح",recordings/01/06.mp3
+sounds/1/7.m4a,"صح",recordings/01/07.mp3
+sounds/1/8.m4a,"مرحبا",recordings/01/08.mp3
+sounds/1/9.m4a,"ساعدني",recordings/01/09.mp3
+sounds/1/10.m4a,"جوا",recordings/01/10.mp3
+sounds/1/11.m4a,"لسا",recordings/01/11.mp3
+sounds/1/12.m4a,"برا",recordings/01/12.mp3
+sounds/1/13.m4a,"وقف",recordings/01/13.mp3
+sounds/1/14.m4a,"شكرا",recordings/01/14.mp3
+sounds/1/15.m4a,"فوق",recordings/01/15.mp3
+sounds/1/16.m4a,"بدي",recordings/01/16.mp3
+sounds/1/17.m4a,"انا",recordings/01/17.mp3
+sounds/1/18.m4a,"خلصنا",recordings/01/18.mp3
+sounds/1/19.m4a,"انت",recordings/01/19.mp3
+sounds/2/1.m4a,"ياكل",recordings/02/01.mp3
+sounds/2/2.m4a,"يشرب",recordings/02/02.mp3
+sounds/2/3.m4a,"يغسل",recordings/02/03.mp3
+sounds/2/4.m4a,"يمشط",recordings/02/04.mp3
+sounds/2/5.m4a,"يلبس",recordings/02/05.mp3
+sounds/2/6.m4a,"يشلح",recordings/02/06.mp3
+sounds/2/7.m4a,"ينام",recordings/02/07.mp3
+sounds/2/8.m4a,"يفيق",recordings/02/08.mp3
+sounds/2/9.m4a,"يتحمم",recordings/02/09.mp3
+sounds/2/10.m4a,"يفرشي",recordings/02/10.mp3
+sounds/2/11.m4a,"يقعد",recordings/02/11.mp3
+sounds/2/12.m4a,"يوقف",recordings/02/12.mp3
+sounds/2/13.m4a,"يمشي",recordings/02/13.mp3
+sounds/2/14.m4a,"يركض",recordings/02/14.mp3
+sounds/2/15.m4a,"يعطي",recordings/02/15.mp3
+sounds/2/16.m4a,"يضحك",recordings/02/16.mp3
+sounds/2/17.m4a,"يبكي",recordings/02/17.mp3
+sounds/2/18.m4a,"يدق",recordings/02/18.mp3
+sounds/2/19.m4a,"يلعب",recordings/02/19.mp3
+sounds/2/20.m4a,"يسمع",recordings/02/20.mp3
+sounds/2/21.m4a,"يشوف",recordings/02/21.mp3
+sounds/2/22.m4a,"يلمس",recordings/02/22.mp3
+sounds/2/23.m4a,"يشم",recordings/02/23.mp3
+sounds/2/24.m4a,"يدوق",recordings/02/24.mp3
+sounds/2/25.m4a,"يشوط",recordings/02/25.mp3
+sounds/2/26.m4a,"يحكي",recordings/02/26.mp3
+sounds/2/27.m4a,"يطلع",recordings/02/27.mp3
+sounds/2/28.m4a,"ينزل",recordings/02/28.mp3
+sounds/2/29.m4a,"ينط",recordings/02/29.mp3
+sounds/2/30.m4a,"يفتح",recordings/02/30.mp3
+sounds/2/31.m4a,"يسكر",recordings/02/31.mp3
+sounds/2/32.m4a,"يدفش",recordings/02/32.mp3
+sounds/2/33.m4a,"يسحب",recordings/02/33.mp3
+sounds/2/34.m4a,"يرسم",recordings/02/34.mp3
+sounds/2/35.m4a,"يكتب",recordings/02/35.mp3
+sounds/2/36.m4a,"يقرا",recordings/02/36.mp3
+sounds/2/37.m4a,"يسوق",recordings/02/37.mp3
+sounds/2/38.m4a,"يشتري",recordings/02/38.mp3
+sounds/2/39.m4a,"يسلم",recordings/02/39.mp3
+sounds/2/40.m4a,"ينظف",recordings/02/40.mp3
+sounds/3/1.m4a,"اصبع",recordings/03/01.mp3
+sounds/3/2.m4a,"لسان",recordings/03/02.mp3
+sounds/3/3.m4a,"اصابع",recordings/03/03.mp3
+sounds/3/4.m4a,"ذراع",recordings/03/04.mp3
+sounds/3/5.m4a,"ظهر",recordings/03/05.mp3
+sounds/3/6.m4a,"بطن",recordings/03/06.mp3
+sounds/3/7.m4a,"اعضاء الجسم",recordings/03/07.mp3
+sounds/3/8.m4a,"وجه ولد",recordings/03/08.mp3
+sounds/3/9.m4a,"خد",recordings/03/09.mp3
+sounds/3/10.m4a,"صدر",recordings/03/10.mp3
+sounds/3/11.m4a,"ذقن",recordings/03/11.mp3
+sounds/3/12.m4a,"اذن",recordings/03/12.mp3
+sounds/3/13.m4a,"كوع",recordings/03/13.mp3
+sounds/3/14.m4a,"عين",recordings/03/14.mp3
+sounds/3/15.m4a,"حاجب",recordings/03/15.mp3
+sounds/3/16.m4a,"حواجب",recordings/03/16.mp3
+sounds/3/17.m4a,"رموش",recordings/03/17.mp3
+sounds/3/18.m4a,"قدم",recordings/03/18.mp3
+sounds/3/19.m4a,"وجه بنت",recordings/03/19.mp3
+sounds/3/20.m4a,"شعر",recordings/03/20.mp3
+sounds/3/21.m4a,"يد",recordings/03/21.mp3
+sounds/3/22.m4a,"ركبة",recordings/03/22.mp3
+sounds/3/23.m4a,"رجلين",recordings/03/23.mp3
+sounds/3/24.m4a,"فم",recordings/03/24.mp3
+sounds/3/25.m4a,"اسنان",recordings/03/25.mp3
+sounds/3/26.m4a,"رقبة",recordings/03/26.mp3
+sounds/3/27.m4a,"انف",recordings/03/27.mp3
+sounds/3/28.m4a,"كتف",recordings/03/28.mp3
+sounds/4/1.m4a,"معصبة",recordings/04/01.mp3
+sounds/4/2.m4a,"معصبين",recordings/04/02.mp3
+sounds/4/3.m4a,"مالل",recordings/04/03.mp3
+sounds/4/4.m4a,"مالة",recordings/04/04.mp3
+sounds/4/5.m4a,"بيبي تبكي",recordings/04/05.mp3
+sounds/4/6.m4a,"بيبي يبكي",recordings/04/06.mp3
+sounds/4/7.m4a,"ولد يبكي",recordings/04/07.mp3
+sounds/4/8.m4a,"بنت تبكي",recordings/04/08.mp3
+sounds/4/9.m4a,"ما تعرف",recordings/04/09.mp3
+sounds/4/10.m4a,"ما يعرف",recordings/04/10.mp3
+sounds/4/11.m4a,"ما بدو",recordings/04/11.mp3
+sounds/4/12.m4a,"ولد سعيد",recordings/04/12.mp3
+sounds/4/13.m4a,"بنت سعيدة",recordings/04/13.mp3
+sounds/4/14.m4a,"ولد يعيط",recordings/04/14.mp3
+sounds/4/15.m4a,"بنت تعيط",recordings/04/15.mp3
+sounds/4/16.m4a,"بيبي مبسوط",recordings/04/16.mp3
+sounds/4/19.m4a,"وجه سعيد",recordings/04/17.mp3
+sounds/4/21.m4a,"ولد يحب",recordings/04/18.mp3
+sounds/4/22.m4a,"ولد حزين",recordings/04/19.mp3
+sounds/4/23.m4a,"وجه حزين",recordings/04/20.mp3
+sounds/4/24.m4a,"بنت حزينة",recordings/04/21.mp3
+sounds/4/25.m4a,"بنت خايفة ولد يصرخ",recordings/04/22.mp3
+sounds/4/26.m4a,"ولد خايف",recordings/04/23.mp3
+sounds/4/27.m4a,"بنت خايفة",recordings/04/24.mp3
+sounds/4/28.m4a,"خايف من الكلب",recordings/04/25.mp3
+sounds/4/29.m4a,"بنت تصرخ",recordings/04/26.mp3
+sounds/4/30.m4a,"ولد يصرخ",recordings/04/27.mp3
+sounds/4/31.m4a,"ولد وجه مضحك",recordings/04/28.mp3
+sounds/4/32.m4a,"بنت وجها مضحك",recordings/04/29.mp3
+sounds/4/33.m4a,"بابا معصب",recordings/04/30.mp3
+sounds/4/34.m4a,"ولد متفاجئ",recordings/04/31.mp3
+sounds/4/35.m4a,"بنت متفاجئة",recordings/04/32.mp3
+sounds/4/36.m4a,"ولدين معصبين",recordings/04/33.mp3
+sounds/4/37.m4a,"وجه غضبان",recordings/04/34.mp3
+sounds/5/1.m4a,"كبب مشوي",recordings/05/01.mp3
+sounds/5/2.m4a,"بسكويت",recordings/05/02.mp3
+sounds/5/3.m4a,"خبز",recordings/05/03.mp3
+sounds/5/4.m4a,"كعكة",recordings/05/04.mp3
+sounds/5/5.m4a,"دجاج",recordings/05/05.mp3
+sounds/5/6.m4a,"شبيس",recordings/05/06.mp3
+sounds/5/7.m4a,"قهوة",recordings/05/07.mp3
+sounds/5/9.m4a,"مقرمشات",recordings/05/08.mp3
+sounds/5/10.m4a,"كب كيك",recordings/05/09.mp3
+sounds/5/11.m4a,"دونات",recordings/05/10.mp3
+sounds/5/12.m4a,"بيض",recordings/05/11.mp3
+sounds/5/13.m4a,"همبرغر",recordings/05/12.mp3
+sounds/5/14.m4a,"سمك",recordings/05/13.mp3
+sounds/5/15.m4a,"بطاطا",recordings/05/14.mp3
+sounds/5/16.m4a,"فواكه",recordings/05/15.mp3
+sounds/5/17.m4a,"عصير جبس",recordings/05/16.mp3
+sounds/5/18.m4a,"عصير",recordings/05/17.mp3
+sounds/5/19.m4a,"مصاصة",recordings/05/18.mp3
+sounds/5/20.m4a,"لحم",recordings/05/19.mp3
+sounds/5/21.m4a,"حليب",recordings/05/20.mp3
+sounds/5/22.m4a,"زيت",recordings/05/21.mp3
+sounds/5/23.m4a,"بيتزا",recordings/05/22.mp3
+sounds/5/24.m4a,"فشار",recordings/05/23.mp3
+sounds/5/25.m4a,"بوظة",recordings/05/24.mp3
+sounds/5/26.m4a,"ارز",recordings/05/25.mp3
+sounds/5/27.m4a,"سلطة",recordings/05/26.mp3
+sounds/5/28.m4a,"ملح",recordings/05/27.mp3
+sounds/5/29.m4a,"سندويشة",recordings/05/28.mp3
+sounds/5/30.m4a,"شاورما",recordings/05/29.mp3
+sounds/5/31.m4a,"كولا",recordings/05/30.mp3
+sounds/5/32.m4a,"شوربة",recordings/05/31.mp3
+sounds/5/33.m4a,"معكرونة",recordings/05/32.mp3
+sounds/5/34.m4a,"تونا",recordings/05/33.mp3
+sounds/5/35.m4a,"خضار",recordings/05/34.mp3
+sounds/5/36.m4a,"ماء",recordings/05/35.mp3
+sounds/6/1.m4a,"تفاحة",recordings/06/01.mp3
+sounds/6/2.m4a,"افوكادو",recordings/06/02.mp3
+sounds/6/3.m4a,"موزة",recordings/06/03.mp3
+sounds/6/4.m4a,"موز",recordings/06/04.mp3
+sounds/6/5.m4a,"توت",recordings/06/05.mp3
+sounds/6/6.m4a,"كرز",recordings/06/06.mp3
+sounds/6/7.m4a,"حامض",recordings/06/07.mp3
+sounds/6/8.m4a,"تين",recordings/06/08.mp3
+sounds/6/9.m4a,"فواكه",recordings/05/15.mp3
+sounds/6/10.m4a,"عنب",recordings/06/09.mp3
+sounds/6/11.m4a,"كيوي",recordings/06/10.mp3
+sounds/6/12.m4a,"ليمون",recordings/06/11.mp3
+sounds/6/13.m4a,"مانجا",recordings/06/12.mp3
+sounds/6/14.m4a,"بطيخ",recordings/06/13.mp3
+sounds/6/15.m4a,"برتقال",recordings/06/14.mp3
+sounds/6/16.m4a,"دراق",recordings/06/15.mp3
+sounds/6/17.m4a,"خوخ",recordings/06/16.mp3
+sounds/6/18.m4a,"اجاص",recordings/06/17.mp3
+sounds/6/19.m4a,"اناناس",recordings/06/18.mp3
+sounds/6/20.m4a,"فريز",recordings/06/19.mp3
+sounds/6/21.m4a,"جبسة",recordings/06/20.mp3
+sounds/7/1.m4a,"باذنجان",recordings/07/01.mp3
+sounds/7/2.m4a,"فاصوليا",recordings/07/02.mp3
+sounds/7/3.m4a,"شمندر",recordings/07/03.mp3
+sounds/7/4.m4a,"بروكلي",recordings/07/04.mp3
+sounds/7/5.m4a,"ملفوف",recordings/07/05.mp3
+sounds/7/6.m4a,"جزر",recordings/07/06.mp3
+sounds/7/7.m4a,"قرنبيط",recordings/07/07.mp3
+sounds/7/8.m4a,"ذرة",recordings/07/08.mp3
+sounds/7/9.m4a,"خيار",recordings/07/09.mp3
+sounds/7/10.m4a,"ثوم",recordings/07/10.mp3
+sounds/7/11.m4a,"فاصوليا خضراء",recordings/07/11.mp3
+sounds/7/12.m4a,"بصل اخضر",recordings/07/12.mp3
+sounds/7/13.m4a,"خس",recordings/07/13.mp3
+sounds/7/14.m4a,"نعناع",recordings/07/14.mp3
+sounds/7/15.m4a,"فطر",recordings/07/15.mp3
+sounds/7/16.m4a,"بامية",recordings/07/16.mp3
+sounds/7/17.m4a,"بصل",recordings/07/17.mp3
+sounds/7/18.m4a,"بقدونس",recordings/07/18.mp3
+sounds/7/19.m4a,"بازلاء",recordings/07/19.mp3
+sounds/7/20.m4a,"فليفلة",recordings/07/20.mp3
+sounds/7/21.m4a,"بطاطا",recordings/05/14.mp3
+sounds/7/22.m4a,"قرع",recordings/07/21.mp3
+sounds/7/23.m4a,"فجل",recordings/07/22.mp3
+sounds/7/24.m4a,"سبانخ",recordings/07/23.mp3
+sounds/7/25.m4a,"كوسا",recordings/07/24.mp3
+sounds/7/26.m4a,"بطاطا حلوة",recordings/07/25.mp3
+sounds/7/27.m4a,"بندورة",recordings/07/26.mp3
+sounds/7/28.m4a,"خضار",recordings/05/34.mp3
+sounds/7/29.m4a,"هليون",recordings/07/27.mp3
+sounds/8/1.m4a,"حليب",recordings/05/20.mp3
+sounds/8/2.m4a,"قنينة مي",recordings/08/01.mp3
+sounds/8/3.m4a,"كولا",recordings/05/30.mp3
+sounds/8/4.m4a,"عصير",recordings/05/17.mp3
+sounds/8/5.m4a,"عصير جبس",recordings/05/16.mp3
+sounds/8/6.m4a,"عصير برتقال",recordings/08/02.mp3
+sounds/8/7.m4a,"ليمونادة",recordings/08/03.mp3
+sounds/8/8.m4a,"كاسة مي",recordings/08/04.mp3
+sounds/8/9.m4a,"عصير فريز وتوت",recordings/08/05.mp3
+sounds/8/10.m4a,"عصير جزر",recordings/08/06.mp3
+sounds/8/11.m4a,"عصير كيوي",recordings/08/07.mp3
+sounds/8/12.m4a,"عصير توت",recordings/08/08.mp3
+sounds/8/13.m4a,"كوكتيل موز",recordings/08/09.mp3
+sounds/8/14.m4a,"كوكتيل فواكه",recordings/08/10.mp3
+sounds/8/15.m4a,"شاي",recordings/08/11.mp3
+sounds/8/16.m4a,"قهوة",recordings/05/07.mp3
+sounds/9/1.m4a,"بابا وماما",recordings/09/01.mp3
+sounds/9/2.m4a,"بابا يلعب مع ابنو",recordings/09/02.mp3
+sounds/9/3.m4a,"بابا",recordings/09/03.mp3
+sounds/9/4.m4a,"عيلة ياكلوا",recordings/09/04.mp3
+sounds/9/5.m4a,"عائلة",recordings/09/05.mp3
+sounds/9/6.m4a,"تاتا",recordings/09/06.mp3
+sounds/9/7.m4a,"جدو و تاتا",recordings/09/07.mp3
+sounds/9/8.m4a,"جدو",recordings/09/08.mp3
+sounds/9/9.m4a,"بنت تساعد ماما",recordings/09/09.mp3
+sounds/9/10.m4a,"ماما",recordings/09/10.mp3
+sounds/9/11.m4a,"اخت",recordings/09/11.mp3
+sounds/9/12.m4a,"اخ",recordings/09/12.mp3
+sounds/10/1.m4a,"سيارة اسعاف",recordings/10/01.mp3
+sounds/10/2.m4a,"كرة",recordings/10/02.mp3
+sounds/10/3.m4a,"خرز",recordings/10/03.mp3
+sounds/10/4.m4a,"بسكليت",recordings/10/04.mp3
+sounds/10/5.m4a,"مكعبات",recordings/10/05.mp3
+sounds/10/6.m4a,"كتاب",recordings/10/06.mp3
+sounds/10/7.m4a,"فقاعات صابون",recordings/10/07.mp3
+sounds/10/8.m4a,"دلو",recordings/10/08.mp3
+sounds/10/9.m4a,"سيارة",recordings/10/09.mp3
+sounds/10/10.m4a,"دمية",recordings/10/10.mp3
+sounds/10/11.m4a,"سيارة اطفاء",recordings/10/11.mp3
+sounds/10/12.m4a,"منزل",recordings/10/12.mp3
+sounds/10/13.m4a,"طائرة ورقية",recordings/10/13.mp3
+sounds/10/14.m4a,"ليغو",recordings/10/14.mp3
+sounds/10/15.m4a,"ميكروفون",recordings/10/15.mp3
+sounds/10/16.m4a,"معجون",recordings/10/16.mp3
+sounds/10/17.m4a,"سيارة شرطة",recordings/10/17.mp3
+sounds/10/18.m4a,"مضارب",recordings/10/18.mp3
+sounds/10/19.m4a,"سكوتر",recordings/10/19.mp3
+sounds/10/20.m4a,"مجرفة",recordings/10/20.mp3
+sounds/10/21.m4a,"حبل نط",recordings/10/21.mp3
+sounds/10/22.m4a,"نابض",recordings/10/22.mp3
+sounds/10/23.m4a,"عرباية",recordings/10/23.mp3
+sounds/10/24.m4a,"دبدوب",recordings/10/24.mp3
+sounds/10/25.m4a,"العاب",recordings/10/25.mp3
+sounds/10/26.m4a,"قطار",recordings/10/26.mp3
+sounds/11/1.m4a,"شنتة",recordings/11/01.mp3
+sounds/11/2.m4a,"بالون",recordings/11/02.mp3
+sounds/11/3.m4a,"بلاستر",recordings/11/03.mp3
+sounds/11/4.m4a,"سلة",recordings/11/04.mp3
+sounds/11/5.m4a,"حمام",recordings/11/05.mp3
+sounds/11/6.m4a,"قنينة",recordings/11/06.mp3
+sounds/11/7.m4a,"كرتونة",recordings/11/07.mp3
+sounds/11/8.m4a,"كاتو",recordings/11/08.mp3
+sounds/11/9.m4a,"شمعة",recordings/11/09.mp3
+sounds/11/10.m4a,"قبعة",recordings/11/10.mp3
+sounds/11/11.m4a,"كرسي",recordings/11/11.mp3
+sounds/11/12.m4a,"مشط",recordings/11/12.mp3
+sounds/11/13.m4a,"باب",recordings/11/13.mp3
+sounds/11/14.m4a,"كريك",recordings/11/14.mp3
+sounds/11/15.m4a,"مروحة",recordings/11/15.mp3
+sounds/11/16.m4a,"هدية",recordings/11/16.mp3
+sounds/11/17.m4a,"كاسة",recordings/11/17.mp3
+sounds/11/18.m4a,"نظارات",recordings/11/18.mp3
+sounds/11/19.m4a,"مكنسة",recordings/11/19.mp3
+sounds/11/20.m4a,"مفاتيح",recordings/11/20.mp3
+sounds/11/21.m4a,"سكين",recordings/11/21.mp3
+sounds/11/22.m4a,"ضو",recordings/11/22.mp3
+sounds/11/23.m4a,"مصاري",recordings/11/23.mp3
+sounds/11/24.m4a,"موبايل",recordings/11/24.mp3
+sounds/11/25.m4a,"صحن",recordings/11/25.mp3
+sounds/11/26.m4a,"خاتم",recordings/11/26.mp3
+sounds/11/27.m4a,"شامبو",recordings/11/27.mp3
+sounds/11/28.m4a,"صابونة",recordings/11/28.mp3
+sounds/11/29.m4a,"ملعقة",recordings/11/29.mp3
+sounds/11/30.m4a,"طاولة",recordings/11/30.mp3
+sounds/11/31.m4a,"محارم",recordings/11/31.mp3
+sounds/11/32.m4a,"محارم تواليت",recordings/11/32.mp3
+sounds/11/33.m4a,"تواليت",recordings/11/33.mp3
+sounds/11/34.m4a,"فرشاة اسنان",recordings/11/34.mp3
+sounds/11/35.m4a,"معجون اسنان",recordings/11/35.mp3
+sounds/11/36.m4a,"زبالة",recordings/11/36.mp3
+sounds/11/37.m4a,"كنزة",recordings/11/37.mp3
+sounds/11/38.m4a,"شمسية",recordings/11/38.mp3
+sounds/11/39.m4a,"مكنسة كهربا",recordings/11/39.mp3
+sounds/11/40.m4a,"جزدان",recordings/11/40.mp3
+sounds/11/41.m4a,"ساعة",recordings/11/41.mp3
+sounds/12/1.m4a,"وراء",recordings/12/01.mp3
+sounds/12/2.m4a,"بين",recordings/12/02.mp3
+sounds/12/3.m4a,"اسفل",recordings/12/03.mp3
+sounds/12/4.m4a,"بعيد",recordings/12/04.mp3
+sounds/12/5.m4a,"امام",recordings/12/05.mp3
+sounds/12/6.m4a,"جوا",recordings/01/10.mp3
+sounds/12/7.m4a,"قريب",recordings/12/06.mp3
+sounds/12/8.m4a,"جنب",recordings/12/07.mp3
+sounds/12/9.m4a,"فوق",recordings/01/15.mp3
+sounds/12/10.m4a,"تحت",recordings/01/03.mp3
+sounds/12/11.m4a,"اعلى",recordings/12/08.mp3
+sounds/13/1.m4a,"اسمع",recordings/13/01.mp3
+sounds/13/2.m4a,"شوف",recordings/13/02.mp3
+sounds/13/3.m4a,"شم",recordings/13/03.mp3
+sounds/13/4.m4a,"دوق",recordings/13/04.mp3
+sounds/13/5.m4a,"المس",recordings/13/05.mp3
+sounds/13/6.m4a,"منبه",recordings/13/06.mp3
+sounds/13/7.m4a,"دب",recordings/13/07.mp3
+sounds/13/8.m4a,"جرس",recordings/13/08.mp3
+sounds/13/9.m4a,"عصفور",recordings/13/09.mp3
+sounds/13/10.m4a,"مكعبات",recordings/10/05.mp3
+sounds/13/11.m4a,"صبار",recordings/13/10.mp3
+sounds/13/12.m4a,"قط",recordings/13/11.mp3
+sounds/13/13.m4a,"فليفلة حدة",recordings/13/12.mp3
+sounds/13/14.m4a,"ايس كريم شوكولاتة",recordings/13/13.mp3
+sounds/13/15.m4a,"بارد",recordings/13/14.mp3
+sounds/13/16.m4a,"طبل",recordings/13/15.mp3
+sounds/13/17.m4a,"رجلين",recordings/03/23.mp3
+sounds/13/18.m4a,"سمك",recordings/05/13.mp3
+sounds/13/19.m4a,"زهرة",recordings/13/16.mp3
+sounds/13/20.m4a,"اضواء",recordings/13/17.mp3
+sounds/13/21.m4a,"موسيقى",recordings/13/18.mp3
+sounds/13/22.m4a,"بليل",recordings/13/19.mp3
+sounds/13/23.m4a,"رسمة",recordings/13/20.mp3
+sounds/13/24.m4a,"عطر",recordings/13/21.mp3
+sounds/13/25.m4a,"بيتزا",recordings/05/22.mp3
+sounds/13/26.m4a,"معجون",recordings/10/16.mp3
+sounds/13/27.m4a,"ارنب",recordings/13/22.mp3
+sounds/13/28.m4a,"قوس قزح",recordings/13/23.mp3
+sounds/13/29.m4a,"يقرا",recordings/02/36.mp3
+sounds/13/30.m4a,"وردات",recordings/13/24.mp3
+sounds/13/31.m4a,"ظربان",recordings/13/25.mp3
+sounds/13/32.m4a,"حامض",recordings/06/07.mp3
+sounds/13/33.m4a,"ايس كريم فراولة",recordings/13/26.mp3
+sounds/13/34.m4a,"غروب",recordings/13/27.mp3
+sounds/13/35.m4a,"حلو",recordings/13/28.mp3
+sounds/13/36.m4a,"تلفون",recordings/13/29.mp3
+sounds/13/37.m4a,"زبالة",recordings/11/36.mp3
+sounds/13/38.m4a,"شاحنة",recordings/13/30.mp3
+sounds/13/39.m4a,"ايس كريم حليب",recordings/13/31.mp3
+sounds/13/40.m4a,"بطيخ",recordings/06/13.mp3
+sounds/14/1.m4a,"ضجة",recordings/14/01.mp3
+sounds/14/2.m4a,"هدوء",recordings/14/02.mp3
+sounds/14/3.m4a,"نايم",recordings/14/03.mp3
+sounds/14/4.m4a,"فايق",recordings/14/04.mp3
+sounds/14/5.m4a,"كبير",recordings/14/05.mp3
+sounds/14/6.m4a,"صغير",recordings/14/06.mp3
+sounds/14/7.m4a,"نظيف",recordings/14/07.mp3
+sounds/14/8.m4a,"وسخ",recordings/14/08.mp3
+sounds/14/9.m4a,"مسكر",recordings/14/09.mp3
+sounds/14/10.m4a,"مفتوح",recordings/14/10.mp3
+sounds/14/11.m4a,"بارد",recordings/13/14.mp3
+sounds/14/12.m4a,"ساخن",recordings/14/11.mp3
+sounds/14/13.m4a,"نهار",recordings/14/12.mp3
+sounds/14/14.m4a,"ليل",recordings/14/13.mp3
+sounds/14/17.m4a,"انزل",recordings/14/14.mp3
+sounds/14/18.m4a,"اطلع",recordings/14/15.mp3
+sounds/14/19.m4a,"ناشف",recordings/14/16.mp3
+sounds/14/20.m4a,"مبلول",recordings/14/17.mp3
+sounds/14/21.m4a,"فاضي",recordings/14/18.mp3
+sounds/14/22.m4a,"مليان",recordings/14/19.mp3
+sounds/14/23.m4a,"قاسي",recordings/14/20.mp3
+sounds/14/24.m4a,"ناعم",recordings/14/21.mp3
+sounds/14/25.m4a,"ثقيل",recordings/14/22.mp3
+sounds/14/26.m4a,"خفيف",recordings/14/23.mp3
+sounds/14/27.m4a,"جوا",recordings/01/10.mp3
+sounds/14/28.m4a,"برا",recordings/01/12.mp3
+sounds/14/29.m4a,"بالداخل",recordings/14/24.mp3
+sounds/14/30.m4a,"بالخارج",recordings/14/25.mp3
+sounds/14/31.m4a,"ضيق",recordings/14/26.mp3
+sounds/14/32.m4a,"واسع",recordings/14/27.mp3
+sounds/14/33.m4a,"جديد",recordings/14/28.mp3
+sounds/14/34.m4a,"قديم",recordings/14/29.mp3
+sounds/14/35.m4a,"قصير",recordings/14/30.mp3
+sounds/14/36.m4a,"طويل",recordings/14/31.mp3
+sounds/14/37.m4a,"يجلس",recordings/14/32.mp3
+sounds/14/38.m4a,"يقف",recordings/14/33.mp3
+sounds/14/39.m4a,"رفيع",recordings/14/34.mp3
+sounds/14/40.m4a,"سميك",recordings/14/35.mp3
+sounds/14/41.m4a,"تحت",recordings/01/03.mp3
+sounds/14/42.m4a,"فوق",recordings/01/15.mp3
+sounds/15/1.m4a,"عصفور",recordings/13/09.mp3
+sounds/15/2.m4a,"قطة",recordings/15/01.mp3
+sounds/15/3.m4a,"دجاجة",recordings/15/02.mp3
+sounds/15/4.m4a,"كلب",recordings/15/03.mp3
+sounds/15/5.m4a,"بطة",recordings/15/04.mp3
+sounds/15/6.m4a,"سمكة",recordings/15/05.mp3
+sounds/15/7.m4a,"هامستر",recordings/15/06.mp3
+sounds/15/8.m4a,"ببغاء",recordings/15/07.mp3
+sounds/15/9.m4a,"حيوانات اليفة",recordings/15/08.mp3
+sounds/15/10.m4a,"ارنب",recordings/13/22.mp3
+sounds/15/11.m4a,"سلحفاة",recordings/15/09.mp3
+sounds/16/1.m4a,"صقر",recordings/16/01.mp3
+sounds/16/2.m4a,"عصفور",recordings/13/09.mp3
+sounds/16/3.m4a,"طيور",recordings/16/02.mp3
+sounds/16/4.m4a,"دجاجة",recordings/15/02.mp3
+sounds/16/5.m4a,"ديك",recordings/16/03.mp3
+sounds/16/6.m4a,"غراب",recordings/16/04.mp3
+sounds/16/7.m4a,"بطة",recordings/15/04.mp3
+sounds/16/8.m4a,"فلامنجو",recordings/16/05.mp3
+sounds/16/9.m4a,"وزة",recordings/16/06.mp3
+sounds/16/10.m4a,"نعامة",recordings/16/07.mp3
+sounds/16/11.m4a,"بومة",recordings/16/08.mp3
+sounds/16/12.m4a,"طاووس",recordings/16/09.mp3
+sounds/16/13.m4a,"بطريق",recordings/16/10.mp3
+sounds/16/14.m4a,"حمامة",recordings/16/11.mp3
+sounds/16/15.m4a,"دوري",recordings/16/12.mp3
+sounds/16/16.m4a,"نسر",recordings/16/13.mp3
+sounds/17/1.m4a,"سمكة مهرج",recordings/17/01.mp3
+sounds/17/2.m4a,"سلطعون",recordings/17/02.mp3
+sounds/17/3.m4a,"دلفين",recordings/17/03.mp3
+sounds/17/4.m4a,"سمكة",recordings/15/05.mp3
+sounds/17/5.m4a,"ضفدع",recordings/17/04.mp3
+sounds/17/6.m4a,"قنديل بحر",recordings/17/05.mp3
+sounds/17/7.m4a,"أخطبوط",recordings/17/06.mp3
+sounds/17/8.m4a,"بطريق",recordings/16/10.mp3
+sounds/17/9.m4a,"سمكة بالون",recordings/17/07.mp3
+sounds/17/10.m4a,"حصان بحر",recordings/17/08.mp3
+sounds/17/11.m4a,"فقمة",recordings/17/09.mp3
+sounds/17/12.m4a,"قرش",recordings/17/10.mp3
+sounds/17/13.m4a,"حبار",recordings/17/11.mp3
+sounds/17/14.m4a,"نجمة البحر",recordings/17/12.mp3
+sounds/17/15.m4a,"سلحفاة البحر",recordings/17/13.mp3
+sounds/17/16.m4a,"حوت",recordings/17/14.mp3
+sounds/18/1.m4a,"فرس النبي",recordings/18/01.mp3
+sounds/18/2.m4a,"نملة",recordings/18/02.mp3
+sounds/18/3.m4a,"خنفساء",recordings/18/03.mp3
+sounds/18/4.m4a,"نحلة",recordings/18/04.mp3
+sounds/18/5.m4a,"فراشة",recordings/18/05.mp3
+sounds/18/6.m4a,"صرصور",recordings/18/06.mp3
+sounds/18/7.m4a,"يعسوب",recordings/18/07.mp3
+sounds/18/8.m4a,"ذبابة",recordings/18/08.mp3
+sounds/18/9.m4a,"جندب",recordings/18/09.mp3
+sounds/18/10.m4a,"حشرات",recordings/18/10.mp3
+sounds/18/11.m4a,"بعوضة",recordings/18/11.mp3
+sounds/18/12.m4a,"عقرب",recordings/18/12.mp3
+sounds/18/13.m4a,"حلزون",recordings/18/13.mp3
+sounds/18/14.m4a,"عنكبوت",recordings/18/14.mp3
+sounds/18/15.m4a,"دبور",recordings/18/15.mp3
+sounds/18/16.m4a,"دودة",recordings/18/16.mp3
+sounds/19/1.m4a,"تمساح",recordings/19/01.mp3
+sounds/19/2.m4a,"حرباء",recordings/19/02.mp3
+sounds/19/3.m4a,"سحلية",recordings/19/03.mp3
+sounds/19/4.m4a,"سحالي",recordings/19/04.mp3
+sounds/19/5.m4a,"ثعبان",recordings/19/05.mp3
+sounds/19/6.m4a,"سلحفاة",recordings/15/09.mp3
+sounds/20/1.m4a,"تمساح",recordings/19/01.mp3
+sounds/20/2.m4a,"دب",recordings/13/07.mp3
+sounds/20/3.m4a,"فيل",recordings/20/01.mp3
+sounds/20/4.m4a,"فلامنجو",recordings/16/05.mp3
+sounds/20/5.m4a,"ثعلب",recordings/20/02.mp3
+sounds/20/6.m4a,"غزال",recordings/20/03.mp3
+sounds/20/7.m4a,"زرافة",recordings/20/04.mp3
+sounds/20/8.m4a,"غوريلا",recordings/20/05.mp3
+sounds/20/9.m4a,"ضبع",recordings/20/06.mp3
+sounds/20/10.m4a,"حيوانات الغابة",recordings/20/07.mp3
+sounds/20/11.m4a,"كنغر",recordings/20/08.mp3
+sounds/20/12.m4a,"فهد",recordings/20/09.mp3
+sounds/20/13.m4a,"اسد",recordings/20/10.mp3
+sounds/20/14.m4a,"قرد",recordings/20/11.mp3
+sounds/20/15.m4a,"بومة",recordings/16/08.mp3
+sounds/20/16.m4a,"باندا",recordings/20/12.mp3
+sounds/20/17.m4a,"ببغاء",recordings/15/07.mp3
+sounds/20/18.m4a,"راكون",recordings/20/13.mp3
+sounds/20/19.m4a,"وحيد قرن",recordings/20/14.mp3
+sounds/20/20.m4a,"افعى",recordings/20/15.mp3
+sounds/20/21.m4a,"سنجاب",recordings/20/16.mp3
+sounds/20/22.m4a,"نمر",recordings/20/17.mp3
+sounds/20/23.m4a,"حمار وحش",recordings/20/18.mp3
+sounds/21/1.m4a,"ثور",recordings/21/01.mp3
+sounds/21/2.m4a,"قطة",recordings/15/01.mp3
+sounds/21/3.m4a,"صوص",recordings/21/02.mp3
+sounds/21/4.m4a,"دجاجة",recordings/15/02.mp3
+sounds/21/5.m4a,"ديك",recordings/16/03.mp3
+sounds/21/6.m4a,"بقرة",recordings/21/03.mp3
+sounds/21/7.m4a,"كلب",recordings/15/03.mp3
+sounds/21/8.m4a,"حمار",recordings/21/04.mp3
+sounds/21/9.m4a,"بطة",recordings/15/04.mp3
+sounds/21/10.m4a,"حيوانات المزرعة",recordings/21/05.mp3
+sounds/21/11.m4a,"ماعز",recordings/21/06.mp3
+sounds/21/12.m4a,"اوزة",recordings/21/07.mp3
+sounds/21/13.m4a,"حصان",recordings/21/08.mp3
+sounds/21/14.m4a,"فار",recordings/21/09.mp3
+sounds/21/15.m4a,"حمامة",recordings/16/11.mp3
+sounds/21/16.m4a,"خنزير",recordings/21/10.mp3
+sounds/21/17.m4a,"ارنب",recordings/13/22.mp3
+sounds/21/18.m4a,"خروف",recordings/21/11.mp3
+sounds/22/1.m4a,"طاقية",recordings/22/01.mp3
+sounds/22/2.m4a,"قشاط",recordings/22/02.mp3
+sounds/22/3.m4a,"جزمة صفرا",recordings/22/03.mp3
+sounds/22/4.m4a,"ثياب",recordings/22/04.mp3
+sounds/22/5.m4a,"حفاض",recordings/22/05.mp3
+sounds/22/6.m4a,"فستان",recordings/22/06.mp3
+sounds/22/7.m4a,"شحاط",recordings/22/07.mp3
+sounds/22/8.m4a,"نظارات",recordings/11/18.mp3
+sounds/22/9.m4a,"كفوف",recordings/22/08.mp3
+sounds/22/10.m4a,"كعب عالي",recordings/22/09.mp3
+sounds/22/11.m4a,"جاكيت",recordings/22/10.mp3
+sounds/22/12.m4a,"غسيل",recordings/22/11.mp3
+sounds/22/13.m4a,"قناع",recordings/22/12.mp3
+sounds/22/14.m4a,"بيجاما",recordings/22/13.mp3
+sounds/22/15.m4a,"بنطال",recordings/22/14.mp3
+sounds/22/16.m4a,"شال",recordings/22/15.mp3
+sounds/22/17.m4a,"بوط",recordings/22/16.mp3
+sounds/22/18.m4a,"شورت",recordings/22/17.mp3
+sounds/22/19.m4a,"تنورة",recordings/22/18.mp3
+sounds/22/20.m4a,"جرابات",recordings/22/19.mp3
+sounds/22/21.m4a,"كنزة",recordings/11/37.mp3
+sounds/22/22.m4a,"تي شيرت",recordings/22/20.mp3
+sounds/22/23.m4a,"كرافيت",recordings/22/21.mp3
+sounds/22/24.m4a,"كيلوت",recordings/22/22.mp3
+sounds/23/1.m4a,"منطاد",recordings/23/01.mp3
+sounds/23/2.m4a,"بسكليت",recordings/10/04.mp3
+sounds/23/3.m4a,"قارب",recordings/23/02.mp3
+sounds/23/4.m4a,"باص",recordings/23/03.mp3
+sounds/23/5.m4a,"سيارة",recordings/10/09.mp3
+sounds/23/6.m4a,"هليكوبتر",recordings/23/04.mp3
+sounds/23/7.m4a,"طائرة",recordings/23/05.mp3
+sounds/23/8.m4a,"سكة حديد",recordings/23/06.mp3
+sounds/23/9.m4a,"صاروخ",recordings/23/07.mp3
+sounds/23/10.m4a,"بحر",recordings/23/08.mp3
+sounds/23/11.m4a,"سفينة",recordings/23/09.mp3
+sounds/23/12.m4a,"سماء",recordings/23/10.mp3
+sounds/23/13.m4a,"شارع",recordings/23/11.mp3
+sounds/23/14.m4a,"غواصة",recordings/23/12.mp3
+sounds/23/15.m4a,"صهريج",recordings/23/13.mp3
+sounds/23/16.m4a,"تكسي",recordings/23/14.mp3
+sounds/23/17.m4a,"تركتور",recordings/23/15.mp3
+sounds/23/18.m4a,"قطار",recordings/10/26.mp3
+sounds/23/19.m4a,"مواصلات",recordings/23/16.mp3
+sounds/23/20.m4a,"شاحنة",recordings/13/30.mp3
+sounds/24/1.m4a,"بانيو",recordings/24/01.mp3
+sounds/24/2.m4a,"تخت",recordings/24/02.mp3
+sounds/24/3.m4a,"بطانية",recordings/24/03.mp3
+sounds/24/4.m4a,"ابريق",recordings/24/04.mp3
+sounds/24/5.m4a,"كرسي",recordings/11/11.mp3
+sounds/24/6.m4a,"ساعة",recordings/11/41.mp3
+sounds/24/7.m4a,"خزانة",recordings/24/05.mp3
+sounds/24/8.m4a,"مشط",recordings/11/12.mp3
+sounds/24/9.m4a,"فنجان",recordings/24/06.mp3
+sounds/24/10.m4a,"دف تقطيع",recordings/24/07.mp3
+sounds/24/11.m4a,"مكتب",recordings/24/08.mp3
+sounds/24/12.m4a,"جرس الباب",recordings/24/09.mp3
+sounds/24/13.m4a,"باب",recordings/11/13.mp3
+sounds/24/14.m4a,"مروحة",recordings/11/15.mp3
+sounds/24/15.m4a,"شوكة",recordings/24/10.mp3
+sounds/24/16.m4a,"براد",recordings/24/11.mp3
+sounds/24/17.m4a,"غاز شغال",recordings/24/12.mp3
+sounds/24/18.m4a,"بيت",recordings/24/13.mp3
+sounds/24/19.m4a,"مكواة",recordings/24/14.mp3
+sounds/24/20.m4a,"مطبخ",recordings/24/15.mp3
+sounds/24/21.m4a,"سكين",recordings/11/21.mp3
+sounds/24/22.m4a,"سلة غسيل",recordings/24/16.mp3
+sounds/24/23.m4a,"ضو",recordings/11/22.mp3
+sounds/24/24.m4a,"مراية",recordings/24/17.mp3
+sounds/24/25.m4a,"فرن",recordings/24/18.mp3
+sounds/24/26.m4a,"مخدة",recordings/24/19.mp3
+sounds/24/27.m4a,"صحن",recordings/11/25.mp3
+sounds/24/28.m4a,"صحون",recordings/24/20.mp3
+sounds/24/29.m4a,"طنجرة",recordings/24/21.mp3
+sounds/24/30.m4a,"دوش",recordings/24/22.mp3
+sounds/24/31.m4a,"مغسلة",recordings/24/23.mp3
+sounds/24/32.m4a,"صابون",recordings/24/24.mp3
+sounds/24/33.m4a,"صوفا",recordings/24/25.mp3
+sounds/24/34.m4a,"ملعقة",recordings/11/29.mp3
+sounds/24/35.m4a,"غاز",recordings/24/26.mp3
+sounds/24/36.m4a,"طاولة",recordings/11/30.mp3
+sounds/24/37.m4a,"حنفية",recordings/24/27.mp3
+sounds/24/38.m4a,"محارم",recordings/11/31.mp3
+sounds/24/39.m4a,"مرحاض",recordings/24/28.mp3
+sounds/24/40.m4a,"فرشاة أسنان",recordings/11/34.mp3
+sounds/24/41.m4a,"منشفة",recordings/24/29.mp3
+sounds/24/42.m4a,"تلفزيون",recordings/24/30.mp3
+sounds/24/44.m4a,"غسالة ملابس",recordings/24/31.mp3
+sounds/24/45.m4a,"شباك",recordings/24/32.mp3
+sounds/25/1.m4a,"قبعة صوف",recordings/25/01.mp3
+sounds/25/2.m4a,"جزمة",recordings/25/02.mp3
+sounds/25/3.m4a,"بوط",recordings/22/16.mp3
+sounds/25/4.m4a,"فستان",recordings/22/06.mp3
+sounds/25/5.m4a,"شحاط",recordings/22/07.mp3
+sounds/25/6.m4a,"نظارات",recordings/11/18.mp3
+sounds/25/7.m4a,"كفوف",recordings/22/08.mp3
+sounds/25/8.m4a,"طاقية",recordings/22/01.mp3
+sounds/25/9.m4a,"جاكيت",recordings/22/10.mp3
+sounds/25/10.m4a,"بنطال",recordings/22/14.mp3
+sounds/25/11.m4a,"صندل",recordings/25/03.mp3
+sounds/25/12.m4a,"شال",recordings/22/15.mp3
+sounds/25/13.m4a,"كنزة نص كم",recordings/25/04.mp3
+sounds/25/14.m4a,"شورت",recordings/22/17.mp3
+sounds/25/15.m4a,"جرابات",recordings/22/19.mp3
+sounds/25/16.m4a,"كنزة كم",recordings/25/05.mp3
+sounds/25/17.m4a,"كنزة وشورت",recordings/25/06.mp3
+sounds/25/18.m4a,"مظلة",recordings/25/07.mp3
+sounds/25/19.m4a,"بارد",recordings/13/14.mp3
+sounds/25/20.m4a,"حار",recordings/25/08.mp3
+sounds/25/21.m4a,"قوس قزح",recordings/13/23.mp3
+sounds/25/22.m4a,"شمس وغيم",recordings/25/09.mp3
+sounds/25/23.m4a,"غائم",recordings/25/10.mp3
+sounds/25/24.m4a,"مطر",recordings/25/11.mp3
+sounds/25/25.m4a,"ثلج",recordings/25/12.mp3
+sounds/25/26.m4a,"عاصفة",recordings/25/13.mp3
+sounds/25/27.m4a,"مشمس",recordings/25/14.mp3
+sounds/25/28.m4a,"رعد",recordings/25/15.mp3
+sounds/25/29.m4a,"إعصار",recordings/25/16.mp3
+sounds/25/30.m4a,"هوا",recordings/25/17.mp3
+sounds/25/31.m4a,"خريف",recordings/25/18.mp3
+sounds/25/32.m4a,"ربيع",recordings/25/19.mp3
+sounds/25/33.m4a,"صيف",recordings/25/20.mp3
+sounds/25/34.m4a,"شتاء",recordings/25/21.mp3
+sounds/26/1.m4a,"مقعد",recordings/26/01.mp3
+sounds/26/2.m4a,"سياج",recordings/26/02.mp3
+sounds/26/3.m4a,"شرفة",recordings/26/03.mp3
+sounds/26/4.m4a,"سلم",recordings/26/04.mp3
+sounds/26/5.m4a,"التسلق",recordings/26/05.mp3
+sounds/26/6.m4a,"ملعب",recordings/26/06.mp3
+sounds/26/7.m4a,"رمل",recordings/26/07.mp3
+sounds/26/8.m4a,"زحليطة",recordings/26/08.mp3
+sounds/26/9.m4a,"درج",recordings/26/09.mp3
+sounds/26/10.m4a,"مرجوحة",recordings/26/10.mp3
+sounds/26/11.m4a,"ميزان",recordings/26/11.mp3
+sounds/26/12.m4a,"نفق",recordings/26/12.mp3
+sounds/27/1.m4a,"حديقة",recordings/27/01.mp3
+sounds/27/2.m4a,"بيت طيور",recordings/27/02.mp3
+sounds/27/3.m4a,"شجيرة",recordings/27/03.mp3
+sounds/27/4.m4a,"انفخ وردة",recordings/27/04.mp3
+sounds/27/5.m4a,"تراب",recordings/27/05.mp3
+sounds/27/6.m4a,"سياج",recordings/26/02.mp3
+sounds/27/7.m4a,"زهرة",recordings/13/16.mp3
+sounds/27/8.m4a,"طريق الحديقة",recordings/27/06.mp3
+sounds/27/9.m4a,"بوابة",recordings/27/07.mp3
+sounds/27/10.m4a,"عشب",recordings/27/08.mp3
+sounds/27/11.m4a,"مرجوحة",recordings/26/10.mp3
+sounds/27/12.m4a,"خرطوم",recordings/27/09.mp3
+sounds/27/13.m4a,"جزازة عشب",recordings/27/10.mp3
+sounds/27/14.m4a,"ورقة شجرة",recordings/27/11.mp3
+sounds/27/15.m4a,"نبته",recordings/27/12.mp3
+sounds/27/16.m4a,"مسبح",recordings/27/13.mp3
+sounds/27/17.m4a,"بركة ماء",recordings/27/14.mp3
+sounds/27/18.m4a,"شوكة",recordings/24/10.mp3
+sounds/27/19.m4a,"رفش",recordings/27/15.mp3
+sounds/27/20.m4a,"مرشة",recordings/27/16.mp3
+sounds/27/21.m4a,"عصاية",recordings/27/17.mp3
+sounds/27/22.m4a,"شارع",recordings/23/11.mp3
+sounds/27/23.m4a,"ترامبولين",recordings/27/18.mp3
+sounds/27/24.m4a,"زبالة",recordings/11/36.mp3
+sounds/27/25.m4a,"بيت الشجرة",recordings/27/19.mp3
+sounds/27/26.m4a,"شجرة",recordings/27/20.mp3
+sounds/28/1.m4a,"بلكونة",recordings/28/01.mp3
+sounds/28/2.m4a,"غرفة نوم",recordings/28/02.mp3
+sounds/28/3.m4a,"حمام",recordings/11/05.mp3
+sounds/28/4.m4a,"سجادة",recordings/28/03.mp3
+sounds/28/5.m4a,"سقف",recordings/28/04.mp3
+sounds/28/6.m4a,"باب",recordings/11/13.mp3
+sounds/28/7.m4a,"ارضية",recordings/28/05.mp3
+sounds/28/8.m4a,"رواق",recordings/28/06.mp3
+sounds/28/9.m4a,"مطبخ",recordings/24/15.mp3
+sounds/28/10.m4a,"مسكة باب",recordings/28/07.mp3
+sounds/28/11.m4a,"غرفة غسيل",recordings/28/08.mp3
+sounds/28/12.m4a,"غرفة صالون",recordings/28/09.mp3
+sounds/28/13.m4a,"مكتب",recordings/24/08.mp3
+sounds/28/14.m4a,"مدخل البيت",recordings/28/10.mp3
+sounds/28/15.m4a,"غرفة فاضية",recordings/28/11.mp3
+sounds/29/1.m4a,"قبو",recordings/29/01.mp3
+sounds/29/2.m4a,"حمام",recordings/11/05.mp3
+sounds/29/3.m4a,"غرفة نوم",recordings/28/02.mp3
+sounds/29/4.m4a,"كراج",recordings/29/02.mp3
+sounds/29/5.m4a,"غرفة صف",recordings/29/03.mp3
+sounds/29/6.m4a,"مطبخ",recordings/24/15.mp3
+sounds/29/7.m4a,"غرفة صالون",recordings/28/09.mp3
+sounds/29/8.m4a,"صيدلية",recordings/29/04.mp3
+sounds/29/9.m4a,"ملعب",recordings/26/06.mp3
+sounds/29/10.m4a,"درج",recordings/26/09.mp3
+sounds/29/11.m4a,"مخزن",recordings/29/05.mp3
+sounds/29/12.m4a,"غرفة انتظار",recordings/29/06.mp3
+sounds/30/1.m4a,"جسر",recordings/30/01.mp3
+sounds/30/2.m4a,"موقف حافلات",recordings/30/02.mp3
+sounds/30/3.m4a,"صحراء",recordings/30/03.mp3
+sounds/30/4.m4a,"مزرعة",recordings/30/04.mp3
+sounds/30/5.m4a,"بستان",recordings/30/05.mp3
+sounds/30/6.m4a,"مرج",recordings/30/06.mp3
+sounds/30/7.m4a,"جبل",recordings/30/07.mp3
+sounds/30/8.m4a,"موقف سيارات",recordings/30/08.mp3
+sounds/30/9.m4a,"بركة",recordings/30/09.mp3
+sounds/30/10.m4a,"نهر",recordings/30/10.mp3
+sounds/30/11.m4a,"رصيف",recordings/30/11.mp3
+sounds/30/12.m4a,"شارع",recordings/23/11.mp3
+sounds/30/13.m4a,"نفق",recordings/26/12.mp3
+sounds/30/14.m4a,"وادي",recordings/30/12.mp3
+sounds/30/15.m4a,"شلال",recordings/30/13.mp3
+sounds/31/1.m4a,"مطار",recordings/31/01.mp3
+sounds/31/2.m4a,"حوض سمك",recordings/31/02.mp3
+sounds/31/3.m4a,"مخبز",recordings/31/03.mp3
+sounds/31/4.m4a,"مخيم",recordings/31/04.mp3
+sounds/31/5.m4a,"مدينة",recordings/31/05.mp3
+sounds/31/6.m4a,"محل ملابس",recordings/31/06.mp3
+sounds/31/7.m4a,"محطة اطفاء",recordings/31/07.mp3
+sounds/31/8.m4a,"محل ورد",recordings/31/08.mp3
+sounds/31/9.m4a,"حديقة",recordings/27/01.mp3
+sounds/31/10.m4a,"كازية",recordings/31/09.mp3
+sounds/31/11.m4a,"مستشفى",recordings/31/10.mp3
+sounds/31/12.m4a,"سجن",recordings/31/11.mp3
+sounds/31/13.m4a,"مكتبة",recordings/31/12.mp3
+sounds/31/14.m4a,"سوق",recordings/31/13.mp3
+sounds/31/15.m4a,"شرطة",recordings/31/14.mp3
+sounds/31/16.m4a,"مدرسة",recordings/31/15.mp3
+sounds/31/17.m4a,"ملعب",recordings/26/06.mp3
+sounds/31/18.m4a,"حديقة حيوانات",recordings/31/16.mp3
+sounds/32/1.m4a,"اسود",recordings/32/01.mp3
+sounds/32/2.m4a,"ازرق",recordings/32/02.mp3
+sounds/32/3.m4a,"بني",recordings/32/03.mp3
+sounds/32/4.m4a,"الوان",recordings/32/04.mp3
+sounds/32/5.m4a,"رمادي",recordings/32/05.mp3
+sounds/32/6.m4a,"اخضر",recordings/32/06.mp3
+sounds/32/7.m4a,"برتقالي",recordings/32/07.mp3
+sounds/32/8.m4a,"وردي",recordings/32/08.mp3
+sounds/32/9.m4a,"بنفسجي",recordings/32/09.mp3
+sounds/32/10.m4a,"احمر",recordings/32/10.mp3
+sounds/32/11.m4a,"ابيض",recordings/32/11.mp3
+sounds/32/12.m4a,"اصفر",recordings/32/12.mp3
+sounds/33/1.m4a,"كثير",recordings/33/01.mp3
+sounds/33/2.m4a,"قليل",recordings/33/02.mp3
+sounds/33/3.m4a,"نشيط",recordings/33/03.mp3
+sounds/33/4.m4a,"متعب",recordings/33/04.mp3
+sounds/33/5.m4a,"بالغ",recordings/33/05.mp3
+sounds/33/6.m4a,"طفل",recordings/33/06.mp3
+sounds/33/7.m4a,"متل بعض",recordings/33/07.mp3
+sounds/33/8.m4a,"مختلفين",recordings/33/08.mp3
+sounds/33/9.m4a,"وحيد",recordings/33/09.mp3
+sounds/33/10.m4a,"مع بعض",recordings/33/10.mp3
+sounds/33/11.m4a,"ملاك",recordings/33/11.mp3
+sounds/33/12.m4a,"شرير",recordings/33/12.mp3
+sounds/33/13.m4a,"جواب",recordings/33/13.mp3
+sounds/33/14.m4a,"سؤال",recordings/33/14.mp3
+sounds/33/15.m4a,"من ورا",recordings/33/15.mp3
+sounds/33/16.m4a,"من قدام",recordings/33/16.mp3
+sounds/33/17.m4a,"سيء",recordings/33/17.mp3
+sounds/33/18.m4a,"جيد",recordings/33/18.mp3
+sounds/33/19.m4a,"خلف",recordings/33/19.mp3
+sounds/33/20.m4a,"أمام",recordings/12/05.mp3
+sounds/33/21.m4a,"خارج",recordings/33/20.mp3
+sounds/33/22.m4a,"داخل",recordings/33/21.mp3
+sounds/33/23.m4a,"كبير",recordings/14/05.mp3
+sounds/33/24.m4a,"صغير",recordings/14/06.mp3
+sounds/33/25.m4a,"ضجر",recordings/33/22.mp3
+sounds/33/26.m4a,"متحمس",recordings/33/23.mp3
+sounds/33/27.m4a,"شجاع",recordings/33/24.mp3
+sounds/33/28.m4a,"خوف",recordings/33/25.mp3
+sounds/33/29.m4a,"هادئ",recordings/33/26.mp3
+sounds/33/30.m4a,"محبط",recordings/33/27.mp3
+sounds/33/31.m4a,"رخيص",recordings/33/28.mp3
+sounds/33/32.m4a,"غالي",recordings/33/29.mp3
+sounds/33/33.m4a,"نظيف",recordings/14/07.mp3
+sounds/33/34.m4a,"قذر",recordings/33/30.mp3
+sounds/33/35.m4a,"يتسلق",recordings/33/31.mp3
+sounds/33/36.m4a,"ينزل",recordings/02/28.mp3
+sounds/33/37.m4a,"مغلق",recordings/33/32.mp3
+sounds/33/38.m4a,"مفتوح",recordings/14/10.mp3
+sounds/33/39.m4a,"بارد",recordings/13/14.mp3
+sounds/33/40.m4a,"ساخن",recordings/14/11.mp3
+sounds/33/41.m4a,"يأتي",recordings/33/33.mp3
+sounds/33/42.m4a,"يذهب",recordings/33/34.mp3
+sounds/33/43.m4a,"صحيح",recordings/33/35.mp3
+sounds/33/44.m4a,"خطأ",recordings/01/01.mp3
+sounds/33/45.m4a,"يبكي",recordings/02/17.mp3
+sounds/33/46.m4a,"يضحك",recordings/02/16.mp3
+sounds/33/47.m4a,"متفقين",recordings/33/36.mp3
+sounds/33/49.m4a,"أسفل",recordings/12/03.mp3
+sounds/33/50.m4a,"أعلى",recordings/12/08.mp3
+sounds/33/51.m4a,"جاف",recordings/33/37.mp3
+sounds/33/52.m4a,"مبلل",recordings/33/38.mp3
+sounds/33/53.m4a,"فارغ",recordings/33/39.mp3
+sounds/33/54.m4a,"ممتلئ",recordings/33/40.mp3
+sounds/33/55.m4a,"سريع",recordings/33/41.mp3
+sounds/33/56.m4a,"بطيء",recordings/33/42.mp3
+sounds/33/57.m4a,"سمين",recordings/33/43.mp3
+sounds/33/58.m4a,"نحيف",recordings/33/44.mp3
+sounds/33/59.m4a,"يحب",recordings/33/45.mp3
+sounds/33/60.m4a,"يعطي",recordings/02/15.mp3
+sounds/33/61.m4a,"يأخذ",recordings/33/46.mp3
+sounds/33/62.m4a,"سعيد",recordings/33/47.mp3
+sounds/33/63.m4a,"حزين",recordings/33/48.mp3
+sounds/33/64.m4a,"يكره",recordings/33/49.mp3
+sounds/33/65.m4a,"صحة",recordings/33/50.mp3
+sounds/33/66.m4a,"مريض",recordings/33/51.mp3
+sounds/33/67.m4a,"ثقيل",recordings/14/22.mp3
+sounds/33/68.m4a,"خفيف",recordings/14/23.mp3
+sounds/33/69.m4a,"ضخم",recordings/33/52.mp3
+sounds/33/70.m4a,"صغير جداً",recordings/33/53.mp3
+sounds/33/71.m4a,"جائع",recordings/33/54.mp3
+sounds/33/72.m4a,"شبعان",recordings/33/55.mp3
+sounds/33/73.m4a,"يسار",recordings/33/56.mp3
+sounds/33/74.m4a,"يمين",recordings/33/57.mp3
+sounds/33/75.m4a,"فوضى",recordings/33/58.mp3
+sounds/33/76.m4a,"مرتب",recordings/33/59.mp3
+sounds/33/77.m4a,"بين",recordings/12/02.mp3
+sounds/33/78.m4a,"بجانب",recordings/33/60.mp3
+sounds/33/79.m4a,"ضجيج",recordings/33/61.mp3
+sounds/33/81.m4a,"على",recordings/33/62.mp3
+sounds/33/82.m4a,"تحت",recordings/01/03.mp3
+sounds/33/83.m4a,"فقير",recordings/33/63.mp3
+sounds/33/84.m4a,"غني",recordings/33/64.mp3
+sounds/33/85.m4a,"يسحب",recordings/02/33.mp3
+sounds/33/86.m4a,"يدفع",recordings/33/65.mp3
+sounds/33/87.m4a,"قصير",recordings/14/30.mp3
+sounds/33/88.m4a,"طويل",recordings/14/31.mp3
+sounds/33/89.m4a,"يجلس",recordings/14/32.mp3
+sounds/33/90.m4a,"يقف",recordings/14/33.mp3
+sounds/33/91.m4a,"قوي",recordings/33/66.mp3
+sounds/33/92.m4a,"ضعيف",recordings/33/67.mp3
+sounds/33/93.m4a,"سميك",recordings/14/35.mp3
+sounds/33/94.m4a,"رفيع",recordings/14/34.mp3
+sounds/33/95.m4a,"يطفئ",recordings/33/68.mp3
+sounds/33/96.m4a,"يشغل",recordings/33/69.mp3
+sounds/33/97.m4a,"عكس",recordings/33/70.mp3
+sounds/34/1.m4a,"حقيبة ظهر",recordings/34/01.mp3
+sounds/34/2.m4a,"لوح طباشير",recordings/34/02.mp3
+sounds/34/3.m4a,"كتاب",recordings/10/06.mp3
+sounds/34/4.m4a,"كتب",recordings/34/03.mp3
+sounds/34/5.m4a,"حافلة",recordings/34/04.mp3
+sounds/34/6.m4a,"كرسي",recordings/11/11.mp3
+sounds/34/7.m4a,"فصل",recordings/34/05.mp3
+sounds/34/8.m4a,"الوان",recordings/32/04.mp3
+sounds/34/9.m4a,"مكتب",recordings/24/08.mp3
+sounds/34/10.m4a,"رفقات",recordings/34/06.mp3
+sounds/34/11.m4a,"صندوق غذاء",recordings/34/07.mp3
+sounds/34/12.m4a,"ارقام",recordings/34/08.mp3
+sounds/34/13.m4a,"ورقة",recordings/34/09.mp3
+sounds/34/14.m4a,"اقلام",recordings/34/10.mp3
+sounds/34/15.m4a,"يلعبوا",recordings/34/11.mp3
+sounds/34/16.m4a,"اشكال",recordings/34/12.mp3
+sounds/34/17.m4a,"نحكي قصة",recordings/34/13.mp3
+sounds/34/18.m4a,"انسة وطالب",recordings/34/14.mp3
+sounds/34/19.m4a,"طالب مدرسة",recordings/34/15.mp3
+sounds/34/20.m4a,"طالبة مدرسة",recordings/34/16.mp3
+sounds/34/21.m4a,"انسة مدرسة",recordings/34/17.mp3
+sounds/35/1.m4a,"جرس",recordings/13/08.mp3
+sounds/35/2.m4a,"كلارينت",recordings/35/01.mp3
+sounds/35/3.m4a,"طبل",recordings/13/15.mp3
+sounds/35/4.m4a,"طبول",recordings/35/02.mp3
+sounds/35/5.m4a,"ناي",recordings/35/03.mp3
+sounds/35/6.m4a,"جيتار",recordings/35/04.mp3
+sounds/35/7.m4a,"بوق",recordings/35/05.mp3
+sounds/35/8.m4a,"ماراكاس",recordings/35/06.mp3
+sounds/35/9.m4a,"عود",recordings/35/07.mp3
+sounds/35/10.m4a,"بيانو",recordings/35/08.mp3
+sounds/35/11.m4a,"ساكسفون",recordings/35/09.mp3
+sounds/35/12.m4a,"عصاية طبل",recordings/35/10.mp3
+sounds/35/13.m4a,"دف",recordings/35/11.mp3
+sounds/35/14.m4a,"كمان",recordings/35/12.mp3
+sounds/35/15.m4a,"صفارة",recordings/35/13.mp3
+sounds/35/16.m4a,"إكسليفون",recordings/35/14.mp3
+sounds/36/1.m4a,"كاميرا",recordings/36/01.mp3
+sounds/36/2.m4a,"مقبض تحكم",recordings/36/02.mp3
+sounds/36/3.m4a,"وصلة شاحن",recordings/36/03.mp3
+sounds/36/4.m4a,"سماعة رأس",recordings/36/04.mp3
+sounds/36/5.m4a,"ايباد",recordings/36/05.mp3
+sounds/36/6.m4a,"كيبورد",recordings/36/06.mp3
+sounds/36/7.m4a,"لابتوب",recordings/36/07.mp3
+sounds/36/8.m4a,"فأرة",recordings/36/08.mp3
+sounds/36/9.m4a,"مقبس كهربا",recordings/36/09.mp3
+sounds/36/10.m4a,"شاحن هاتف",recordings/36/10.mp3
+sounds/36/11.m4a,"هاتف",recordings/36/11.mp3
+sounds/36/12.m4a,"فيش كهربا",recordings/36/12.mp3
+sounds/36/13.m4a,"جهاز تحكم",recordings/36/13.mp3
+sounds/36/14.m4a,"تلفزيون",recordings/24/30.mp3
+sounds/37/1.m4a,"رائد فضاء",recordings/37/01.mp3
+sounds/37/2.m4a,"راقصة باليه",recordings/37/02.mp3
+sounds/37/3.m4a,"قبطان",recordings/37/03.mp3
+sounds/37/4.m4a,"طباخة",recordings/37/04.mp3
+sounds/37/5.m4a,"طباخ",recordings/37/05.mp3
+sounds/37/6.m4a,"مهرجة",recordings/37/06.mp3
+sounds/37/7.m4a,"مهرج",recordings/37/07.mp3
+sounds/37/8.m4a,"طبيبة",recordings/37/08.mp3
+sounds/37/9.m4a,"طبيب",recordings/37/09.mp3
+sounds/37/10.m4a,"جنية اسنان",recordings/37/10.mp3
+sounds/37/11.m4a,"مزارعة",recordings/37/11.mp3
+sounds/37/12.m4a,"مزارع",recordings/37/12.mp3
+sounds/37/13.m4a,"اطفائية",recordings/37/13.mp3
+sounds/37/14.m4a,"اطفائي",recordings/37/14.mp3
+sounds/37/15.m4a,"بطل",recordings/37/15.mp3
+sounds/37/16.m4a,"صيادة",recordings/37/16.mp3
+sounds/37/17.m4a,"صياد",recordings/37/17.mp3
+sounds/37/18.m4a,"موسيقية",recordings/37/18.mp3
+sounds/37/19.m4a,"موسيقي",recordings/13/18.mp3
+sounds/37/20.m4a,"رسامة",recordings/37/19.mp3
+sounds/37/21.m4a,"رسام",recordings/37/20.mp3
+sounds/37/22.m4a,"مصورة",recordings/37/21.mp3
+sounds/37/23.m4a,"مصور",recordings/37/22.mp3
+sounds/37/24.m4a,"طيار",recordings/37/23.mp3
+sounds/37/25.m4a,"لاعبة",recordings/37/24.mp3
+sounds/37/26.m4a,"لاعب",recordings/37/25.mp3
+sounds/37/27.m4a,"شرطي",recordings/37/26.mp3
+sounds/37/28.m4a,"شرطية",recordings/37/27.mp3
+sounds/37/29.m4a,"امير",recordings/37/28.mp3
+sounds/37/30.m4a,"اميرة",recordings/37/29.mp3
+sounds/37/31.m4a,"مغنية",recordings/37/30.mp3
+sounds/37/32.m4a,"مغني",recordings/37/31.mp3
+sounds/37/33.m4a,"معلمة",recordings/37/32.mp3
+sounds/37/34.m4a,"معلم",recordings/37/33.mp3
+sounds/37/35.m4a,"ساحرة",recordings/37/34.mp3
+sounds/38/1.m4a,"اشكال",recordings/34/12.mp3
+sounds/38/2.m4a,"نجمة",recordings/38/01.mp3
+sounds/38/3.m4a,"شبه منحرف",recordings/38/02.mp3
+sounds/38/4.m4a,"سداسي",recordings/38/03.mp3
+sounds/38/5.m4a,"معين",recordings/38/04.mp3
+sounds/38/6.m4a,"مستطيل",recordings/38/05.mp3
+sounds/38/7.m4a,"مربع",recordings/38/06.mp3
+sounds/38/8.m4a,"خماسي",recordings/38/07.mp3
+sounds/38/9.m4a,"قمر",recordings/38/08.mp3
+sounds/38/10.m4a,"قلب",recordings/38/09.mp3
+sounds/38/11.m4a,"زائد",recordings/38/10.mp3
+sounds/38/12.m4a,"دائرة",recordings/38/11.mp3
+sounds/38/13.m4a,"بيضوي",recordings/38/12.mp3
+sounds/38/14.m4a,"مثلث",recordings/38/13.mp3
+sounds/39/1.m4a,"ا",recordings/39/01.mp3
+sounds/39/2.m4a,"ب",recordings/39/02.mp3
+sounds/39/3.m4a,"ت",recordings/39/03.mp3
+sounds/39/4.m4a,"ث",recordings/39/04.mp3
+sounds/39/5.m4a,"ج",recordings/39/05.mp3
+sounds/39/6.m4a,"ح",recordings/39/06.mp3
+sounds/39/7.m4a,"خ",recordings/39/07.mp3
+sounds/39/8.m4a,"د",recordings/39/08.mp3
+sounds/39/9.m4a,"ذ",recordings/39/09.mp3
+sounds/39/10.m4a,"ر",recordings/39/10.mp3
+sounds/39/11.m4a,"ز",recordings/39/11.mp3
+sounds/39/12.m4a,"س",recordings/39/12.mp3
+sounds/39/13.m4a,"ش",recordings/39/13.mp3
+sounds/39/14.m4a,"ص",recordings/39/14.mp3
+sounds/39/15.m4a,"ض",recordings/39/15.mp3
+sounds/39/16.m4a,"ط",recordings/39/16.mp3
+sounds/39/17.m4a,"ظ",recordings/39/17.mp3
+sounds/39/18.m4a,"ع",recordings/39/18.mp3
+sounds/39/19.m4a,"غ",recordings/39/19.mp3
+sounds/39/20.m4a,"ف",recordings/39/20.mp3
+sounds/39/21.m4a,"ق",recordings/39/21.mp3
+sounds/39/22.m4a,"ك",recordings/39/22.mp3
+sounds/39/23.m4a,"م",recordings/39/23.mp3
+sounds/39/24.m4a,"ن",recordings/39/24.mp3
+sounds/39/25.m4a,"ل",recordings/39/25.mp3
+sounds/39/26.m4a,"و",recordings/39/26.mp3
+sounds/39/27.m4a,"ي",recordings/39/27.mp3
+sounds/39/28.m4a,"ه",recordings/39/28.mp3
+sounds/39/29.m4a,"ء",recordings/39/29.mp3
+sounds/39/30.m4a,"ة",recordings/39/30.mp3
+sounds/40/1.m4a,"1",recordings/40/01.mp3
+sounds/40/2.m4a,"2",recordings/40/02.mp3
+sounds/40/3.m4a,"3",recordings/40/03.mp3
+sounds/40/4.m4a,"4",recordings/40/04.mp3
+sounds/40/5.m4a,"5",recordings/40/05.mp3
+sounds/40/6.m4a,"6",recordings/40/06.mp3
+sounds/40/7.m4a,"7",recordings/40/07.mp3
+sounds/40/8.m4a,"8",recordings/40/08.mp3
+sounds/40/9.m4a,"9",recordings/40/09.mp3
+sounds/40/10.m4a,"10",recordings/40/10.mp3
+sounds/40/11.m4a,"11",recordings/40/11.mp3
+sounds/40/12.m4a,"12",recordings/40/12.mp3
+sounds/40/13.m4a,"13",recordings/40/13.mp3
+sounds/40/14.m4a,"14",recordings/40/14.mp3
+sounds/40/15.m4a,"15",recordings/40/15.mp3
+sounds/40/16.m4a,"16",recordings/40/16.mp3
+sounds/40/17.m4a,"17",recordings/40/17.mp3
+sounds/40/18.m4a,"18",recordings/40/18.mp3
+sounds/40/19.m4a,"19",recordings/40/19.mp3
+sounds/40/20.m4a,"20",recordings/40/20.mp3
+sounds/40/21.m4a,"21",recordings/40/21.mp3
+sounds/40/22.m4a,"22",recordings/40/22.mp3
+sounds/40/23.m4a,"23",recordings/40/23.mp3
+sounds/40/24.m4a,"24",recordings/40/24.mp3
+sounds/40/25.m4a,"25",recordings/40/25.mp3
+sounds/40/26.m4a,"26",recordings/40/26.mp3
+sounds/40/27.m4a,"27",recordings/40/27.mp3
+sounds/40/28.m4a,"28",recordings/40/28.mp3
+sounds/40/29.m4a,"29",recordings/40/29.mp3
+sounds/40/30.m4a,"30",recordings/40/30.mp3
+sounds/prompts/praise-1.m4a,"برافو!",recordings/41/01.mp3
+sounds/prompts/praise-2.m4a,"شاطر!",recordings/41/02.mp3
+sounds/prompts/praise-3.m4a,"شاطرة!",recordings/41/03.mp3
+sounds/prompts/praise-4.m4a,"ممتاز!",recordings/41/04.mp3
+sounds/prompts/praise-5.m4a,"يا سلام!",recordings/41/05.mp3
+sounds/prompts/praise-6.m4a,"عفارم عليك!",recordings/41/06.mp3
+sounds/prompts/retry-1.m4a,"لا، جرّب كمان مرة",recordings/41/07.mp3
+sounds/prompts/retry-2.m4a,"قرّبت! يلا كمان مرة",recordings/41/08.mp3
+sounds/prompts/retry-3.m4a,"ولا يهمّك، منجرّب سوا",recordings/41/09.mp3
+sounds/prompts/ask-where.m4a,"وين",recordings/41/10.mp3
+sounds/prompts/ask-show.m4a,"فرجيني",recordings/41/11.mp3
+sounds/prompts/ask-what.m4a,"شو هاد؟",recordings/41/12.mp3
+sounds/prompts/ask-say.m4a,"قول",recordings/41/13.mp3
+sounds/prompts/ask-same.m4a,"لاقي الصورة اللي متلها",recordings/41/14.mp3
+sounds/prompts/ask-listen.m4a,"اسمع منيح",recordings/41/15.mp3
+sounds/prompts/ask-turn.m4a,"دورك!",recordings/41/16.mp3
+sounds/prompts/start-1.m4a,"يلا نلعب!",recordings/41/17.mp3
+sounds/prompts/start-2.m4a,"يلا نبلّش",recordings/41/18.mp3
+sounds/prompts/count-1.m4a,"واحد",recordings/41/19.mp3
+sounds/prompts/count-2.m4a,"اتنين",recordings/41/20.mp3
+sounds/prompts/count-3.m4a,"تلاتة",recordings/41/21.mp3
+sounds/prompts/done-1.m4a,"خلصنا! برافو عليك",recordings/41/22.mp3
+sounds/prompts/stars-10.m4a,"عشر نجوم! يا سلام!",recordings/41/23.mp3
+sounds/prompts/break-1.m4a,"يلا نرتاح شوي",recordings/41/24.mp3
+sounds/prompts/hello.m4a,"مرحبا!",recordings/41/25.mp3

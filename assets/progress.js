@@ -3,10 +3,11 @@
     'use strict';
     const STORAGE = 'vocabulary-builder-v1';
     const THERAPIST = 'vocabulary-builder-therapist';
-    // Plan order: practise the words, then test comprehension and naming.
-    // Matching and memory stay playable for plans saved before the simple games replaced them.
-    const modes = ['where', 'balloons', 'test', 'rapid', 'matching', 'memory'];
-    const LEVELS = [2, 4, 6];
+    // Route order: «وين؟» first, then matching and memory, then the comprehension and naming tests.
+    // Rounds saved for retired games (balloons, reveal) are skipped by currentRound().
+    const modes = ['where', 'matching', 'memory', 'test', 'rapid'];
+    // Each child has a level, set on the account: سهل / متوسط / متقدم.
+    const LEVEL_NAMES = { easy: 'سهل', moderate: 'متوسط', advanced: 'متقدم' };
     const difficulties = ['easy', 'moderate', 'advanced'];
     // Listening difficulty is the actual choice count; naming uses the response timer.
     function assessmentDifficulty(domain, settings, poolSize) {
@@ -38,7 +39,7 @@
                 const before = baseline.children.find(saved => saved.id === child.id);
                 let saved = merged.children.find(entry => entry.id === child.id);
                 if (!saved) { merged.children.push(clone(child)); continue; }
-                for (const field of ['name', 'role', 'created', 'apps', 'words', 'workspace', 'plan', 'sessions', 'homeLesson', 'wordLevels', 'intervention']) {
+                for (const field of ['name', 'level', 'role', 'created', 'apps', 'words', 'workspace', 'plan', 'sessions', 'homeLesson', 'wordLevels', 'intervention']) {
                     if (same(child[field], before?.[field])) continue;
                     if (field === 'apps') { saved.apps = { ...saved.apps, ...Object.fromEntries(Object.entries(child.apps || {}).filter(([, value]) => value === true)) }; }
                     else if (field === 'words') {
@@ -118,7 +119,21 @@
             active().wordLevels[level.id] = { completed: true, keys: [...level.keys], categoryId: level.categoryId, date: new Date().toISOString() };
             return persist();
         }
-        function signIn(name) {
+        // The child's level picks the number of pictures (2 / 4 / 6) and the naming time (6 / 4 / 2 s).
+        const level = () => LEVEL_NAMES[active()?.level] ? active().level : 'easy';
+        function setLevel(childId, value) {
+            const child = data.children.find(entry => entry.id === childId);
+            if (!child || !LEVEL_NAMES[value]) return false;
+            child.level = value; return persist();
+        }
+        // Rename keeps everything else; a name already used by another child is refused.
+        function rename(childId, name) {
+            name = String(name || '').normalize('NFKC').trim().replace(/\s+/g, ' ').slice(0, 60);
+            const child = data.children.find(entry => entry.id === childId);
+            if (!child || !name || data.children.some(entry => entry.id !== childId && entry.name.toLocaleLowerCase() === name.toLocaleLowerCase())) return false;
+            child.name = name; return persist();
+        }
+        function signIn(name, newLevel = 'easy') {
             const resetData=read();
             if(JSON.stringify(resetData?.accountResets||{})!==JSON.stringify(resetEpochs)){data=resetData||data;baseline=clone(data);resetEpochs={...data.accountResets};}
 
@@ -128,7 +143,7 @@
             // Reuse identities created in an already-open SENB tab.
             for (const child of read()?.children || []) if (!data.children.some(saved => saved.id === child.id)) data.children.push(clone(child));
             let child = data.children.find(c => c.name.toLocaleLowerCase() === name.toLocaleLowerCase());
-            if (!child) { child = { id: root.crypto?.randomUUID?.() || `child-${Date.now()}-${Math.random().toString(36).slice(2)}`, name, role: 'child', apps: { voc: true }, created: new Date().toISOString(), words: {}, workspace: null, plan: null, sessions: [] }; data.children.push(child); }
+            if (!child) { child = { id: root.crypto?.randomUUID?.() || `child-${Date.now()}-${Math.random().toString(36).slice(2)}`, name, level: LEVEL_NAMES[newLevel] ? newLevel : 'easy', role: 'child', apps: { voc: true }, created: new Date().toISOString(), words: {}, workspace: null, plan: null, sessions: [] }; data.children.push(child); }
             child.apps = { ...child.apps, voc: true, senb: true, taffaha: true };
             data.active = child.id; persist(true); return active();
         }
@@ -156,10 +171,10 @@
             else return;
             persist();
         }
-        function startPlan(keys, difficulty, games) {
+        function startPlan(keys, games, difficulty = level()) {
             if (!active()) return null;
             keys = [...new Set(keys)];
-            games = modes.filter(mode => games.includes(mode));
+            games = modes.filter(mode => mode === 'where' || games.includes(mode));
             if (!keys.length || !games.length) return null;
             const rank = ['easy', 'moderate', 'advanced'].indexOf(difficulty);
             const level = [2, 4, 6][Math.max(0, rank)];
@@ -177,27 +192,9 @@
             if (plan?.rounds) { const from = plan.position; while (plan.rounds[plan.position] && !modes.includes(plan.rounds[plan.position].mode)) plan.position++; if (plan.position !== from) persist(); }
             return plan?.rounds?.[plan.position] || null;
         };
-        // Adapt the rest of the plan to the round just played: 90%+ first-try answers make the
-        // next games one step harder, under 60% one step easier, and a practice game under 50%
-        // is played once more (at the easiest level) before the test.
-        function adaptPlan(plan, position, score) {
-            if (!score || !(score.total > 0)) return;
-            const accuracy = score.correct / score.total, round = plan.rounds[position];
-            const shift = accuracy >= .9 ? 1 : accuracy < .6 ? -1 : 0;
-            plan.adapted ||= [];
-            plan.adapted.push({ mode: round.mode, accuracy: Math.round(accuracy * 100), shift });
-            if (shift) for (const later of plan.rounds.slice(position + 1)) {
-                if (later.mode === 'memory') continue;
-                const index = Math.max(0, Math.min(2, LEVELS.indexOf(later.settings.level) + shift));
-                later.settings = { ...later.settings, level: LEVELS[index], duration: [6, 4, 2][index] };
-            }
-            if (accuracy < .5 && ['where', 'balloons'].includes(round.mode) && !round.repeat)
-                plan.rounds.splice(position + 1, 0, { ...clone(round), repeat: true, settings: { ...round.settings, level: 2, duration: 6 } });
-        }
-        function advancePlan(planId, position, evidence = null, score = null) {
+        function advancePlan(planId, position, evidence = null) {
             const plan = active()?.plan;
             if (!plan || plan.id !== planId || plan.position !== position) return null;
-            adaptPlan(plan, position, score || (evidence?.records?.length ? { correct: evidence.records.filter(record => record.correct === true).length, total: evidence.records.length } : null));
             plan.evidence ||= [];
             if (evidence && ['receptive', 'expressive'].includes(evidence.domain)) plan.evidence.push({ domain: evidence.domain, records: evidence.records.filter(record => plan.keys.includes(record.key)).map(record => ({ key: record.key, correct: record.correct === true })) });
             plan.position++;
@@ -210,7 +207,8 @@
         return { key, active, isAdmin, therapist, mastered,
             intervention: () => clone(active()?.intervention || null),
             saveIntervention: plan => { if (!active()) return false; active().intervention = clone(plan); return persist(); }, inLibrary, assessmentDifficulty, wordLevelCompleted, wordLevelUnlocked, completeWordLevel, signIn, record, logSession, startPlan, currentRound, advancePlan, storageOK: () => storageOK,
-            children: () => data.children.map(({ id, name, role }) => ({ id, name, role })),
+            children: () => data.children.map(({ id, name, role, level }) => ({ id, name, role, level: LEVEL_NAMES[level] ? level : 'easy' })),
+            level, setLevel, rename, LEVEL_NAMES,
             reportChildren: id => {
                 if (!active()) return [];
                 if (!isAdmin()) id = active().id;

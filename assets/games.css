@@ -241,9 +241,33 @@ html[data-suite-input=pointer] .game-page :is(.icon-button,.production-rating,.p
 
 /* Four games: 2×2 on phones, one row from tablets up. */
 .hub-grid{grid-template-columns:repeat(auto-fit,minmax(min(28vw,150px),1fr))}
-@media(max-width:560px){.hub-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-block:4vh}.hub-card{min-height:130px;border-radius:22px}}
+@media(max-width:560px){.hub-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin-block:4vh;gap:8px}.hub-card{min-height:120px;border-radius:20px}}
 /* Phones: one compact header row so the game area keeps its height. */
 @media(max-width:560px){.game-header{flex-wrap:nowrap;padding:6px 10px}.game-brand img{width:36px!important;height:36px!important}.game-brand h1{font-size:18px!important;white-space:nowrap}}
 .plan-tap{position:fixed;inset:0;z-index:90;display:grid;place-content:center;justify-items:center;gap:12px;background:#f0f9ffcc;backdrop-filter:blur(8px)}
 .plan-tap button{width:min(40vw,160px);height:min(40vw,160px);border-radius:50%;border:0;background:#0284c7;color:#fff;font-size:min(14vw,60px);box-shadow:0 14px 40px #0284c766;cursor:pointer}
 .plan-tap p{font:800 20px Cairo,sans-serif;color:#075985;margin:0}
+/* Beat bar: − on one side, + on the other, circles in between (0–6, added by the therapist). */
+.production-rhythm{display:flex;align-items:center;gap:6px;min-height:60px}
+.production-rhythm .production-beats{flex:1;min-height:44px}
+.production-beat-step{position:relative;z-index:2;flex:none;display:grid;place-items:center;width:44px;height:44px;border:2px solid #b9dff1;border-radius:50%;background:#f0f9ff;color:#0369a1;cursor:pointer;touch-action:manipulation}
+.production-beat-step svg{width:22px;height:22px}
+.production-beat-step:disabled{opacity:.35;cursor:default}
+/* Matching and memory: a softer, brighter play space for young children. */
+body:is([data-game=matching],[data-game=memory]).compact-playing{background:radial-gradient(ellipse at top right,#fef3c7,transparent 55%),radial-gradient(ellipse at bottom left,#dcfce7,transparent 55%),#f0f9ff}
+:is([data-game=matching],[data-game=memory]) #game-board{gap:14px}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button,[data-game=matching] .match-source{position:relative;overflow:visible;border:4px solid #bae6fd;border-radius:26px;background:#fff;box-shadow:0 8px 0 #bae6fd,0 14px 26px #0f2a3c1a;transition:transform .15s,border-color .15s}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button:nth-child(4n+2){border-color:#fde68a;box-shadow:0 8px 0 #fde68a,0 14px 26px #0f2a3c1a}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button:nth-child(4n+3){border-color:#bbf7d0;box-shadow:0 8px 0 #bbf7d0,0 14px 26px #0f2a3c1a}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button:nth-child(4n+4){border-color:#fbcfe8;box-shadow:0 8px 0 #fbcfe8,0 14px 26px #0f2a3c1a}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button:not(:disabled):active{transform:translateY(4px) scale(.98)}
+:is([data-game=matching],[data-game=memory]) #game-board>.picture-button.matched{border-color:#22c55e;box-shadow:0 8px 0 #86efac,0 0 0 6px #bbf7d0}
+[data-game=matching] .match-source{border-color:#60a5fa;box-shadow:0 8px 0 #93c5fd,0 14px 26px #1d4ed833}
+[data-game=memory] .memory-back{display:grid;place-items:center;width:100%;height:100%;border-radius:20px;background:repeating-linear-gradient(45deg,#38bdf8 0 14px,#60a5fa 14px 28px);color:#fff;font:900 clamp(28px,8cqmin,64px) Cairo,sans-serif;text-shadow:0 3px 0 #1d4ed855}
+[data-game=memory] .memory-card.flipped{animation:memory-flip .3s ease}
+@keyframes memory-flip{from{transform:rotateY(90deg)}to{transform:none}}
+/* Star burst on a right answer. */
+.star-burst{position:absolute;inset:50% auto auto 50%;width:0;height:0;pointer-events:none;z-index:5}
+.star-burst i{position:absolute;font-style:normal;font-size:26px;color:#facc15;text-shadow:0 2px 0 #f59e0b;translate:-50% -50%;animation:star-fly .85s ease-out forwards}
+@keyframes star-fly{from{transform:rotate(var(--angle)) translateY(0) scale(.4);opacity:1}to{transform:rotate(var(--angle)) translateY(-90px) scale(1.1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.star-burst{display:none}[data-game=memory] .memory-card.flipped{animation:none}}

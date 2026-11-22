@@ -115,7 +115,73 @@
     const LEVELS = [20, 40, 60, 80];
     const ACHIEVED = 80;
     const byId = new Map(GOALS.flatMap(goal => goal.short.map(item => [item.id, { ...item, long: goal }])));
-    const api = { APP, SOURCES, GOALS, PLANS, LEVELS, ACHIEVED, short: id => byId.get(id) || null };
+
+    // ---- Estimates from the child's saved sessions ----
+    // Which recorded answers count for each goal. A goal not listed here has no test in the app and is
+    // rated by the therapist only. Each check receives one answer: { key, correct, total, firstTry },
+    // its session { source, domain, kind, difficulty, size } and the answer's category.
+    const catOf = key => parseInt(String(key), 10);
+    const tested = (domain, extra = () => true) => (answer, session) => session.domain === domain && session.kind === 'assessment' && answer.total > 0 && extra(answer, session);
+    const MEASURES = {
+        'S1.1': tested('receptive', (a, s) => s.level === 'easy'),
+        'S1.2': tested('receptive', (a, s) => s.level === 'moderate'),
+        'S1.3': tested('receptive', (a, s) => s.level === 'advanced'),
+        'S1.4': tested('receptive', a => catOf(a.key) === 2),
+        'S1.5': tested('receptive', (a, s) => s.newCategories.has(catOf(a.key))),
+        'S2.3': tested('expressive', (a, s) => s.level === 'easy'),
+        'S2.4': tested('expressive', (a, s) => s.level === 'moderate' || s.level === 'advanced'),
+        'S2.5': tested('expressive', a => catOf(a.key) === 2),
+        'S3.1': (a, s) => s.source === 'matching' && a.firstTry !== undefined,
+        'S4.1': tested('receptive', a => catOf(a.key) === 32),
+        'S4.2': tested('receptive', a => catOf(a.key) === 38),
+        'S4.3': tested('receptive', a => catOf(a.key) === 40),
+        'S4.4': tested('receptive', a => [14, 33].includes(catOf(a.key))),
+        'S4.5': tested('receptive', a => catOf(a.key) === 12),
+        'S5.2': tested('expressive', a => ['1_2', '1_9', '1_16', '1_18'].includes(a.key)),
+        'S6.3': (a, s) => s.kind === 'assessment' && a.total > 0 && s.gapDays(a.key) >= 14
+    };
+    const DAY = 864e5;
+    /** Estimates for every measured goal, from the child's sessions in date order.
+     *  Each session moves the estimate halfway toward that session's score, so it builds up or falls
+     *  back over time. A goal is achieved after 3 sessions in a row at 80% or more. */
+    function estimate(child) {
+        const sessions = (child?.sessions || []).filter(session => !session.partial && Array.isArray(session.records))
+            .map(session => ({ ...session, time: Date.parse(session.date || session.started) || 0 })).sort((a, b) => a.time - b.time);
+        const seenCategories = new Set(), lastTested = new Map(), out = {};
+        for (const session of sessions) {
+            const keys = [...new Set(session.records.map(record => record.key))];
+            // Workplace tests have no level saved; the number of cards on the board is the number of choices.
+            const level = session.difficulty || (session.source === 'workplace' ? (keys.length <= 2 ? 'easy' : keys.length <= 4 ? 'moderate' : 'advanced') : null);
+            const categories = new Set(keys.map(catOf)), newCategories = new Set([...categories].filter(id => !seenCategories.has(id)));
+            const context = { ...session, level, newCategories, gapDays: key => lastTested.has(key) ? (session.time - lastTested.get(key)) / DAY : -1 };
+            for (const [id, counts] of Object.entries(MEASURES)) {
+                let right = 0, total = 0;
+                for (const answer of session.records) if (counts(answer, context)) { total++; right += id === 'S3.1' ? answer.firstTry : answer.correct; }
+                if (!total) continue;
+                const score = Math.round(right / total * 100), goal = out[id] ||= { percent: null, sessions: 0, streak: 0, achieved: null, history: [] };
+                goal.percent = goal.percent == null ? score : Math.round((goal.percent + score) / 2);
+                goal.sessions++; goal.streak = score >= ACHIEVED ? goal.streak + 1 : 0;
+                goal.last = new Date(session.time).toISOString();
+                goal.history.push({ date: goal.last, score, percent: goal.percent });
+                if (goal.streak >= 3 && !goal.achieved) goal.achieved = goal.last;
+            }
+            if (session.kind === 'assessment') for (const key of keys) lastTested.set(key, session.time);
+            categories.forEach(id => seenCategories.add(id));
+        }
+        return out;
+    }
+    /** Suggested next goals: after an achieved goal, the next goal of the same long-term goal that is not in the plan yet. */
+    function suggest(planIds, achievedIds, limit = 4) {
+        const inPlan = new Set(planIds), done = new Set(achievedIds), out = [];
+        for (const goal of GOALS) {
+            const ids = goal.short.map(item => item.id);
+            if (!ids.some(id => done.has(id))) continue;
+            const next = ids.find(id => !inPlan.has(id));
+            if (next) out.push(next);
+        }
+        return out.slice(0, limit);
+    }
+    const api = { APP, SOURCES, GOALS, PLANS, LEVELS, ACHIEVED, MEASURES, estimate, suggest, short: id => byId.get(id) || null };
     if (typeof module !== 'undefined') module.exports = api;
     root.InterventionGoals = api;
 })(globalThis);

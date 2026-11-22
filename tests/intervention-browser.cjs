@@ -41,7 +41,7 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   // PDF pages
   await page.evaluate(()=>{const o=HTMLCanvasElement.prototype.toDataURL;window.__pages=[];HTMLCanvasElement.prototype.toDataURL=function(...a){const d=o.apply(this,a);if(this.width===1240)window.__pages.push(o.call(this,'image/png'));return d;};});
   const dl=page.waitForEvent('download');await page.locator('[data-plan-pdf]').click();const file=await dl;assert.match(file.suggestedFilename(),/^خطة-التدخل-ليان-.+\.pdf$/);
-  const pages=await page.evaluate(()=>window.__pages);assert.equal(pages.length,3,'In-progress page, achieved page, references');
+  const pages=await page.evaluate(()=>window.__pages);assert.equal(pages.length,4,'In-progress page, achieved page, suggested next goals, references');
   // reload keeps plan; exit therapist mode hides plan and relocks
   await page.reload();await page.waitForFunction(()=>!window.SuiteWelcome?.pending);
   assert.equal(await page.locator('[data-open-plan]').isVisible(),true,'The therapist switch stays open on this device');

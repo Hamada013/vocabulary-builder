@@ -29,7 +29,7 @@ for (const page of release.shell.filter(url => url.endsWith('.html'))) {
     }
     if (page === 'report.html') { assert.ok(source.includes('assets/reports.js')); continue; }
     if (page !== 'index.html') {
-        const simple = ['where.html', 'balloons.html'].includes(page);
+        const simple = page === 'where.html';
         assert.ok(source.includes(simple ? 'assets/mini-games.js' : 'assets/games.js'), `${page} must load its game engine`);
         if (simple) assert.ok(source.includes('assets/prompts.js'), `${page} must load the spoken prompts`);
         continue;

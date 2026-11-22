@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir _site
           rsync -a --exclude '.git' --exclude '.github' --exclude '_site' --exclude 'node_modules' \
-            --exclude 'tests' --exclude 'scripts' --exclude 'docs' --exclude '*.md' \
+            --exclude 'tests' --exclude 'scripts' --exclude 'docs' --exclude 'recordings' --exclude '*.md' \
             --exclude 'package.json' --exclude 'package-lock.json' --exclude 'tailwind.config.cjs' ./ _site/
           touch _site/.nojekyll
       - name: Configure GitHub Pages

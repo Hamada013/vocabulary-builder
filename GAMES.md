@@ -1,17 +1,25 @@
 # Vocabulary games
 
-## Simple games (no settings screen)
+## «وين؟» (where.html)
 
-`where.html` (وين؟) and `balloons.html` (البالونات) start with one tap on a category; the automatic plan plays them with the workplace cards. Each picture is introduced with a spoken prompt («وين …» + the word), praise after a right answer and a gentle «جرّب كمان مرة» after a wrong one. Difficulty adapts while playing: two first-try answers in a row add a picture (up to 4), a mistake removes one (down to 2). In «وين؟» a wrong picture fades out; in the balloons game a wrong balloon drifts away; after two mistakes the right picture glows, so every trial ends in success. Results are logged as practice and never count as assessment.
+A simple drawn scene (a room, a garden or a bedroom) with the cards placed on, under, above, in front of and behind its objects. The app says «وين» + the word and the child taps that card. Each game opens with an automatic demonstration (a hand shows the right card), then the 1-2-3 countdown. Each word is asked once; the child's level (set on the account) gives 2, 3 or 4 cards. Wide screens get a 5:3 scene, tall phones a square one with bigger cards; cards never overlap. A wrong card fades and a gentle «جرّب كمان مرة» plays; after two mistakes the right card glows, so every turn ends in success. Results are logged as practice. One tap on a category starts a free game; the automatic route uses the workplace cards.
 
-Prompts come from `assets/prompts.js`. Each plays `sounds/prompts/<name>.m4a` once recorded (the list is in `docs/sound-recording-list.pdf`); until then the device's Arabic voice reads it, and with no Arabic voice it is skipped. Recorded prompts install with the app.
+Prompts come from `assets/prompts.js` and play the therapist's recordings in `sounds/prompts/` (the device's Arabic voice only if a recording is missing).
 
 Engine: `assets/mini-games.js` and `assets/mini-games.css`; layout `scripts/mini-page.html` (regenerate with `npm run build:games`). Tests: `node tests/mini-games.cjs`.
+
+## Matching and memory
+
+Practice games with a brighter look: big rounded cards in soft colours, spoken praise in the therapist's voice, a star burst on a right answer and a gentle «جرّب كمان مرة» on a mistake. In the automatic route they open straight away at the child's level, without the setup screen.
+
+## Recordings
+
+`recordings/01–40` hold the therapist's recordings (one per word, in the order of the recording list; later repeats reuse the first recording) and `recordings/41` the 25 prompts. `node scripts/import-recordings.cjs` converts them into the app's small m4a files (`sounds/<category>/<card>.m4a`, `sounds/prompts/<name>.m4a`) and lists every mapping in `docs/recordings-map.csv`. It stops without writing anything if a folder's count does not match the word list. `recordings/` is not part of the site or the offline download.
 
 ## Listening and naming games
 
 
-Open `games.html` for the games. Matching and memory (below) are no longer listed in the menus; their pages stay so plans saved earlier can finish. Each game supports category/search selection, adjustable difficulty, a finite session, pause/resume, saved progress on this device, results, and optional missed-word review. Switching apps automatically pauses play and audio. Tap controls and keyboard buttons work alongside matching-card dragging.
+Open `games.html` for the games, in route order: وين؟, المطابقة, الذاكرة, استمع واختر, البطاقات السريعة. Each game supports category/search selection, adjustable difficulty, a finite session, pause/resume, saved progress on this device, results, and optional missed-word review. Switching apps automatically pauses play and audio. Tap controls and keyboard buttons work alongside matching-card dragging.
 
 Settings use direct radio choice cards for picture/pair counts, session length, and observation time. The category browser provides a swipeable row of illustrated tiles plus a searchable grid of all 40 categories. “تحديد” toggles the current category/search results; “تحديد الكل” toggles the entire bank. Selecting a category clears the cross-category word search, and the selected category/settings persist on this device.
 
@@ -26,7 +34,7 @@ Matching, rapid, and listening sessions sample up to 6, 10, or 20 words from the
 
 ## Shared vocabulary and bounded loading
 
-`scripts/build-game-data.cjs` reads the authoritative categories and labels from `index.html`, preserving item IDs. Only pairs with existing WebP and M4A files enter `assets/game-data.js`. The current bank contains 985 items. Nine words (six repeats, بسكوت, يموت, يعيش) were removed from the mapping (left as `null` so other words keep their numbers and files). The PWA still downloads every existing source media file. Duplicate written words or identical image content are excluded from a session so choices remain distinct.
+`scripts/build-game-data.cjs` reads the authoritative categories and labels from `index.html`, preserving item IDs. Only pairs with existing WebP and M4A files enter `assets/game-data.js`. The current bank contains 977 items. Seventeen words (six repeats, بسكوت, يموت, يعيش, seven instruments, موسيقي) were removed from the mapping (left as `null` so other words keep their numbers and files). The PWA still downloads every existing source media file. Duplicate written words or identical image content are excluded from a session so choices remain distinct.
 
 The chooser renders at most 24 preview cards, even when all categories are selected. Play loads at most 12 memory images or 7 matching images and uses one audio element. Delayed game actions are canceled on pause, exit, or restart. Cached media uses the same revisioned service worker storage as the main vocabulary app; use the home screen install icon to open the offline download popup before offline field use.
 

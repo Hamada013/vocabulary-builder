@@ -30,7 +30,7 @@ const server = http.createServer((req,res)=>{
  await page.locator('#child-name').fill('ليان');await page.locator('#child-dialog button[type=submit]').click();
  await page.waitForFunction(()=>VocProgress.active()?.name==='ليان');
  assert.equal(await page.locator('#parents-lesson').count(),0);
- await page.evaluate(()=>VocProgress.startPlan(['1_1','1_2'],'easy',['memory','rapid','test']));
+ await page.evaluate(()=>VocProgress.startPlan(['1_1','1_2'],['memory','rapid','test'],'easy'));
  await page.goto(origin+'memory.html?plan=1');
  await page.waitForFunction(()=>document.querySelectorAll('.guide-glow').length===2);
  assert.equal(await page.locator('.memory-front:visible').count(),4);
@@ -78,7 +78,7 @@ const server = http.createServer((req,res)=>{
  await page.reload();await page.locator('#parents-lesson').click();assert.equal(await page.locator('#home-lesson-text').inputValue(),note);
  await page.locator('[data-close]').click();
  // A blocked model can be retried, and ending during preview cannot finish a plan.
- await page.evaluate(()=>VocProgress.startPlan(['1_1'],'easy',['test']));await page.goto(origin+'test.html?plan=1');
+ await page.evaluate(()=>VocProgress.startPlan(['1_1'],['test'],'easy'));await page.goto(origin+'test.html?plan=1');
  await page.evaluate(()=>window.denyAudio=true);
  await page.waitForFunction(()=>document.querySelector('#game-feedback.error'));
  await page.locator('#play-word').click();

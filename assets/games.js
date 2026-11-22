@@ -113,15 +113,28 @@
         }
     }
     const boardObserver=new ResizeObserver(fitBoard);boardObserver.observe($('#game-board'));boardObserver.observe($('#active-match'));
-    function productionBeats(item){
+    // Beat bar: starts empty for every card; the therapist adds circles with + (up to 6) and removes
+    // them with −. The app no longer counts syllables itself (that count was not reliable).
+    // Tapping a circle lights and clicks it; tapping the bar plays all circles in order.
+    const MAX_BEATS=6;let beatCount=0;
+    const beatControls=[['production-beat-minus','إزالة دائرة','<path d="M5 12h14"/>',-1],['production-beat-plus','إضافة دائرة','<path d="M12 5v14M5 12h14"/>',1]].map(([cls,label,path,step])=>{
+        const b=document.createElement('button');b.type='button';b.className='production-beat-step '+cls;b.setAttribute('aria-label',label);b.title=label;
+        b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">${path}</svg>`;
+        b.onclick=event=>{event.stopPropagation();setBeats(beatCount+step);};return b;
+    });
+    $('#production-rhythm').prepend(beatControls[1]);$('#production-rhythm').append(beatControls[0]);
+    function setBeats(count){
+        stopBeats();beatCount=Math.max(0,Math.min(MAX_BEATS,count));
         const row=$('#production-beats');row.replaceChildren();
-        if(mode!=='rapid')return;
-        for(let i=0;i<item.syllableCount;i++){
+        for(let i=0;i<beatCount;i++){
             const beat=document.createElement('button');beat.type='button';beat.className='production-beat';
-            beat.setAttribute('aria-label',`المقطع ${i+1} من ${item.syllableCount}${item.syllables?.[i]?' · '+item.syllables[i]:''}`);
+            beat.setAttribute('aria-label',`الدائرة ${i+1} من ${beatCount}`);
             beat.onclick=()=>void playProductionBeats(i);row.append(beat);
         }
+        $('#production-rhythm').classList.toggle('is-empty',!beatCount);
+        beatControls[0].disabled=!beatCount;beatControls[1].disabled=beatCount>=MAX_BEATS;
     }
+    function productionBeats(){ if(mode==='rapid')setBeats(0); else $('#production-beats').replaceChildren(); }
     const preview = document.createElement('dialog'); preview.id = 'word-preview'; preview.className = 'word-preview'; preview.hidden = true;
     preview.setAttribute('aria-label', 'نتعرّف على الكلمات');
     preview.addEventListener('cancel', event => { event.preventDefault(); pause(); });
@@ -160,7 +173,7 @@
                 correct:Number(mode==='rapid'?record.result==='mastered':record.result==='correct'&&record.attempts===1),
                 total:domain&&!['viewed','skip'].includes(record.result)?1:0,needsHelp:['notMastered','learning','skip'].includes(record.result)||record.attempts>1}))});
     }
-    function stopAudio() { ++audioGeneration; cancelAudioEnd?.(); audio.pause(); }
+    function stopAudio() { ++audioGeneration; cancelAudioEnd?.(); audio.pause(); window.VocPrompts?.stop(); }
     function clearWork() {
         collectTime(); ++generation;stopBeats();
         for (const timer of timers) clearTimeout(timer);
@@ -362,7 +375,7 @@
         const loading = [];
         const target = byKey.get(session.order[session.position]);
         lastKey = mode === 'memory' ? null : target.key;
-        productionBeats(target);
+        productionBeats();
         if (mode === 'memory') {
             if (session.order.length <= 2) $('#game-board').classList.add('two-columns');
             else if (session.order.length === 3) $('#game-board').classList.add('three-columns');
@@ -430,7 +443,7 @@
             all('#game-board > button').forEach(button => button.classList.toggle('guide-glow', mode === 'memory' && button.dataset.key === key));
             if (mode === 'rapid') {
                 const card = picture(byKey.get(key), true, 'picture-button', 'div');
-                $('#game-board').replaceChildren(card.element);productionBeats(byKey.get(key));fitBoard();
+                $('#game-board').replaceChildren(card.element);productionBeats();fitBoard();
                 if (!await card.loaded || ticket !== generation) {
                     if (ticket === generation) {
                         guideBusy = false; feedback('تعذر تحميل الصورة. اضغط زر إعادة المحاولة.', true);
@@ -501,6 +514,14 @@
         } finally { clearTimeout(timer); completion?.cancel(); }
     }
     function missed(key) { if (!session.missed.includes(key)) session.missed.push(key); }
+    // Matching and memory are practice: praise in the therapist's voice, a gentle «try again», a star burst.
+    const friendly = ['matching', 'memory'].includes(mode), voice = () => friendly ? window.VocPrompts : null;
+    function burst(element) {
+        if (!friendly || !element) return;
+        const stars = document.createElement('span'); stars.className = 'star-burst'; stars.setAttribute('aria-hidden', 'true');
+        for (let i = 0; i < 8; i++) { const star = document.createElement('i'); star.textContent = '★'; star.style.setProperty('--angle', `${i * 45}deg`); stars.append(star); }
+        element.append(stars); setTimeout(() => stars.remove(), 900);
+    }
     function choose(key, ticket) {
         if (ticket !== generation || phase !== 'active' || !ready || (mode === 'test' && heardKey !== session.order[session.position])) return;
         if (mode === 'matching' && session.order.slice(0, session.position).includes(key)) return;
@@ -521,7 +542,7 @@
                     if (!played) heardKey = null;
                     enableControls();
                 }, 450);
-            } else later(() => button.classList.remove('wrong'), 450);
+            } else { later(() => button.classList.remove('wrong'), 450); void voice()?.retry(); }
             save(); updateStats(); return;
         }
         phase = 'feedback';
@@ -529,7 +550,7 @@
         session.records.push({ key: target, result: 'correct', attempts: session.trialMistakes + 1 });
         session.position++; session.trialMistakes = 0; session.currentChoices = null;
         if(document.documentElement.dataset.suiteInput!=='keyboard')document.activeElement?.blur();
-        button.classList.add('matched'); feedback(`أحسنت! ${byKey.get(target).name}`); enableControls();
+        button.classList.add('matched'); burst(button); feedback(`أحسنت! ${byKey.get(target).name}`); enableControls();
         save(); updateStats();
         const feedbackStarted = performance.now();
         const advance = () => {
@@ -540,10 +561,12 @@
             // Keep this matched card visible until its entire word is heard.
             // The generation/phase guard prevents stale audio completion from
             // advancing a paused, replaced, or finished session.
-            void playWord(target, false, true).then(() => {
+            void playWord(target, false, true).then(async () => {
+                if (ticket === generation && phase === 'feedback') await voice()?.praise();
                 if (ticket === generation && phase === 'feedback') later(advance, Math.max(0, 600 - (performance.now() - feedbackStarted)));
             });
-        } else later(advance, 600);
+        } else if (voice()) void voice().praise().then(() => { if (ticket === generation && phase === 'feedback') later(advance, 200); });
+        else later(advance, 600);
     }
     function attachDrag(card, ticket) {
         let origin = null, moved = false;
@@ -592,18 +615,20 @@
             if (first.key === second.key) {
                 session.matched.push(first.key); session.position++; session.records.push({ key: first.key, result: 'matched' }); session.open = [];
                 feedback(`وجدت الزوج! ${byKey.get(first.key).name}`);
+                all('#game-board > button').filter(card => card.dataset.key === first.key).forEach(burst);
                 if (session.position === session.order.length) {
                     phase = 'feedback';
                     const started = performance.now();
-                    const playback = session.settings.sound ? playWord(first.key, false, true) : Promise.resolve();
+                    const playback = (session.settings.sound ? playWord(first.key, false, true) : Promise.resolve()).then(() => ticket === generation && voice()?.praise());
                     void playback.then(() => {
                         if (ticket === generation && phase === 'feedback') later(() => finish(false), Math.max(0, 650 - (performance.now() - started)));
                     });
-                } else if (session.settings.sound) void playWord(first.key);
+                } else if (session.settings.sound) void playWord(first.key, false, true).then(() => { if (ticket === generation) void voice()?.praise(); });
+                else void voice()?.praise();
             } else {
                 for(const card of [first,second])window.SessionHomework?.record({activity:'لعبة الذاكرة',key:card.key,label:byKey.get(card.key).name,needsHelp:true});
                 session.mistakes++; missed(first.key); missed(second.key); session.pendingMismatch = true; phase = 'feedback';
-                feedback('صورتان مختلفتان. تذكّر مكانهما وحاول مجدداً.'); later(closeMismatch, 800);
+                feedback('صورتان مختلفتان. تذكّر مكانهما وحاول مجدداً.'); later(closeMismatch, 800); void voice()?.retry();
             }
         } else feedback('اختر البطاقة الثانية.');
         if(document.documentElement.dataset.suiteInput!=='keyboard')document.activeElement?.blur();
@@ -674,6 +699,8 @@
             records: observedRecords().map(record => ({ key: record.key,
                 correct: domain && !['viewed','skip'].includes(record.result) ? (mode === 'rapid' ? Number(record.result === 'mastered') : Number(record.result === 'correct' && record.attempts === 1)) : 0,
                 total: domain && record.result !== 'viewed' ? 1 : 0,
+                // Matching is practice (no domain), so its first-try result is kept separately for goal estimates.
+                ...(mode === 'matching' && record.result === 'correct' ? { firstTry: Number(record.attempts === 1) } : {}),
                 ...(record.ratingHistory ? { productionRating:record.productionRating, ratingHistory:record.ratingHistory } : {}) })) });
         if (mode === 'test' && !partial && !session.review) P.completeWordLevel(P.active()?.workspace?.wordLevel,
             session.records.map(record => ({ key: record.key, correct: record.result === 'correct' && record.attempts === 1 })), true);
@@ -728,6 +755,8 @@
         $('#show-labels').checked = p.labels === true; $('#sound-hint').checked = p.sound !== false;
         if (bank.categories.some(category => String(category.id) === preferences.category)) categoryId = preferences.category;
     }
+    // The child's level (set on the account) chooses the number of pictures and the naming time.
+    { const rank = ['easy', 'moderate', 'advanced'].indexOf(P.level()); pick('game-level', [2, 4, 6][rank]); pick('game-duration', [6, 4, 2][rank]); }
     $('#category-rail').replaceChildren(...bank.categories.map(categoryTile)); renderCategoryGrid(); updateCategoryMarks();
     for (const control of all('.setting-choice input, #show-labels, #sound-hint')) control.addEventListener('change', () => { updatePreview(); selectionPreferences(); });
     $('#toggle-categories').addEventListener('click', () => toggleCategories($('#category-panel').hidden));

@@ -1,6 +1,6 @@
 # كلمة · Vocabulary Builder
 
-Arabic vocabulary practice with pictures and recordings: 985 words in 40 categories, a workplace for sessions, matching, memory, quick cards and listen-and-choose games, and a learner report.
+Arabic vocabulary practice with pictures and recordings: 977 words in 40 categories, a workplace for sessions, matching, memory, quick cards and listen-and-choose games, and a learner report.
 
 Published at https://hamada013.github.io/vocabulary-builder/.
 

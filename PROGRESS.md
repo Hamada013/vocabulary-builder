@@ -6,7 +6,11 @@ The book button beside **اختر صورة للبطاقة** switches the existin
 
 Completed workplace tests and **استمع واختر** record receptive responses. A corrected answer after an error does not count as a first-attempt success. Completed, manually graded **البطاقات السريعة** sessions record expressive responses. Skipped cards do not earn mastery; ungraded automatic viewing, matching, memory, practice, and incomplete sessions do not earn skill mastery.
 
-Every completed workplace test offers a dismissible automatic game plan, regardless of the score. The plan runs, in order, whichever of these the therapist leaves on: وين؟, البالونات, استمع واختر, البطاقات السريعة. Rounds saved for a game that has since been removed (اكشف الصورة) are skipped. It adapts after every round: 90% or more first-try answers move the remaining games one level harder, under 60% one level easier, and a practice game (وين؟ or balloons) under 50% is played once more at the easiest level before the test. The 1-2-3 countdown and the word demonstration play only at the start of the plan; later games start after a single large ▶ tap (browsers need one touch per page before sound can play). Its level, game, start, and dismiss controls are icons with accessible labels. All four games start selected. Each button can disable its game. Changing the workplace card set invalidates completed practice for that set.
+Each child account has a level (سهل / متوسط / متقدم), chosen when the child is added and editable with the name at any time in the accounts window. The level sets 2 / 4 / 6 pictures and a 6 / 4 / 2-second naming time everywhere.
+
+Pressing **تدريب** in the workplace runs the whole chain by itself: practice (the right card glows blue) → every card missed in practice is shown once, big, with its word, then 1 second → the test → every card failed in the test is shown the same way → the games box. **اختبار** alone runs the test, the repetition of failed cards and the games box. The games box always starts with «وين؟» and offers المطابقة, الذاكرة, استمع واختر (comprehension test) and البطاقات السريعة (naming test); the route plays them in that order with the workplace cards, at the child's level. The 1-2-3 countdown plays at the start of «وين؟» (after its demonstration); later games open straight away or after one large ▶ tap when the browser needs a touch before sound. Rounds saved for retired games (balloons, اكشف الصورة) are skipped.
+
+In البطاقات السريعة the beat bar starts empty for every card; the therapist adds circles with + (up to 6) and removes them with −. Tapping a circle lights and clicks it; tapping the bar plays them in order.
 
 | Choice | Matching / listening choices and memory pairs | Rapid observation time |
 | --- | --- | --- |
@@ -21,6 +25,8 @@ Run `npm test`, `npm run test:browser` and `npm run test:progress:browser`. Brow
 ## Therapist mode
 
 Therapist mode (password 013, current tab only) makes every word level available without marking any level completed; the child's own results still count. The intervention plan is stored on the learner as `intervention` and merges safely with other open tabs. See [docs/intervention-goals.md](docs/intervention-goals.md).
+
+Goal estimates (`InterventionGoals.estimate` in `assets/intervention-goals.js`): each measured goal follows the tests linked to it (comprehension by number of pictures, verbs, new categories, colours, shapes, numbers, adjectives and opposites, prepositions; naming by response time, verbs and core words; matching first tries; words remembered after 14+ days). Each session moves the estimate halfway toward that session's score, so it builds up or falls back over time. A goal is achieved after 3 sessions in a row at 80% or more and then stays achieved. The therapist's 20/40/60/80% rating, when newer than the last measured session, takes the estimate's place. Achieved goals turn green in the plan; the progress report and goals PDF have three parts: red (in progress), green (achieved) and yellow (suggested: the next goal after an achieved one).
 
 ## Activity reports
 

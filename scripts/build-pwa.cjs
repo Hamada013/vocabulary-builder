@@ -3,7 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const ROOT=path.resolve(__dirname,'..'),MODULE='voc';
 const sha=(body,encoding='hex')=>crypto.createHash('sha256').update(body).digest(encoding);
-const SKIP=new Set(['node_modules','tests','scripts','docs','.git','.github','_site']);
+const SKIP=new Set(['node_modules','tests','scripts','docs','recordings','.git','.github','_site']);
 function walk(directory){
  return fs.readdirSync(path.join(ROOT,directory),{withFileTypes:true}).flatMap(entry=>{
   if(SKIP.has(entry.name)||entry.name.startsWith('.'))return [];

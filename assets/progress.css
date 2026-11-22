@@ -37,3 +37,28 @@
 #automation-dialog .voc-icon{width:76px;height:auto;min-height:76px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px}
 #automation-dialog .voc-icon-label{font:800 12px/1.25 Cairo,sans-serif;color:#334155;text-align:center}
 #automation-dialog #plan-games .voc-icon[aria-pressed=false]{opacity:.35;filter:grayscale(1)}
+/* كلمة accounts: each child's level (سهل / متوسط / متقدم) and an inline rename. */
+.suite-account-dialog #child-level,.suite-account-row .account-level{font:700 14px Cairo,sans-serif;color:#0c4a6e;background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:12px;padding:0 8px;min-height:44px;cursor:pointer}
+.suite-account-dialog #child-level{flex:none;width:auto}
+.suite-account-row .account-level{align-self:center;margin-inline-end:4px}
+.suite-account-browser .suite-account-tools>.account-rename{color:#0284c7}
+.account-rename-form{display:flex;gap:6px;flex:1;min-width:0;align-items:center}
+.account-rename-form input{flex:1;min-width:0;min-height:40px;border:1.5px solid #38bdf8;border-radius:12px;padding:0 10px;font:700 15px Cairo,sans-serif}
+.account-rename-form button{min-height:40px;border:0;border-radius:12px;background:#0284c7;color:#fff;font:700 14px Cairo,sans-serif;padding:0 14px;cursor:pointer}
+/* Practice prompt: the right card glows blue so it is easy to see. */
+.slot.animate-pulse-hint{animation:voc-blue-glow 1s ease-in-out infinite alternate!important;border-color:#2563eb!important;border-style:solid!important}
+@keyframes voc-blue-glow{from{box-shadow:0 0 0 4px #3b82f6,0 0 14px 4px #60a5fa88}to{box-shadow:0 0 0 8px #2563eb,0 0 30px 12px #3b82f6aa}}
+@media(prefers-reduced-motion:reduce){.slot.animate-pulse-hint{animation:none!important;box-shadow:0 0 0 7px #2563eb,0 0 24px 8px #3b82f699!important}}
+/* Automatic repetition of missed cards: one big card at a time, no buttons. */
+.voc-repeat{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100dvh;margin:0;display:grid;place-items:center;overflow:hidden}
+.voc-repeat:not([open]){display:none}
+.voc-repeat::backdrop{background:#f0f9ffdd;backdrop-filter:blur(10px)}
+.voc-repeat figure{margin:0;width:min(78vw,62dvh,520px);background:#fff;border:4px solid #3b82f6;border-radius:32px;box-shadow:0 20px 50px #1e3a8a33;overflow:hidden;text-align:center}
+.voc-repeat img{display:block;width:100%;aspect-ratio:1;object-fit:contain;padding:6%;box-sizing:border-box}
+.voc-repeat figcaption{font:900 clamp(24px,6vw,42px)/1.4 Cairo,sans-serif;color:#fff;background:#1e3a8a;padding:6px 10px}
+.voc-repeat-in{animation:voc-repeat-in .35s ease-out}
+@keyframes voc-repeat-in{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+/* Games box: «وين؟» is always on; the child's level is shown, not chosen. */
+#automation-dialog .plan-level{text-align:center;margin:-8px 0 4px;font:700 14px Cairo,sans-serif;color:#0369a1}
+#automation-dialog [data-fixed]{cursor:default;border-color:#0284c7;background:#e0f2fe}
+#automation-dialog #plan-games .voc-icon:nth-child(1){color:#0284c7}#automation-dialog #plan-games .voc-icon:nth-child(2){color:#0d9488}#automation-dialog #plan-games .voc-icon:nth-child(3){color:#7c3aed}#automation-dialog #plan-games .voc-icon:nth-child(4){color:#2563eb}#automation-dialog #plan-games .voc-icon:nth-child(5){color:#d97706}

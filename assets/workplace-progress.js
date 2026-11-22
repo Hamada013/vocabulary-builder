@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let hadMistake = false;
     let promptQueue = [];
     let run = null;
-    let automaticChoice = null;
-    let planStartMode = 'practice';
+    // تدريب runs the whole chain: practice → repeat missed cards → test → repeat failed cards → games box.
+    let chain = false;
+    let repeatToken = 0;
     let startToken = 0;
     const keys = () => [...new Set(app.state.slotsData.filter(slot => slot.item).map(slot => P.key(slot.item)))];
     const signature = () => [...keys()].sort().join('|');
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         app.renderSlotsLayout();
     }
     app.state.stars = 0; app.renderStars(); restoring = false;
-    window.addEventListener('voc-profile-beforechange', () => { automaticChoice=null;document.body.classList.remove('voc-automatic-workplace');if(app.state.deleteMode)app.setDeleteMode(false);save(); app.exitTestMode(false); changingProfile = true; });
+    window.addEventListener('voc-profile-beforechange', () => { chain=false;repeatToken++;document.body.classList.remove('voc-automatic-workplace');if(app.state.deleteMode)app.setDeleteMode(false);save(); app.exitTestMode(false); changingProfile = true; });
     window.addEventListener('pagehide', () => { save(); logRun(true); });
     window.addEventListener('voc-profile-memorychange', () => { app.state.deleteMode=false;app.syncDeleteMode();changingProfile = false; practiced = null; lastResult = null; worked = []; wordLevel = null; app.resetSlots(); app.renderSlotsContent(); });
     window.addEventListener('voc-workplace-level-load', event => { practiced = null; lastResult = null; worked = []; wordLevel = event.detail || null; save(); });
@@ -77,28 +78,61 @@ document.addEventListener('DOMContentLoaded', () => {
         this.renderSlotsContent(); this.playAudioAndAnimate(slot, document.querySelector('#slot-0'));
     };
 
+    // Games box after the test. «وين؟» always opens the route; the therapist picks the rest.
+    // The level comes from the child's account (P.level()).
     const modal = document.createElement('dialog'); modal.id = 'automation-dialog'; modal.className = 'voc-dialog'; modal.setAttribute('aria-labelledby', 'automation-title');
     const iconButton = (attributes, icon, label) => `<button type="button" class="voc-choice voc-icon" ${attributes} aria-label="${label}" title="${label}"><i class="fas fa-${icon}" aria-hidden="true"></i><span class="voc-icon-label" aria-hidden="true">${label}</span></button>`;
-    modal.innerHTML = `<h2 id="automation-title">نكمل بالألعاب؟</h2><div class="voc-choices" id="plan-levels" role="group" aria-label="المستوى">${iconButton('data-difficulty="easy" aria-pressed="true"', 'seedling', 'سهل')}${iconButton('data-difficulty="moderate" aria-pressed="false"', 'walking', 'متوسط')}${iconButton('data-difficulty="advanced" aria-pressed="false"', 'running', 'متقدم')}</div><div class="voc-choices" id="plan-games" role="group" aria-label="الألعاب التالية">${iconButton('data-mode="where" aria-pressed="true"', 'hand-pointer', 'وين؟')}${iconButton('data-mode="balloons" aria-pressed="true"', 'birthday-cake', 'البالونات')}${iconButton('data-mode="test" aria-pressed="true"', 'headphones', 'استمع واختر')}${iconButton('data-mode="rapid" aria-pressed="true"', 'bolt', 'البطاقات السريعة')}</div><footer class="suite-text-actions"><button type="button" id="start-plan">يلا نلعب</button><button type="button" id="dismiss-plan">عودة للتدريب</button></footer>`;
+    modal.innerHTML = `<h2 id="automation-title">نكمل بالألعاب؟</h2><p class="plan-level" data-plan-level></p><div class="voc-choices" id="plan-games" role="group" aria-label="الألعاب التالية">${iconButton('data-fixed="where" aria-disabled="true" aria-pressed="true"', 'hand-pointer', 'وين؟')}${iconButton('data-mode="matching" aria-pressed="true"', 'puzzle-piece', 'المطابقة')}${iconButton('data-mode="memory" aria-pressed="true"', 'clone', 'الذاكرة')}${iconButton('data-mode="test" aria-pressed="true"', 'headphones', 'استمع واختر')}${iconButton('data-mode="rapid" aria-pressed="true"', 'bolt', 'البطاقات السريعة')}</div><footer class="suite-text-actions"><button type="button" id="start-plan">يلا نلعب</button><button type="button" id="dismiss-plan">عودة للتدريب</button></footer>`;
     document.body.append(modal);
-    const autoButton=document.createElement('button');autoButton.type='button';autoButton.id='start-automatic-path';autoButton.className='suite-icon';autoButton.title='المسار التلقائي';autoButton.setAttribute('aria-label',autoButton.title);autoButton.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>';
-    document.querySelector('#workplace-view > header > div').append(autoButton);
-    autoButton.onclick=()=>{window.AppNavigation?.closeSettings();planStartMode='practice';app.exitTestMode(false);modal.showModal();};
-    modal.querySelectorAll('[data-difficulty]').forEach(button => button.addEventListener('click', () => modal.querySelectorAll('[data-difficulty]').forEach(b => b.setAttribute('aria-pressed', String(b === button)))));
-    modal.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
-        button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'));
-        modal.querySelector('#start-plan').disabled = !modal.querySelector('[data-mode][aria-pressed=true]');
-    }));
-    modal.querySelector('#dismiss-plan').onclick = () => {modal.close();app.switchView('workplace');save();};
-    modal.addEventListener('cancel',()=>{app.switchView('workplace');save();});
+    modal.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'))));
+    modal.querySelector('#dismiss-plan').onclick = () => { modal.close(); app.switchView('workplace'); save(); };
+    modal.addEventListener('cancel', () => { app.switchView('workplace'); save(); });
     modal.querySelector('#start-plan').onclick = () => {
-        const modes = [...modal.querySelectorAll('[data-mode][aria-pressed=true]')].map(button => button.dataset.mode);
-        const difficulty = modal.querySelector('[data-difficulty][aria-pressed=true]').dataset.difficulty;
-        if(!planStartMode){if(P.startPlan([...new Set([...worked,...keys()])],difficulty,modes)&&P.storageOK()){worked=[];save();location.href=P.planURL();}return;}
-        automaticChoice={difficulty,modes};modal.close();
-        document.body.classList.add('voc-automatic-workplace');
-        void app.handleModeButtonClick(planStartMode);
+        const modes = ['where', ...[...modal.querySelectorAll('[data-mode][aria-pressed=true]')].map(button => button.dataset.mode)];
+        if (P.startPlan([...new Set([...worked, ...keys()])], modes) && P.storageOK()) { worked = []; save(); location.href = P.planURL(); }
     };
+    function showGamesBox() {
+        modal.querySelector('[data-plan-level]').textContent = `المستوى: ${P.LEVEL_NAMES[P.level()]} · يتغيّر من حساب الطفل`;
+        modal.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', 'true'));
+        modal.showModal();
+    }
+
+    // Repetition: each missed card once, big, with its word, then 1 second. It runs by itself;
+    // Escape stops it. Uses the workplace audio element, which the تدريب/اختبار tap unlocked.
+    const repeat = document.createElement('dialog'); repeat.id = 'repeat-cards'; repeat.className = 'voc-repeat'; repeat.setAttribute('aria-label', 'إعادة البطاقات');
+    repeat.innerHTML = '<figure><img alt=""><figcaption></figcaption></figure>';
+    repeat.addEventListener('cancel', () => { repeatToken++; app.stopCardPlayback(); });
+    document.body.append(repeat);
+    const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+    // Resolves when the word has finished (or failed, or 8 s passed, or the repetition was stopped).
+    function hear(item, token) {
+        return new Promise(resolve => {
+            const audio = app.getCardAudio(); app.stopCardPlayback();
+            const watch = setInterval(() => { if (token !== repeatToken) { audio.pause(); done(); } }, 100);
+            const timer = setTimeout(() => { audio.pause(); done(); }, 8000);
+            function done() { clearTimeout(timer); clearInterval(watch); audio.onended = audio.onerror = null; resolve(); }
+            audio.onended = done; audio.onerror = done; audio.src = item.audio;
+            audio.play().catch(done);
+        });
+    }
+    async function repeatCards(list) {
+        const items = [...new Set(list)].map(find).filter(Boolean), token = ++repeatToken;
+        if (!items.length) return true;
+        const figure = repeat.querySelector('figure');
+        repeat.showModal();
+        for (const item of items) {
+            if (token !== repeatToken) break;
+            repeat.querySelector('img').src = item.image; repeat.querySelector('figcaption').textContent = item.name;
+            figure.classList.remove('voc-repeat-in'); void figure.offsetWidth; figure.classList.add('voc-repeat-in');
+            await hear(item, token); if (token !== repeatToken) break;
+            await pause(1000);
+        }
+        if (repeat.open) repeat.close();
+        return token === repeatToken;
+    }
+    // A card counts as missed when the child chose another picture before finding it.
+    const missedKeys = () => [...new Set(records.filter(record => !record.correct).map(record => record.key))];
+
     function logRun(partial) {
         if (!run || run.logged || !records.length) return;
         run.logged = !partial;
@@ -106,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             records: records.map(record => ({ key: record.key, correct: record.correct ? 1 : 0, total: 1 })) });
     }
     const exit = app.exitTestMode;
-    app.exitTestMode = function(showMessage = true) { if(showMessage){automaticChoice=null;document.body.classList.remove('voc-automatic-workplace');}startToken++; this.stopCardPlayback(); window.VocCountdown.cancel(); if (this.state.testState.active) logRun(true); exit.call(this, showMessage); };
+    app.exitTestMode = function(showMessage = true) { if(showMessage){chain=false;repeatToken++;document.body.classList.remove('voc-automatic-workplace');}startToken++; this.stopCardPlayback(); window.VocCountdown.cancel(); if (this.state.testState.active) logRun(true); exit.call(this, showMessage); };
     const start = app.handleModeButtonClick;
     app.handleModeButtonClick = async function(type) {
         if(this.state.deleteMode)this.setDeleteMode(false);
@@ -146,17 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
             logRun(false);
             this.exitTestMode(false); this.state.stars = 0; this.renderStars(); save();
             worked=[...new Set([...worked,...keys()])];save();
-            if (mode === 'practice' && automaticChoice) { void this.handleModeButtonClick('test'); return; }
-            if (mode === 'test' && automaticChoice) {
-                const {difficulty,modes}=automaticChoice;automaticChoice=null;
-                if(P.startPlan([...new Set([...worked,...keys()])],difficulty,modes)&&P.storageOK()){worked=[];save();location.href=P.planURL();}
-                return;
+            const missed = missedKeys();
+            if (mode === 'practice') {
+                // Practice → missed cards → test, all without a button.
+                chain = true;
+                void repeatCards(missed).then(finished => { if (finished && chain) void this.handleModeButtonClick('test'); });
+            } else {
+                chain = false;
+                void repeatCards(missed).then(finished => { if (finished) showGamesBox(); });
             }
-            if (mode === 'test' || mode === 'practice') {
-                planStartMode=mode==='practice'?'test':null;
-                modal.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', 'true'));
-                modal.querySelector('#start-plan').disabled = false; modal.showModal();
-            } else this.showToast(mode === 'practice' ? 'اكتمل التدريب' : `نتيجة الاختبار: ${percentage}%`, 'success');
             return;
         }
         next.call(this);
