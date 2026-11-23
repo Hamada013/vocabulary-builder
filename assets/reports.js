@@ -220,15 +220,15 @@
             printDialog.querySelector('[data-print-cancel]').onclick = () => printDialog.close();
             printDialog.querySelector('[data-print-go]').onclick = () => void downloadChosen();
         }
-        printDialog.querySelector('.voc-print-list').innerHTML = REPORT_PARTS.filter(part => !part.available || part.available()).map(part => `<label class="voc-print-option"><input type="checkbox" value="${part.id}" checked><span><b>${part.label}</b><small>${part.hint}</small></span></label>`).join('');
+        printDialog.querySelector('.voc-print-list').innerHTML = REPORT_PARTS.filter(part => !part.available || part.available()).map(part => `<button type="button" class="voc-print-option print-choice" data-choice="${part.id}" aria-pressed="true"><span class="print-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg></span><span><b>${part.label}</b><small>${part.hint}</small></span></button>`).join('');
         printDialog.querySelector('.voc-print-error').hidden = true;
-        const sync = () => { printDialog.querySelector('[data-print-go]').disabled = !printDialog.querySelector('.voc-print-list input:checked'); };
-        printDialog.querySelectorAll('.voc-print-list input').forEach(input => { input.onchange = sync; }); sync();
+        const sync = () => { printDialog.querySelector('[data-print-go]').disabled = !printDialog.querySelector('.voc-print-list [aria-pressed=true]'); };
+        printDialog.querySelectorAll('.voc-print-list [data-choice]').forEach(el => { el.onclick = () => { el.setAttribute('aria-pressed', String(el.getAttribute('aria-pressed') !== 'true')); sync(); }; }); sync();
         printDialog.showModal();
     }
     async function downloadChosen() {
         if (busy) return;
-        const chosen = [...printDialog.querySelectorAll('.voc-print-list input:checked')].map(input => input.value);
+        const chosen = [...printDialog.querySelectorAll('.voc-print-list [aria-pressed=true]')].map(button => button.dataset.choice);
         busy = true; const go = printDialog.querySelector('[data-print-go]'); go.disabled = true; go.textContent = 'جاري التنزيل…';
         const report = model, name = report.title.replace(/[^\p{L}\p{N}_-]/gu, '_'), date = report.date.replaceAll('/', '-');
         try {
@@ -236,7 +236,7 @@
                 const part = REPORT_PARTS.find(entry => entry.id === id);
                 const doc = id === 'goals' ? await root.InterventionPlan.reportPdf() : await pdfFor(report, { summary: id === 'summary', acquisition: id === 'acquisition' });
                 doc.save(`كلمة-${part.file}-${name}-${date}.pdf`);
-                await new Promise(resolve => setTimeout(resolve, 400)); // Browsers allow several downloads when they are spaced.
+                await new Promise(resolve => setTimeout(resolve, 900)); // Browsers allow several downloads when they are spaced.
             }
             printDialog.close();
         } catch { const error = printDialog.querySelector('.voc-print-error'); error.textContent = 'تعذّر إنشاء أحد التقارير. أعد المحاولة أو نزّل التطبيق للاستخدام دون إنترنت.'; error.hidden = false; }

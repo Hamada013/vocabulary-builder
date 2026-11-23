@@ -134,7 +134,7 @@
  if(typeof module!=='undefined')module.exports={remove,retireOwner,orderedChildren,assignAvatars,setAvatar,AVATAR_ICONS};
  if(!root.document)return;
  try{if(retireOwner(localStorage)){location.reload();return;}}catch{}
- const current=()=>root.VocProgress?.active()||root.SenbProgress?.active()||root.TaffahaProgress?.active()||root.SoundProgress?.active();
+ const current=()=>root.VocProgress?.active()||root.SenbProgress?.active()||root.TaffahaProgress?.active()||root.SoundProgress?.active()||root.FollowProgress?.active()||root.AuralProgress?.active();
  let dialog,openSort,sortSerial=0,avatars=new Map(),entries=[],refresh=()=>{},openPickerFor=null;
  const glyph=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
  const storageOrNull=()=>{try{return localStorage;}catch{return null;}};

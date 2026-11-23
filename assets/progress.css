@@ -80,3 +80,12 @@
 .voc-print-error{color:#b42318;font-size:14px}
 .voc-print-dialog .voc-print-option{display:flex!important;flex-direction:row;align-items:center}
 .voc-print-dialog .voc-print-option input{width:22px!important;height:22px!important;min-height:0!important;margin:0!important;padding:0!important}
+
+/* Report choices in the print window: styled toggle cards (no browser checkboxes). */
+.print-choice{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:1.5px solid #dceaf4;border-radius:16px;background:#fff;color:#22445a;font:inherit;text-align:start;cursor:pointer}
+.print-choice>span:last-child{display:grid}.print-choice small{color:#5c7285;font-size:13px}
+.print-tick{display:grid;place-items:center;flex:none;width:26px;height:26px;border:2px solid #cbd5e1;border-radius:8px;color:transparent}
+.print-tick svg{width:18px;height:18px}
+.print-choice[aria-pressed=true]{border-color:#0284c7;background:#f0f9ff}
+.print-choice[aria-pressed=true] .print-tick{border-color:#0284c7;background:#0284c7;color:#fff}
+.print-choice:focus-visible{outline:3px solid #38bdf8;outline-offset:2px}
