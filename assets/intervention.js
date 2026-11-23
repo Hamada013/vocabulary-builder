@@ -149,9 +149,11 @@
                 </div>
                 <div class="voc-plan-tabs" role="tablist" aria-label="خطة التدخل">
                     <button type="button" role="tab" id="voc-tab-plan" aria-controls="voc-panel-plan" data-tab="plan"></button>
+                    <button type="button" role="tab" id="voc-tab-progress" aria-controls="voc-panel-progress" data-tab="progress">التقدم</button>
                     <button type="button" role="tab" id="voc-tab-bank" aria-controls="voc-panel-bank" data-tab="bank">بنك الأهداف</button>
                 </div>
                 <section role="tabpanel" id="voc-panel-plan" aria-labelledby="voc-tab-plan" data-panel="plan"></section>
+                <section role="tabpanel" id="voc-panel-progress" aria-labelledby="voc-tab-progress" data-panel="progress"></section>
                 <section role="tabpanel" id="voc-panel-bank" aria-labelledby="voc-tab-bank" data-panel="bank"></section>
             </div>`;
         document.body.append(plan);
@@ -201,6 +203,7 @@
                         <div class="voc-rating" role="group" aria-label="نسبة الإنجاز">${G.LEVELS.map(level => `<button type="button" data-rate="${item.id}" data-level="${level}" aria-pressed="${saved.rating === level}">${level}%</button>`).join('')}</div></div>`;
                 }).join('') + '</article>').join('');
 
+        plan.querySelector('[data-panel=progress]').innerHTML = counts.total ? progressGroups(model.goals) : `<div class="voc-plan-empty">أضف أهدافاً إلى الخطة لترى تقدّمها هنا.</div>`;
         plan.querySelector('[data-panel=bank]').innerHTML = readyPlans() + G.GOALS.map(goal => `<article class="voc-goal"><h3>${escape(goal.title)}</h3><p>الهدف بعيد المدى: ${escape(goal.text)}</p>`
             + goal.short.map(item => { const added = !!goalOf(item.id); return `<div class="voc-short"><div class="voc-short-text">${escape(item.text)}<small>${escape(item.where)}</small></div>
                 <button type="button" class="voc-add" data-toggle="${item.id}" aria-pressed="${added}" aria-label="${added ? 'إزالة من الخطة' : 'إضافة إلى الخطة'}: ${escape(item.text)}">${added ? ICONS.check + 'في الخطة' : ICONS.plus + 'إضافة'}</button></div>`; }).join('')
@@ -325,6 +328,21 @@
         } finally { busy = false; button.disabled = !model.goals.length; }
     }
 
+    // ---- Progress: the plan's goals in three groups (red in progress, green achieved, yellow suggested) ----
+    function progressGroups(goals) {
+        const percent = list => list.length ? Math.round(list.reduce((sum, goal) => sum + (effective(goal).percent || 0), 0) / list.length) : 0;
+        const doneGoals = goals.filter(goal => stateOf(goal) === 'done'), workingGoals = goals.filter(goal => !doneGoals.includes(goal));
+        const suggestedIds = G.suggest?.(goals.map(goal => goal.id), doneGoals.map(goal => goal.id)) || [];
+        const row = (item, state, value) => `<div class="voc-plan-report-row" data-state="${state}"><span class="voc-short-text">${escape(item.text)}${state === 'suggested' ? '' : estimateLine(value?.est)}</span>`
+            + (state === 'suggested' ? '' : `<span class="voc-plan-report-bar" role="img" aria-label="${value.percent == null ? 'لم يُقيّم' : value.percent + '%'}"><i style="width:${value.percent ?? 0}%" data-state="${state}"></i></span>`)
+            + `<span class="voc-status" data-state="${state}">${state === 'suggested' ? statusLabel.suggested : value.percent == null ? statusLabel.new : `${value.percent}% · ${statusLabel[state]}`}</span></div>`;
+        const group = (state, title, list, empty) => `<div class="voc-plan-group" data-state="${state}"><h4>${title} <small>(${list.length})</small></h4>${list.length ? list.map(entry => { const item = G.short(entry.id); return row(item, state, state === 'suggested' ? null : effective(entry)); }).join('') : `<p class="voc-plan-group-empty">${empty}</p>`}</div>`;
+        return `<div class="voc-plan-summary"><div><strong>${percent(goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${doneGoals.length} / ${goals.length}</strong><span>أهداف تحققت</span></div></div>`
+            + group('working', 'نعمل عليها الآن', workingGoals, 'لا توجد أهداف قيد العمل.')
+            + group('done', 'تحققت', doneGoals, `لم يتحقق هدف بعد (${G.ACHIEVED}% في 3 جلسات متتالية، أو تقييمك ${G.ACHIEVED}%).`)
+            + group('suggested', 'مقترحة للمرحلة القادمة', suggestedIds.map(id => ({ id })), 'تظهر الأهداف المقترحة بعد تحقق أول هدف.');
+    }
+
     // ---- Goals inside the child's progress report ----
     // Long-term goals with their chosen short-term goals, the latest rating and status, and the goals PDF.
     function reportSection() {
@@ -339,15 +357,7 @@
             return section;
         }
         estimated = estimates();
-        const percent = list => list.length ? Math.round(list.reduce((sum, goal) => sum + (effective(goal).percent || 0), 0) / list.length) : 0;
-        const doneGoals = goals.filter(goal => stateOf(goal) === 'done'), workingGoals = goals.filter(goal => !doneGoals.includes(goal));
-        const suggestedIds = G.suggest?.(goals.map(goal => goal.id), doneGoals.map(goal => goal.id)) || [];
-        const row = (item, state, value) => `<div class="voc-plan-report-row" data-state="${state}"><span class="voc-short-text">${escape(item.text)}${state === 'suggested' ? '' : estimateLine(value?.est)}</span>`
-            + (state === 'suggested' ? '' : `<span class="voc-plan-report-bar" role="img" aria-label="${value.percent == null ? 'لم يُقيّم' : value.percent + '%'}"><i style="width:${value.percent ?? 0}%" data-state="${state}"></i></span>`)
-            + `<span class="voc-status" data-state="${state}">${state === 'suggested' ? statusLabel.suggested : value.percent == null ? statusLabel.new : `${value.percent}% · ${statusLabel[state]}`}</span></div>`;
-        const group = (state, title, list) => list.length ? `<div class="voc-plan-group" data-state="${state}"><h4>${title} <small>(${list.length})</small></h4>${list.map(entry => { const item = G.short(entry.id); return row(item, state, state === 'suggested' ? null : effective(entry)); }).join('')}</div>` : '';
-        section.innerHTML = head + `<div class="voc-plan-summary"><div><strong>${percent(goals)}%</strong><span>إنجاز الخطة</span></div><div><strong>${doneGoals.length} / ${goals.length}</strong><span>أهداف تحققت</span></div></div>`
-            + group('working', 'قيد العمل', workingGoals) + group('done', 'تحققت', doneGoals) + group('suggested', 'أهداف مقترحة', suggestedIds.map(id => ({ id })));
+        section.innerHTML = head + progressGroups(goals);
         section.querySelector('[data-plan-report-pdf]').onclick = async event => {
             const button = event.currentTarget; button.disabled = true;
             try { const report = { ...load(), estimates: estimates(), date: new Date().toISOString() }; const doc = await pdfFor(report); doc.save(`أهداف-${(report.childName || 'الطفل').replace(/[^\p{L}\p{N}_-]/gu, '_')}-${formatDate(report.date).replaceAll('/', '-')}.pdf`); }
@@ -362,6 +372,8 @@
         document.querySelectorAll('[data-open-plan]').forEach(button => { button.onclick = open; });
         syncHeader();
     }
-    window.InterventionPlan = { open, isActive, reportSection, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
+    // The child's goals report as a PDF document, for the report's print window.
+    const reportPdf = () => pdfFor({ ...load(), estimates: estimates(), date: new Date().toISOString() });
+    window.InterventionPlan = { open, isActive, reportSection, reportPdf, pdfFor: report => pdfFor(report), model: () => model && JSON.parse(JSON.stringify(model)) };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

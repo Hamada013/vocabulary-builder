@@ -39,7 +39,7 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
 .voc-plan-info input { height: 44px; padding: 0 12px; border: 1px solid #dceaf4; border-radius: 14px; background: #fff; color: #22445a; font-size: 15px; font-weight: 600; }
 @media (max-width: 599px) { .voc-plan-info { grid-template-columns: 1fr 1fr; } .voc-plan-info label:first-child { grid-column: 1 / -1; } }
 
-.voc-plan-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 14px; border: 1px solid #dceaf4; border-radius: 16px; background: #fff; }
+.voc-plan-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; margin-bottom: 14px; border: 1px solid #dceaf4; border-radius: 16px; background: #fff; }
 .voc-plan-tabs button { height: 42px; border: 0; border-radius: 12px; background: transparent; color: #5c7285; font-weight: 700; cursor: pointer; }
 .voc-plan-tabs button[aria-selected="true"] { background: #eaf6fd; color: #0369a1; }
 .voc-plan-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
@@ -136,3 +136,4 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
 .voc-plan-group[data-state="done"] h4 { color: #2f7a52; }
 .voc-plan-group[data-state="suggested"] { background: #fffbeb; border-color: #f6dfa0; }
 .voc-plan-group[data-state="suggested"] h4 { color: #a16207; }
+.voc-plan-group-empty { margin: 4px 0 2px; font-size: 13px; color: #6b7f8e; }

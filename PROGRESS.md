@@ -10,6 +10,10 @@ Each child account has a level (سهل / متوسط / متقدم), chosen when t
 
 Pressing **تدريب** in the workplace runs the whole chain by itself: practice (the right card glows blue) → every card missed in practice is shown once, big, with its word, then 1 second → the test → every card failed in the test is shown the same way → the games box. **اختبار** alone runs the test, the repetition of failed cards and the games box. The games box always starts with «وين؟» and offers المطابقة, الذاكرة, استمع واختر (comprehension test) and البطاقات السريعة (naming test); the route plays them in that order with the workplace cards, at the child's level. The 1-2-3 countdown plays at the start of «وين؟» (after its demonstration); later games open straight away or after one large ▶ tap when the browser needs a touch before sound. Rounds saved for retired games (balloons, اكشف الصورة) are skipped.
 
+Word levels follow the child's level: سهل levels hold 2–3 words (the original levels and their saved progress), متوسط up to 4 and متقدم up to 6, each with its own progress. Two words with the same picture or label never share a level.
+
+Workplace tools carry one-word labels; the child's account button is on the home screen. Delete mode turns itself off 2 seconds after the last tap (each deleted card restarts the 2 seconds).
+
 In البطاقات السريعة the beat bar starts empty for every card; the therapist adds circles with + (up to 6) and removes them with −. Tapping a circle lights and clicks it; tapping the bar plays them in order.
 
 | Choice | Matching / listening choices and memory pairs | Rapid observation time |
@@ -25,6 +29,8 @@ Run `npm test`, `npm run test:browser` and `npm run test:progress:browser`. Brow
 ## Therapist mode
 
 Therapist mode (password 013, current tab only) makes every word level available without marking any level completed; the child's own results still count. The intervention plan is stored on the learner as `intervention` and merges safely with other open tabs. See [docs/intervention-goals.md](docs/intervention-goals.md).
+
+The plan window has three tabs: الخطة, التقدم (in progress / achieved / suggested next goals) and بنك الأهداف. In the child's report every chart is a bar chart (comprehension and expression accuracy, and acquisition per category). The report's print button opens a window to choose the reports — progress summary, acquisition by category, and (with therapist mode open) the plan's goals — and each downloads as its own PDF.
 
 Goal estimates (`InterventionGoals.estimate` in `assets/intervention-goals.js`): each measured goal follows the tests linked to it (comprehension by number of pictures, verbs, new categories, colours, shapes, numbers, adjectives and opposites, prepositions; naming by response time, verbs and core words; matching first tries; words remembered after 14+ days). Each session moves the estimate halfway toward that session's score, so it builds up or falls back over time. A goal is achieved after 3 sessions in a row at 80% or more and then stays achieved. The therapist's 20/40/60/80% rating, when newer than the last measured session, takes the estimate's place. Achieved goals turn green in the plan; the progress report and goals PDF have three parts: red (in progress), green (achieved) and yellow (suggested: the next goal after an achieved one).
 

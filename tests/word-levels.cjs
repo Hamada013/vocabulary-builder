@@ -38,4 +38,16 @@ p.signIn('سارة');const a=create(storage),b=create(storage),other=curriculum.
 a.saveWorkspace({slots:first.keys,wordLevel:first});b.saveWorkspace({slots:other.keys,wordLevel:other});
 a.completeWordLevel(first,records,true);b.completeWordLevel(other,other.keys.map(key=>({key,correct:true})),true);
 const fresh=create(storage);assert.equal(fresh.wordLevelCompleted(first),true);assert.equal(fresh.wordLevelCompleted(other),true);
-console.log('PASS word levels: 977 words in 339 two/three-word sets, independent category chains, test-only unlocks, durable child progress, changed-card checks and unrestricted Hamada.');
+// Larger children's levels: up to 4 (متوسط) or 6 (متقدم) words per level, every word once,
+// distinct words and pictures, never a one-word level; سهل keeps its original level IDs.
+assert.deepEqual(build(bank,'easy').levels.map(level=>level.id),curriculum.levels.map(level=>level.id),'سهل is the original set');
+for(const [name,size] of [['moderate',4],['advanced',6]]){
+ const larger=build(bank,name),all=larger.levels.flatMap(level=>level.keys);
+ assert.equal(larger.size,size);assert.equal(all.length,977);assert.equal(new Set(all).size,977);
+ assert.ok(larger.levels.every(level=>level.keys.length>=2&&level.keys.length<=size),`${name}: 2 to ${size} words`);
+ assert.ok(larger.levels.filter(level=>level.keys.length===size).length>larger.levels.length/2,`${name}: most levels are full`);
+ assert.equal(new Set(larger.levels.map(level=>level.id)).size,larger.levels.length);
+ assert.ok(larger.levels.every(level=>!curriculum.levels.some(old=>old.id===level.id)),`${name}: its own progress`);
+ for(const level of larger.levels){const items=level.keys.map(key=>larger.items.find(item=>item.key===key));assert.equal(new Set(items.map(item=>item.imageHash)).size,items.length);}
+}
+console.log('PASS word levels: 977 words in 339 two/three-word sets, independent category chains, test-only unlocks, durable child progress, changed-card checks and unrestricted Hamada; 2, 4 or 6 words per level by the child\'s level.');

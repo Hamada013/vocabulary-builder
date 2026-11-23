@@ -94,8 +94,8 @@
         render();
     }
     function mountReport(popup) {
-        reportPage.innerHTML = `<header class="voc-report-toolbar"><div class="voc-dialog-heading"><${popup ? 'h2' : 'h1'} id="report-title" tabindex="-1">ملخص التقدم</${popup ? 'h2' : 'h1'}><div class="voc-choices">${icon('id="report-download"', 'file-pdf', 'تنزيل PDF')}${popup ? icon('id="report-close"', 'times', 'إغلاق') : '<a class="voc-choice voc-icon" href="index.html" aria-label="الرئيسية" title="الرئيسية"><i class="fas fa-home" aria-hidden="true"></i></a>'}</div></div><nav class="voc-choices voc-report-periods" aria-label="فترة التقرير">${Object.entries({ day: 'اليوم', week: '٧ أيام', month: '٣٠ يوماً', quarter: '٣ أشهر', halfyear: '٦ أشهر', all: 'الكل' }).map(([period, text]) => `<button type="button" class="voc-choice voc-period" data-period="${period}" aria-label="${periods[period]}" title="${periods[period]}">${text}</button>`).join('')}</nav></header><div id="report-content" aria-live="polite"></div><p id="report-error" role="alert" hidden></p>`;
-        reportPage.querySelector('#report-download').onclick = download;
+        reportPage.innerHTML = `<header class="voc-report-toolbar"><div class="voc-dialog-heading"><${popup ? 'h2' : 'h1'} id="report-title" tabindex="-1">ملخص التقدم</${popup ? 'h2' : 'h1'}><div class="voc-choices">${icon('id="report-download"', 'print', 'طباعة التقارير')}${popup ? icon('id="report-close"', 'times', 'إغلاق') : '<a class="voc-choice voc-icon" href="index.html" aria-label="الرئيسية" title="الرئيسية"><i class="fas fa-home" aria-hidden="true"></i></a>'}</div></div><nav class="voc-choices voc-report-periods" aria-label="فترة التقرير">${Object.entries({ day: 'اليوم', week: '٧ أيام', month: '٣٠ يوماً', quarter: '٣ أشهر', halfyear: '٦ أشهر', all: 'الكل' }).map(([period, text]) => `<button type="button" class="voc-choice voc-period" data-period="${period}" aria-label="${periods[period]}" title="${periods[period]}">${text}</button>`).join('')}</nav></header><div id="report-content" aria-live="polite"></div><p id="report-error" role="alert" hidden></p>`;
+        reportPage.querySelector('#report-download').onclick = choosePrint;
         reportPage.querySelector('#report-close')?.addEventListener('click', () => reportDialog.close());
         reportPage.querySelectorAll('[data-period]').forEach(button => button.addEventListener('click', () => {
             selectedPeriod = button.dataset.period;
@@ -123,15 +123,16 @@
         if (!reportDialog.open) reportDialog.showModal();
         reportDialog.querySelector('#report-title').focus({ preventScroll: true });
     }
-    function donut(domain) {
+    // Comprehension and expression accuracy as horizontal bars (no ring charts).
+    function skillBar(domain) {
         const score = model.domains[domain], pct = percent(score);
-        return `<div class="report-skill"><div class="report-donut" style="--report-color:${colors[domain]};--report-pct:${pct || 0}%" role="img" aria-label="${label[domain]}: ${pct === null ? 'لم يُقيّم' : `${pct}%`}"><strong dir="ltr">${value(score)}</strong></div><b>${label[domain]}</b><small>${score.total ? `<bdi dir="ltr">${score.correct} / ${score.total}</bdi> استجابة صحيحة` : 'لم يُقيّم'}</small></div>`;
+        return `<div class="report-skill-bar" role="img" aria-label="${label[domain]}: ${pct === null ? 'لم يُقيّم' : `${pct}%`}"><div class="report-skill-head"><b>${label[domain]}</b><strong dir="ltr" style="color:${colors[domain]}">${value(score)}</strong></div><span class="report-skill-track"><i style="width:${pct || 0}%;background:${colors[domain]}"></i></span><small>${score.total ? `<bdi dir="ltr">${score.correct} / ${score.total}</bdi> استجابة صحيحة` : 'لم يُقيّم'}</small></div>`;
     }
     function render() {
         if (!P.active() || !reportPage) return;
         model = summarize(P.reportChildren(selectedChild), selectedPeriod);
         const content = reportPage.querySelector('#report-content');
-        content.innerHTML = `<div class="report-identity"><h3>${escape(model.title)}</h3><p>${model.periodLabel} · <bdi>${model.date}</bdi></p></div><div class="report-totals"><div><b>${model.sessions}</b><span>جلسات</span></div><div><b>${model.words}</b><span>بطاقات</span></div><div><b>${model.categories.length}</b><span>فئات</span></div></div><div class="report-skills">${donut('receptive')}${donut('expressive')}</div><p class="voc-note report-key">الأرقام أعلاه دقة الاستجابات في الفترة المحددة. رسوم الاكتساب أدناه تقارن الكلمات المكتسبة بإجمالي كلمات كل فئة.</p><details class="acq-details" data-acquisition-details><summary>تفاصيل الاكتساب حسب الفئة (${model.acquisition.length})</summary><p class="acq-note">آخر اختبار مكتمل لكل كلمة ومهارة؛ تُكتسب الكلمة عند نجاح جميع محاولاتها. التدريب لا يُحتسب اكتساباً، وإعادة الاختبار قد ترفع النسبة أو تخفضها.</p>${chart().bar(model.acquisition, 'اكتساب الكلمات حسب الفئة', 'الفئات')}${chart().pies(model.acquisition)}</details>${model.snapshots ? '<p class="voc-note">البيانات السابقة ملخص لآخر النتائج المحفوظة؛ السجل المفصل يبدأ مع هذا التحديث.</p>' : ''}`;
+        content.innerHTML = `<div class="report-identity"><h3>${escape(model.title)}</h3><p>${model.periodLabel} · <bdi>${model.date}</bdi></p></div><div class="report-totals"><div><b>${model.sessions}</b><span>جلسات</span></div><div><b>${model.words}</b><span>بطاقات</span></div><div><b>${model.categories.length}</b><span>فئات</span></div></div><div class="report-skill-bars">${skillBar('receptive')}${skillBar('expressive')}</div><p class="voc-note report-key">الأرقام أعلاه دقة الاستجابات في الفترة المحددة. رسوم الاكتساب أدناه تقارن الكلمات المكتسبة بإجمالي كلمات كل فئة.</p><details class="acq-details" data-acquisition-details><summary>تفاصيل الاكتساب حسب الفئة (${model.acquisition.length})</summary><p class="acq-note">آخر اختبار مكتمل لكل كلمة ومهارة؛ تُكتسب الكلمة عند نجاح جميع محاولاتها. التدريب لا يُحتسب اكتساباً، وإعادة الاختبار قد ترفع النسبة أو تخفضها.</p>${chart().bar(model.acquisition, 'اكتساب الكلمات حسب الفئة', 'الفئات')}${chart().pies(model.acquisition)}</details>${model.snapshots ? '<p class="voc-note">البيانات السابقة ملخص لآخر النتائج المحفوظة؛ السجل المفصل يبدأ مع هذا التحديث.</p>' : ''}`;
         // The intervention plan's goals belong to the active child's report.
         if (root.InterventionPlan && (selectedChild == null || selectedChild === P.active().id)) content.append(root.InterventionPlan.reportSection());
         let apps = reportPage.querySelector('[data-report-apps]');
@@ -150,7 +151,7 @@
             script.onload = () => resolve(root.jspdf.jsPDF); script.onerror = () => { pdfLibrary = null; reject(new Error('PDF library unavailable')); }; document.head.append(script);
         });
     }
-    async function pdfFor(report) {
+    async function pdfFor(report, parts = { summary: true, acquisition: true }) {
         const jsPDF = await loadPDF(); await document.fonts.load('700 32px Cairo'); await document.fonts.ready;
         const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
         doc.setProperties({ title: `VOC - ${report.title} - ${report.date}`, creator: 'كلمة', subject: report.periodLabel });
@@ -170,24 +171,31 @@
             text(report.periodLabel, width-margin-28, 220, 23, '#587082'); text(report.date, margin+28, 110, 25, '#587082', 'left'); y = 295;
         };
         newPage();
+        if (parts.summary) {
         const metrics = [[report.sessions,'جلسات'],[report.words,'بطاقات'],[report.categories.length,'فئات']];
         metrics.forEach(([number,name], index) => { const x = width-margin-340-index*370; box(x,y,340,130,'#f7fafc'); text(number,x+170,y+45,42,'#0284c7','center'); text(name,x+170,y+100,25,'#587082','center'); }); y += 185;
+        // Comprehension and expression as horizontal bars.
         for (const [index, domain] of ['receptive','expressive'].entries()) {
-            const score = report.domains[domain], pct = percent(score), x = index ? 360 : 880, yy = y+70;
-            c.lineWidth = 20; c.strokeStyle = '#eaf0f4'; c.beginPath(); c.arc(x,yy,78,0,2*Math.PI); c.stroke();
-            if (pct) { c.strokeStyle = colors[domain]; c.beginPath(); c.arc(x,yy,78,-Math.PI/2,-Math.PI/2+2*Math.PI*pct/100); c.stroke(); }
-            text(value(score),x,yy,40,colors[domain],'center'); text(label[domain],x,yy+125,30,'#18394b','center');
-            text(score.total ? `${score.correct} / ${score.total}` : 'لم يُقيّم',x,yy+175,24,'#587082','center');
+            const score = report.domains[domain], pct = percent(score), yy = y + index * 120, track = width - margin*2 - 420, right = width - margin - 200;
+            text(label[domain], width-margin, yy+28, 30, '#18394b');
+            box(right-track, yy+12, track, 34, '#eaf0f4');
+            if (pct) box(right-track, yy+12, Math.max(34, track*pct/100), 34, colors[domain]);
+            text(value(score), margin, yy+28, 34, colors[domain], 'left');
+            text(score.total ? `${score.correct} / ${score.total} استجابة صحيحة` : 'لم يُقيّم', width-margin, yy+80, 22, '#587082');
         }
-        y += 335; text('الرسوم: آخر اختبار مكتمل لكل كلمة ÷ إجمالي كلمات فئتها؛ التدريب لا يُحسب اكتساباً',width-margin,y,22,'#587082'); y += 55;
+        y += 270;
+        }
+        if (parts.acquisition) {
+        text('الرسوم: آخر اختبار مكتمل لكل كلمة ÷ إجمالي كلمات فئتها؛ التدريب لا يُحسب اكتساباً',width-margin,y,22,'#587082'); y += 55;
         for (let index=0; index<report.acquisition.length; index+=6) {
             if (y+500 > height-120) newPage();
             chart().drawBar(c,report.acquisition.slice(index,index+6),{x:margin,y,width:width-margin*2,height:470,title:'اكتساب الكلمات حسب الفئة',axis:'الفئات'}); y+=510;
         }
         if (!report.acquisition.length) { text('لا توجد فئات تم العمل عليها في هذه الفترة',width-margin,y,26,'#587082');y+=65; }
         for (const category of report.acquisition) {
-            if (y+245 > height-120) newPage();
-            chart().drawPies(c,category,{x:margin,y,width:width-margin*2});y+=235;
+            if (y+200 > height-120) newPage();
+            chart().drawCategoryBars(c,category,{x:margin,y,width:width-margin*2});y+=190;
+        }
         }
         if(report.snapshots) { if(y>height-180)newPage(); text('البيانات السابقة: آخر النتائج المحفوظة فقط',width-margin,y+20,21,'#587082'); }
         pages.forEach((page,index) => {
@@ -196,14 +204,45 @@
         });
         return doc;
     }
-    async function download() {
+    // The print button opens a small window: tick the reports you want; each downloads as its own PDF.
+    const REPORT_PARTS = [
+        { id: 'summary', label: 'ملخص التقدم', hint: 'الجلسات ودقة الفهم والتعبير', file: 'ملخص' },
+        { id: 'acquisition', label: 'الاكتساب حسب الفئة', hint: 'رسوم الأعمدة لكل فئة', file: 'الاكتساب' },
+        { id: 'goals', label: 'أهداف خطة التدخل', hint: 'قيد العمل · تحققت · مقترحة', file: 'الأهداف', available: () => !!root.InterventionPlan?.isActive() && !!P.intervention()?.goals?.length }
+    ];
+    let printDialog;
+    function choosePrint() {
         if (busy || !P.active() || !model) return;
-        busy = true; const report = model, button = reportPage.querySelector('#report-download'); button.disabled = true;
-        try {
-            const doc = await pdfFor(report); doc.save(`VOC-${report.title.replace(/[^\p{L}\p{N}_-]/gu,'_')}-${report.date.replaceAll('/','-')}.pdf`);
-        } catch { const error = reportPage.querySelector('#report-error'); error.textContent = 'تعذّر إنشاء التقرير. أعد المحاولة أو نزّل التطبيق للاستخدام دون إنترنت.'; error.hidden = false; }
-        finally { busy = false; button.disabled = false; }
+        if (!printDialog) {
+            printDialog = document.createElement('dialog'); printDialog.className = 'voc-dialog voc-print-dialog'; printDialog.dir = 'rtl'; printDialog.setAttribute('aria-labelledby', 'voc-print-title');
+            printDialog.innerHTML = `<h2 id="voc-print-title">طباعة التقارير</h2><p class="voc-print-help">اختر التقارير. كل تقرير يُنزَّل في ملف PDF منفصل.</p><div class="voc-print-list"></div><p class="voc-print-error" role="alert" hidden></p><footer class="suite-text-actions"><button type="button" data-print-go>تنزيل</button><button type="button" data-print-cancel>إلغاء</button></footer>`;
+            document.body.append(printDialog);
+            printDialog.querySelector('[data-print-cancel]').onclick = () => printDialog.close();
+            printDialog.querySelector('[data-print-go]').onclick = () => void downloadChosen();
+        }
+        printDialog.querySelector('.voc-print-list').innerHTML = REPORT_PARTS.filter(part => !part.available || part.available()).map(part => `<label class="voc-print-option"><input type="checkbox" value="${part.id}" checked><span><b>${part.label}</b><small>${part.hint}</small></span></label>`).join('');
+        printDialog.querySelector('.voc-print-error').hidden = true;
+        const sync = () => { printDialog.querySelector('[data-print-go]').disabled = !printDialog.querySelector('.voc-print-list input:checked'); };
+        printDialog.querySelectorAll('.voc-print-list input').forEach(input => { input.onchange = sync; }); sync();
+        printDialog.showModal();
     }
+    async function downloadChosen() {
+        if (busy) return;
+        const chosen = [...printDialog.querySelectorAll('.voc-print-list input:checked')].map(input => input.value);
+        busy = true; const go = printDialog.querySelector('[data-print-go]'); go.disabled = true; go.textContent = 'جاري التنزيل…';
+        const report = model, name = report.title.replace(/[^\p{L}\p{N}_-]/gu, '_'), date = report.date.replaceAll('/', '-');
+        try {
+            for (const id of chosen) {
+                const part = REPORT_PARTS.find(entry => entry.id === id);
+                const doc = id === 'goals' ? await root.InterventionPlan.reportPdf() : await pdfFor(report, { summary: id === 'summary', acquisition: id === 'acquisition' });
+                doc.save(`كلمة-${part.file}-${name}-${date}.pdf`);
+                await new Promise(resolve => setTimeout(resolve, 400)); // Browsers allow several downloads when they are spaced.
+            }
+            printDialog.close();
+        } catch { const error = printDialog.querySelector('.voc-print-error'); error.textContent = 'تعذّر إنشاء أحد التقارير. أعد المحاولة أو نزّل التطبيق للاستخدام دون إنترنت.'; error.hidden = false; }
+        finally { busy = false; go.disabled = false; go.textContent = 'تنزيل'; }
+    }
+
     root.VocReports = { ...api, pdfFor, current: () => model, open };
     window.addEventListener('storage', event => { if (event.key === 'vocabulary-builder-v1' && reportPage && (reportPage !== reportDialog || reportDialog.open)) render(); });
     window.addEventListener('voc-profile-beforechange', () => { reportDialog?.close(); model = null; });

@@ -32,6 +32,8 @@
     <script defer src="assets/reports.js"></script>
     <link rel="stylesheet" href="assets/parent-gate.css">
     <script defer src="assets/parent-gate.js"></script>
+    <link rel="stylesheet" href="assets/child-level.css">
+    <script defer src="assets/child-level.js"></script>
     <script defer src="assets/progress-ui.js"></script>
     <script defer src="assets/home-lesson.js"></script>
     <script defer src="assets/workplace-progress.js"></script>
@@ -923,7 +925,7 @@
                     if (!slotData?.item) return;
                     this.stopCardPlayback(); slotData.item = null;
                     if (!this.state.slotsData.some(slot=>slot.item)) this.state.deleteMode = false;
-                    this.syncDeleteMode(); this.renderSlotsContent();
+                    this.syncDeleteMode(); this.renderSlotsContent(); this.armDeleteTimer();
                     document.getElementById(`slot-${index}`)?.focus({preventScroll:true});
                     return;
                 }
@@ -1032,6 +1034,13 @@
 
             setDeleteMode(enabled) {
                 this.state.deleteMode = Boolean(enabled); this.syncDeleteMode(); this.renderSlotsContent();
+                this.armDeleteTimer();
+            },
+
+            // Delete mode turns itself off 2 seconds after the last tap; each deleted card restarts the 2 seconds.
+            armDeleteTimer() {
+                clearTimeout(this.deleteTimer);
+                if (this.state.deleteMode) this.deleteTimer = setTimeout(() => { if (this.state.deleteMode) this.setDeleteMode(false); }, 2000);
             },
 
             handleClearAction() {

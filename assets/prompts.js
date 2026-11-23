@@ -15,6 +15,8 @@
     // Gender-neutral praise only; the app does not know whether the child is a boy or a girl.
     const PRAISE = ['praise-1', 'praise-4', 'praise-5', 'praise-6'];
     const RETRY = ['retry-1', 'retry-2'];
+    // Where the recordings are: sounds/prompts/ by default, or the script tag's data-base (e.g. assets/sounds/prompts/).
+    const BASE = root.document?.currentScript?.dataset.base || 'sounds/prompts/';
     const missing = new Set();
     let player = null, token = 0, voice;
     const pick = list => list[Math.floor(Math.random() * list.length)];
@@ -62,7 +64,7 @@
         const text = TEXT[name];
         if (!text) return false;
         if (!missing.has(name)) {
-            const result = await playFile(`sounds/prompts/${name}.m4a`, ticket);
+            const result = await playFile(`${BASE}${name}.m4a`, ticket);
             if (result === 'played') return true;
             if (result === 'cancelled' || result === 'blocked') return false;
             missing.add(name);

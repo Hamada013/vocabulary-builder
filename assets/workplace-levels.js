@@ -1,7 +1,15 @@
 /* Category-based word sets fill the existing workplace; comprehension unlocks the next set. */
 document.addEventListener('DOMContentLoaded', () => {
     'use strict';
-    const P = window.VocProgress, curriculum = window.VocWordLevels.build(window.VOC_GAME_DATA);
+    const P = window.VocProgress;
+    // Levels hold 2, 4 or 6 words, following the active child's level; rebuilt when that level changes.
+    let curriculum = window.VocWordLevels.build(window.VOC_GAME_DATA, P.level());
+    const refreshCurriculum = () => {
+        if (curriculum.size === window.VocWordLevels.SIZES[P.level()]) return;
+        curriculum = window.VocWordLevels.build(window.VOC_GAME_DATA, P.level());
+        if (!curriculum.categories.some(category => category.id === group)) group = curriculum.categories[0].id;
+        page = 0;
+    };
     const items = new Map(CATEGORIES.flatMap(category => category.items.map(item => [P.key(item), item])));
     const paths = {
         sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/>',
@@ -99,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         host.scrollTop = 0;
     }
     trigger.onclick = () => {
+        refreshCurriculum();
         app.exitTestMode(false);
         const selected = selectedLevel();
         if (selected) { group = selected.categoryId; page = Math.floor(selected.categoryIndex / 12); }

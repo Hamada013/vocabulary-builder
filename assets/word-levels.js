@@ -24,18 +24,27 @@
   ['حركاتي',[[2,'ياكل'],[2,'يشرب'],[2,'ينام']]],
   ['أشياء أحبها',[[6,'تفاحة'],[6,'موزة'],[5,'بسكويت']]]
  ];
- function build(bank) {
+ // Cards per level follow the child's level: سهل 2 (2–3 words, as before), متوسط up to 4, متقدم up to 6.
+ const SIZES={easy:2,moderate:4,advanced:6};
+ function build(bank,size=2) {
+  size=[2,4,6].includes(size)?size:SIZES[size]||2;
   const items=bank.categories.flatMap(category=>category.items),used=new Set(),levels=[],units=[],categories=[];
   const distinct=(a,b)=>normalize(a.name)!==normalize(b.name)&&a.imageHash!==b.imageHash;
-  // Rebalance a four-word remainder as 2+2. Backtracking spreads duplicate
-  // labels/artwork across different levels without dropping any source word.
-  function partition(pool) {
+  // Level sizes for a category: سهل keeps 2–3 words (a four-word remainder as 2+2); larger levels split
+  // the words as evenly as possible into levels of at most `size`, never leaving a one-word level.
+  function sizesFor(count) {
+   if(size===2){const out=[];let left=count;while(left){const next=left===4?2:Math.min(3,left);out.push(next);left-=next;}return out;}
+   const parts=Math.ceil(count/size),base=Math.floor(count/parts),extra=count%parts;
+   return Array.from({length:parts},(_,i)=>base+(i<extra?1:0));
+  }
+  // Backtracking spreads duplicate labels/artwork across different levels without dropping any source word.
+  function partition(pool,sizes=sizesFor(pool.length)) {
    if(!pool.length)return [];
-   if(pool.length<2)return null;
-   const size=pool.length===4?2:Math.min(3,pool.length),batch=[pool[0]];
+   if(pool.length<2||sizes[0]<2)return null;
+   const target=sizes[0],batch=[pool[0]];
    function fill(at) {
-    if(batch.length===size){
-     const selected=new Set(batch.map(item=>item.key)),rest=partition(pool.filter(item=>!selected.has(item.key)));
+    if(batch.length===target){
+     const selected=new Set(batch.map(item=>item.key)),rest=partition(pool.filter(item=>!selected.has(item.key)),sizes.slice(1));
      return rest?[batch.slice(),...rest]:null;
     }
     for(let i=at;i<pool.length;i++)if(batch.every(item=>distinct(item,pool[i]))){
@@ -59,7 +68,8 @@
     if(batch.length<2)continue;
     const keys=batch.map(item=>item.key);pool.filter(item=>keys.includes(item.key)).forEach(item=>used.add(item.key));
     const previous=section.levels.at(-1);
-    const level={id:`words-${keys[0]}`,unit:unit.id,categoryId,index:levels.length,categoryIndex:section.levels.length,title,keys,
+    // سهل keeps the original level IDs (and the progress saved on them); larger sizes have their own.
+    const level={id:size===2?`words-${keys[0]}`:`words-${size}-${keys[0]}`,size,unit:unit.id,categoryId,index:levels.length,categoryIndex:section.levels.length,title,keys,
      previousId:previous?.id||null,previousKeys:previous?.keys||[]};
     levels.push(level);unit.levels.push(level);section.levels.push(level);
    }
@@ -75,9 +85,9 @@
   }
   for(const source of bank.categories){const remaining=source.items.filter(item=>!used.has(item.key));add(units.at(-1),source.name,remaining,String(source.id));}
   const beginnings=categories.find(entry=>entry.id==='beginnings');if(beginnings)beginnings.title='أول كلماتي';
-  return {version:2,units:units.filter(unit=>unit.levels.length),categories,levels,items};
+  return {version:2,size,units:units.filter(unit=>unit.levels.length),categories,levels,items};
  }
- const api={build};
+ const api={build,SIZES};
  if(typeof module!=='undefined'&&module.exports)module.exports=api;
  root.VocWordLevels=api;
 })(globalThis);

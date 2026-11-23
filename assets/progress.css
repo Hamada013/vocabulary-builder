@@ -37,10 +37,7 @@
 #automation-dialog .voc-icon{width:76px;height:auto;min-height:76px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px}
 #automation-dialog .voc-icon-label{font:800 12px/1.25 Cairo,sans-serif;color:#334155;text-align:center}
 #automation-dialog #plan-games .voc-icon[aria-pressed=false]{opacity:.35;filter:grayscale(1)}
-/* كلمة accounts: each child's level (سهل / متوسط / متقدم) and an inline rename. */
-.suite-account-dialog #child-level,.suite-account-row .account-level{font:700 14px Cairo,sans-serif;color:#0c4a6e;background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:12px;padding:0 8px;min-height:44px;cursor:pointer}
-.suite-account-dialog #child-level{flex:none;width:auto}
-.suite-account-row .account-level{align-self:center;margin-inline-end:4px}
+/* كلمة accounts: the level controls come from assets/child-level.css; an inline rename. */
 .suite-account-browser .suite-account-tools>.account-rename{color:#0284c7}
 .account-rename-form{display:flex;gap:6px;flex:1;min-width:0;align-items:center}
 .account-rename-form input{flex:1;min-width:0;min-height:40px;border:1.5px solid #38bdf8;border-radius:12px;padding:0 10px;font:700 15px Cairo,sans-serif}
@@ -62,3 +59,23 @@
 #automation-dialog .plan-level{text-align:center;margin:-8px 0 4px;font:700 14px Cairo,sans-serif;color:#0369a1}
 #automation-dialog [data-fixed]{cursor:default;border-color:#0284c7;background:#e0f2fe}
 #automation-dialog #plan-games .voc-icon:nth-child(1){color:#0284c7}#automation-dialog #plan-games .voc-icon:nth-child(2){color:#0d9488}#automation-dialog #plan-games .voc-icon:nth-child(3){color:#7c3aed}#automation-dialog #plan-games .voc-icon:nth-child(4){color:#2563eb}#automation-dialog #plan-games .voc-icon:nth-child(5){color:#d97706}
+/* Report: comprehension and expression accuracy as horizontal bars. */
+.report-skill-bars{display:grid;gap:14px;margin:16px 0}
+.report-skill-bar{display:grid;gap:6px;padding:12px 14px;border:1px solid #e2eef5;border-radius:18px;background:#fbfdff}
+.report-skill-head{display:flex;justify-content:space-between;align-items:baseline}
+.report-skill-head b{font-size:17px;color:#18394b}.report-skill-head strong{font-size:24px}
+.report-skill-track{position:relative;height:16px;border-radius:8px;background:#eaf0f4;overflow:hidden;direction:ltr}
+.report-skill-track i{position:absolute;inset-block:0;left:0;border-radius:8px}
+.report-skill-bar small{color:#587082}
+/* Print window: choose which reports to download (each its own PDF). */
+.voc-print-dialog{width:min(92vw,420px);padding:24px}
+.voc-print-dialog h2{margin:0 0 4px;font-size:21px;color:#0369a1}
+.voc-print-help{margin:0 0 14px;color:#587082;font-size:14px}
+.voc-print-list{display:grid;gap:8px;margin-bottom:16px}
+.voc-print-option{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid #dceaf4;border-radius:16px;cursor:pointer;background:#fff}
+.voc-print-option:has(input:checked){border-color:#0284c7;background:#f0f9ff}
+.voc-print-option input{width:22px;height:22px;accent-color:#0284c7;flex:none}
+.voc-print-option span{display:grid;gap:2px}.voc-print-option b{font-size:16px;color:#18394b}.voc-print-option small{color:#587082;font-size:13px}
+.voc-print-error{color:#b42318;font-size:14px}
+.voc-print-dialog .voc-print-option{display:flex!important;flex-direction:row;align-items:center}
+.voc-print-dialog .voc-print-option input{width:22px!important;height:22px!important;min-height:0!important;margin:0!important;padding:0!important}
