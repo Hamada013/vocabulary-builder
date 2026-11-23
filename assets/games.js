@@ -106,6 +106,7 @@
             if(size>best.size)best={size,columns,rows};
         }
         board.style.setProperty('--board-columns',best.columns);board.style.setProperty('--board-rows',best.rows);
+        if(mode==='test')board.style.setProperty('--match-size',`${Math.max(0,Math.floor(best.size))}px`);
         if(mode==='matching'){
             board.style.setProperty('--match-size',`${Math.max(0,Math.floor(best.size))}px`);
             const source=$('#active-match'),height=source.getBoundingClientRect().height;
@@ -419,6 +420,8 @@
         if(mode!=='memory')window.SessionHomework?.record({activity:({matching:'المطابقة',rapid:'البطاقات السريعة',test:'استمع واختر'})[mode],key:target.key,label:target.name});
         if (session.between) { feedback('أحسنت! أكملت هذه المجموعة.'); later(() => { session.between = false; void renderCurrent(); }, 650); enableControls(); return; }
         if (session.guide && !session.guide.done) { void runGuide(ticket); return; }
+        // Memory: every new board is shown face-up for a few seconds first, then the cards turn over.
+        if (mode === 'memory' && !session.guide && !session.peeked && !session.matched.length && !session.moves) { void memoryPeek(ticket); return; }
         feedback(mode === 'test' ? 'استمع إلى الكلمة ثم المس صورتها.' : meta.description);
         if (mode === 'memory' && session.pendingMismatch) { phase = 'feedback'; later(closeMismatch, 800); }
         if (mode === 'rapid' && session.autoPlay) { enableControls(); void autoAdvance(ticket); return; }
@@ -595,9 +598,21 @@
             if (zone) choose(zone.dataset.key, ticket);
         });
     }
+    let peeking = false;
+    async function memoryPeek(ticket) {
+        peeking = true; phase = 'guiding'; updateMemory();
+        all('#game-board > button').forEach(button => { button.disabled = true; button.classList.add('memory-peek'); });
+        feedback('شوف الصور وتذكّر مكانها');
+        await new Promise(resolve => later(resolve, Math.min(7000, Math.max(3000, session.order.length * 1200))));
+        peeking = false;
+        if (ticket !== generation) return;
+        all('#game-board > button').forEach(button => button.classList.remove('memory-peek'));
+        session.peeked = true; save(); phase = 'active'; updateMemory();
+        feedback(meta.description); enableControls();
+    }
     function updateMemory() {
         all('#game-board > button').forEach((button, index) => {
-            const matched = session.matched.includes(session.deck[index].key), shown = (session.guide && !session.guide.done) || matched || session.open.includes(index);
+            const matched = session.matched.includes(session.deck[index].key), shown = peeking || (session.guide && !session.guide.done) || matched || session.open.includes(index);
             button.classList.toggle('matched', matched); button.classList.toggle('flipped', shown);
             button.querySelector('.memory-front').hidden = !shown; button.querySelector('.memory-back').hidden = shown;
             button.setAttribute('aria-label', shown ? `${byKey.get(session.deck[index].key).name}${matched ? '، تم التطابق' : ''}` : `بطاقة مخفية ${index + 1}`);
@@ -824,6 +839,8 @@
     const cancelPlan = document.createElement('button'); cancelPlan.className = 'game-button icon-button'; cancelPlan.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>'; cancelPlan.type = 'button';cancelPlan.setAttribute('aria-label','إيقاف المسار');cancelPlan.title='إيقاف المسار';
     cancelPlan.addEventListener('click', stopPlan);
     planBanner.append(planText, cancelPlan); $('#game-main').prepend(planBanner);
+    // Speaking game: the camera mirror sits beside the card for imitation practice.
+    if (mode === 'rapid') window.SuiteMirror?.attach({ toggleHost: document.querySelector('.game-header'), card: () => $('#game-board') });
     window.addEventListener('voc-profile-open', pause);
     window.addEventListener('voc-profile-beforechange', () => { pause(); clearTimeout(advanceTimer); });
     refreshSelection(); renderResume();
@@ -841,9 +858,12 @@
     // Arriving from the previous game is not a touch on this page, so the browser would block the
     // first word. One big play button gives that touch, then the game starts straight away.
     function tapToStart(then) {
-        if (navigator.userActivation?.hasBeenActive) { then(); return; }
+        // Between two route games the child gets a short play break; its circle is also the tap sound needs.
+        const between = (P.active()?.plan?.position || 0) > 0;
+        if (!between && navigator.userActivation?.hasBeenActive) { then(); return; }
+        if (window.VocInterlude) { window.VocInterlude.show(then); return; }
         const gate = document.createElement('div'); gate.className = 'plan-tap';
-        gate.innerHTML = '<button type="button" aria-label="ابدأ"><i class="fas fa-play" aria-hidden="true"></i></button><p>اضغط لنبدأ</p>';
+        gate.innerHTML = '<button type="button" class="ring-go" aria-label="نكمل"><span class="ring-go-ring r1"></span><span class="ring-go-ring r2"></span><span class="ring-go-ring r3"></span><span class="ring-go-ring r4"></span><span class="ring-go-core"></span></button>';
         document.body.append(gate); gate.querySelector('button').focus();
         gate.querySelector('button').addEventListener('click', () => { gate.remove(); then(); }, { once: true });
     }

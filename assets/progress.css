@@ -42,10 +42,11 @@
 .account-rename-form{display:flex;gap:6px;flex:1;min-width:0;align-items:center}
 .account-rename-form input{flex:1;min-width:0;min-height:40px;border:1.5px solid #38bdf8;border-radius:12px;padding:0 10px;font:700 15px Cairo,sans-serif}
 .account-rename-form button{min-height:40px;border:0;border-radius:12px;background:#0284c7;color:#fff;font:700 14px Cairo,sans-serif;padding:0 14px;cursor:pointer}
-/* Practice prompt: the right card glows blue so it is easy to see. */
-.slot.animate-pulse-hint{animation:voc-blue-glow 1s ease-in-out infinite alternate!important;border-color:#2563eb!important;border-style:solid!important}
-@keyframes voc-blue-glow{from{box-shadow:0 0 0 4px #3b82f6,0 0 14px 4px #60a5fa88}to{box-shadow:0 0 0 8px #2563eb,0 0 30px 12px #3b82f6aa}}
-@media(prefers-reduced-motion:reduce){.slot.animate-pulse-hint{animation:none!important;box-shadow:0 0 0 7px #2563eb,0 0 24px 8px #3b82f699!important}}
+/* Practice prompt: the right card glows so it is easy to see. Each session picks baby blue, baby green
+   or baby red (assets/glow-colour.js sets --glow-edge / --glow-soft on the page). */
+.slot.animate-pulse-hint{animation:voc-blue-glow 1s ease-in-out infinite alternate!important;border-color:var(--glow-edge,#60a5fa)!important;border-style:solid!important}
+@keyframes voc-blue-glow{from{box-shadow:0 0 0 4px var(--glow-edge,#60a5fa),0 0 14px 4px var(--glow-soft,#93c5fdaa)}to{box-shadow:0 0 0 8px var(--glow-edge,#60a5fa),0 0 30px 12px var(--glow-soft,#93c5fdaa)}}
+@media(prefers-reduced-motion:reduce){.slot.animate-pulse-hint{animation:none!important;box-shadow:0 0 0 7px var(--glow-edge,#60a5fa),0 0 24px 8px var(--glow-soft,#93c5fdaa)!important}}
 /* Automatic repetition of missed cards: one big card at a time, no buttons. */
 .voc-repeat{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100dvh;margin:0;display:grid;place-items:center;overflow:hidden}
 .voc-repeat:not([open]){display:none}

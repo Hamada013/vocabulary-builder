@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="assets/updates.css">
     <link rel="stylesheet" href="assets/progress.css">
     <link rel="stylesheet" href="assets/delete-mode.css">
+    <script src="assets/glow-colour.js"></script>
     <script src="assets/progress.js"></script>
     <script defer src="assets/countdown.js"></script>
     <link rel="stylesheet" href="assets/acquisition-charts.css">
@@ -219,8 +220,8 @@
                     <i class="fas fa-question text-lg"></i>
                 </button>
                 
-                <button onclick="app.handleModeButtonClick('practice')" id="btn-practice" class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-baby-mintMed hover:bg-emerald-500 text-white font-bold transition shadow-sm active:scale-95 relative" title="تدريب">
-                    <i class="fas fa-lightbulb text-lg"></i>
+                <button onclick="app.handleModeButtonClick('practice')" id="btn-practice" class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-baby-mintMed hover:bg-emerald-500 text-white font-bold transition shadow-sm active:scale-95 relative" title="تدريب" aria-label="تدريب: المسار التلقائي">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 18h6a4 4 0 0 0 0-8h-2a4 4 0 0 1 0-8h6"/></svg>
                 </button>
 
                 <button onclick="app.replayPromptSound()" id="btn-replay-sound" class="hidden w-10 h-10 flex-shrink-0 items-center justify-center rounded-xl bg-amber-400 hover:bg-amber-500 text-white font-bold transition shadow-sm active:scale-95" title="إعادة الصوت">
@@ -363,10 +364,10 @@
                 <i class="fas fa-star text-amber-400 text-8xl drop-shadow-lg animate-star-celebrate"></i>
                 <i class="fas fa-crown text-amber-500 text-3xl absolute -top-4 left-1/2 transform -translate-x-1/2"></i>
             </div>
-            <h2 class="text-3xl font-black text-slate-800 mb-2">مبروك! حصلت على 10 نجوم! 🎉</h2>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">مبروك! حصلت على 10 نجوم!</h2>
             <p class="text-baby-blueDark font-bold text-base mb-6">لقد جمعت ١٠ نجوم كاملة بنجاح رائع!</p>
             <button onclick="app.closeStarCelebration()" class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold text-lg py-3 rounded-2xl shadow-glow-gold transition transform active:scale-95">
-                متابعة ✨
+                متابعة
             </button>
         </div>
     </div>
@@ -1104,6 +1105,8 @@
 
                 this.exitTestMode(false);
                 this.state.mode = type;
+                // Each practice or test session picks one soft highlight colour: baby blue, baby green or baby red.
+                window.pickGlowColour?.();
                 this.state.testState.active = true;
                 this.state.testState.trialsLeft = 10;
                 this.state.testState.completedTrials = 0;
@@ -1165,7 +1168,7 @@
                 this.state.testState.answering = false;
                 const ticket = ++this.state.testState.trialToken;
                 if (this.state.testState.trialsLeft <= 0) {
-                    this.showToast('ممتاز! أنجزت ١٠ محاولات بنجاح 🎉', 'success');
+                    this.showToast('ممتاز! أنجزت ١٠ محاولات بنجاح', 'success');
                     this.exitTestMode(false);
                     return;
                 }

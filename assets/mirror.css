@@ -1,0 +1,32 @@
+/* Camera mirror (assets/mirror.js), shared by كلمة and جملة (identical copies). */
+.mirror-toggle{display:inline-grid;place-items:center;width:44px;height:44px;padding:10px;border:0;border-radius:12px;background:transparent;color:#22445a;cursor:pointer}
+.mirror-toggle svg{width:23px;height:23px}
+.mirror-toggle.is-on{background:#e0f2fe!important;color:#0369a1!important}
+.mirror-toggle[hidden]{display:none!important}
+.mirror-split{container-type:inline-size;display:grid;grid-template-columns:repeat(2,auto);justify-content:center;align-items:center;gap:14px;width:100%;margin:8px auto;direction:ltr}
+.mirror-square{--mirror-size:min(calc((100cqw - 14px) / 2),calc(100dvh - var(--mirror-reserve,300px)));position:relative;width:var(--mirror-size);aspect-ratio:1;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 8px 26px #0f2a3c1f}
+.mirror-card{display:grid;place-items:center;direction:rtl}
+.mirror-card>*{max-width:100%;max-height:100%;margin:0!important}
+.mirror-card img{max-height:100%;object-fit:contain}
+.mirror-camera{background:#0f172a;direction:rtl}
+.mirror-live,.mirror-replay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mirror-live{transform:scaleX(-1)}
+.mirror-replay{transform:scaleX(-1)}
+.mirror-live[hidden],.mirror-replay[hidden]{display:none}
+.mirror-status{position:absolute;inset:auto 12px 50% 12px;margin:0;color:#e2e8f0;font:700 15px Cairo,system-ui,sans-serif;text-align:center}
+.mirror-status:empty{display:none}
+.mirror-bar{position:absolute;inset:auto 0 0;display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:linear-gradient(transparent,#0f172acc)}
+.mirror-bar button{display:grid;place-items:center;width:48px;height:48px;padding:10px;border:0;border-radius:50%;background:#ffffffe6;color:#22445a;cursor:pointer}
+.mirror-bar button svg{width:24px;height:24px}
+.mirror-bar button:disabled{opacity:.45;cursor:default}
+.mirror-bar button[hidden]{display:none}
+.mirror-bar .mirror-rec{width:62px;height:62px;color:#ef4444;box-shadow:0 0 0 4px #ffffff88}
+.mirror-bar .mirror-rec svg{width:34px;height:34px}
+.mirror-bar .mirror-rec.is-recording{color:#b91c1c;animation:mirror-rec 1s ease-in-out infinite alternate}
+.mirror-time{position:absolute;inset-inline-end:14px;bottom:24px;color:#fff;font:700 14px Cairo,system-ui,sans-serif}
+.mirror-note{position:absolute;top:10px;inset-inline:0;text-align:center;color:#e2e8f0cc;font:600 12px Cairo,system-ui,sans-serif;pointer-events:none}
+.mirror-split.is-recording .mirror-camera{box-shadow:0 0 0 4px #ef4444,0 8px 26px #0f2a3c1f}
+.mirror-bar button:focus-visible{outline:3px solid #38bdf8;outline-offset:2px}
+@keyframes mirror-rec{to{box-shadow:0 0 0 9px #ef444455}}
+@media (max-aspect-ratio:1/1){.mirror-split{grid-template-columns:auto}.mirror-square{--mirror-size:min(100cqw,calc((100dvh - var(--mirror-reserve,300px) - 14px) / 2))}}
+@media (prefers-reduced-motion:reduce){.mirror-bar .mirror-rec.is-recording{animation:none}}

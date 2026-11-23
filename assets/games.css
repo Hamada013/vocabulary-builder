@@ -227,6 +227,9 @@ html[data-suite-input=pointer] .game-page :is(.icon-button,.production-rating,.p
 .compact-playing[data-game=matching] #game-board{grid-template-columns:repeat(var(--board-columns,2),var(--match-size,100px));grid-template-rows:repeat(var(--board-rows,1),var(--match-size,100px));justify-content:center;align-content:center}
 .compact-playing[data-game=matching] #game-board>.picture-button{width:var(--match-size,100px);height:var(--match-size,100px);aspect-ratio:1}
 .compact-playing[data-game=matching] #active-match{align-items:center}
+/* Listen and choose: every picture card is square (1:1), sized to fit the board. */
+.compact-playing[data-game=test] #game-board{grid-template-columns:repeat(var(--board-columns,2),var(--match-size,100px));grid-template-rows:repeat(var(--board-rows,1),var(--match-size,100px));justify-content:center;align-content:center}
+.compact-playing[data-game=test] #game-board>.picture-button{width:var(--match-size,100px);height:var(--match-size,100px);aspect-ratio:1}
 .compact-playing[data-game=matching] .match-source{width:var(--source-size,100px);height:var(--source-size,100px);max-width:none;aspect-ratio:1;flex:none}
 
 .production-score-guide{position:fixed;inset:0;width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;margin:auto;padding:20px;border:1px solid #dceaf4;border-radius:24px;background:#fff;color:#22445a;box-shadow:0 14px 60px #22445a30}
@@ -245,7 +248,7 @@ html[data-suite-input=pointer] .game-page :is(.icon-button,.production-rating,.p
 /* Phones: one compact header row so the game area keeps its height. */
 @media(max-width:560px){.game-header{flex-wrap:nowrap;padding:6px 10px}.game-brand img{width:36px!important;height:36px!important}.game-brand h1{font-size:18px!important;white-space:nowrap}}
 .plan-tap{position:fixed;inset:0;z-index:90;display:grid;place-content:center;justify-items:center;gap:12px;background:#f0f9ffcc;backdrop-filter:blur(8px)}
-.plan-tap button{width:min(40vw,160px);height:min(40vw,160px);border-radius:50%;border:0;background:#0284c7;color:#fff;font-size:min(14vw,60px);box-shadow:0 14px 40px #0284c766;cursor:pointer}
+.plan-tap button.ring-go{box-shadow:none}
 .plan-tap p{font:800 20px Cairo,sans-serif;color:#075985;margin:0}
 /* Beat bar: − on one side, + on the other, circles in between (0–6, added by the therapist). */
 .production-rhythm{display:flex;align-items:center;gap:6px;min-height:60px}
@@ -271,3 +274,6 @@ body:is([data-game=matching],[data-game=memory]).compact-playing{background:radi
 .star-burst i{position:absolute;font-style:normal;font-size:26px;color:#facc15;text-shadow:0 2px 0 #f59e0b;translate:-50% -50%;animation:star-fly .85s ease-out forwards}
 @keyframes star-fly{from{transform:rotate(var(--angle)) translateY(0) scale(.4);opacity:1}to{transform:rotate(var(--angle)) translateY(-90px) scale(1.1);opacity:0}}
 @media(prefers-reduced-motion:reduce){.star-burst{display:none}[data-game=memory] .memory-card.flipped{animation:none}}
+
+/* Mirror open: the workspace uses the full width so both squares can grow. */
+body.mirror-on .game-workspace{max-width:100%!important}

@@ -4,7 +4,7 @@
     function text(name, lesson, items) {
         const byKey = new Map(items.map(item => [item.key, item.name]));
         const words = keys => keys.map(key => byKey.get(key)).filter(Boolean).join('، ');
-        const lines = [`مرحباً، أنا ${name}! 🌷`, `اليوم اشتغلت على هالكلمات: ${words(lesson.keys)}.`, ''];
+        const lines = [`مرحباً، أنا ${name}!`, `اليوم اشتغلت على هالكلمات: ${words(lesson.keys)}.`, ''];
         for (const [domain, label] of [['receptive', 'فهم الكلمات'], ['expressive', 'تسمية الكلمات']]) {
             const records = (lesson.evidence || []).filter(entry => entry.domain === domain).flatMap(entry => entry.records);
             const good = lesson.keys.filter(key => records.some(record => record.key === key) && records.filter(record => record.key === key).every(record => record.correct));
@@ -17,7 +17,7 @@
             lines.push('');
         }
         const activity = root.SessionHomework?.homeActivity || (typeof module !== 'undefined' ? require('./session-homework.js').homeActivity : null);
-        lines.push('ماما وبابا، خلّونا نلعب شوي بالبيت! 💛', activity('voc', lesson.keys.map(key => ({label:byKey.get(key)})).filter(item=>item.label)));
+        lines.push('ماما وبابا، خلّونا نلعب شوي بالبيت!', activity('voc', lesson.keys.map(key => ({label:byKey.get(key)})).filter(item=>item.label)));
         return lines.join('\n');
     }
     function mount(items) {

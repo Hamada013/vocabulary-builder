@@ -26,6 +26,17 @@ The plan carries the exact workplace cards. Choice counts are capped by the sele
 
 Run `npm test`, `npm run test:browser` and `npm run test:progress:browser`. Browser commands accept `VOC_PLAYWRIGHT` (or `APP_PLAYWRIGHT`) to locate Playwright. Rebuild the release with `npm run build:pwa` after production edits.
 
+## Route breaks, games and the camera mirror
+
+- Between two route games the child gets a short play break (`assets/interlude.js` / `.css`): one random scene to touch (stars shine, bubbles pop, flowers spin, a school of fish scatters) around a plain circle with turning rings. Tapping the circle starts the next game; that tap also lets the browser play sound. With reduced motion nothing moves on its own.
+- «وين؟» scenes give each object its own spots with a gap between cards; a card «behind» something always peeks out over its top or side.
+- The memory game shows every new board face-up for a few seconds, then turns the cards over.
+- «استمع واختر» cards are square (1:1).
+- The speaking game (البطاقات السريعة) has a camera button in the header (`assets/mirror.js` / `.css`, shared with جملة): the screen splits into two equal squares, the card and the front camera. The adult can record and play the clip back in a loop. Recordings stay in memory only: nothing is saved or sent, and the camera turns off when the mirror closes or the page is hidden.
+- The practice highlight picks baby blue, baby green or baby red for each session (`assets/glow-colour.js`).
+- The تدريب button uses the same route icon as مقطع's automatic route.
+- No emoji anywhere in the app; `tests/no-emoji.cjs` checks every shipped file.
+
 ## Therapist mode
 
 Therapist mode (password 013, current tab only) makes every word level available without marking any level completed; the child's own results still count. The intervention plan is stored on the learner as `intervention` and merges safely with other open tabs. See [docs/intervention-goals.md](docs/intervention-goals.md).

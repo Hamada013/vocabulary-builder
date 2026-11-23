@@ -55,7 +55,7 @@
  }
  function message(app,name,session){
   const items=Object.values(session.items),help=items.filter(item=>item.help),focus=(help.length?help:items).slice(0,3);
-  const lines=['مرحبًا ماما وبابا 🌷',`أنا ${name}، تدرّبت اليوم على:`];
+  const lines=['مرحبًا ماما وبابا',`أنا ${name}، تدرّبت اليوم على:`];
   for(const [entity,title]of [['word','كلمات'],['sentence','جمل']]){
    const list=items.filter(item=>item.entity===entity);if(list.length)lines.push(`${title}: ${list.slice(0,6).map(item=>item.label).join('، ')+(list.length>6?' وغيرها':'')}.`);
   }
@@ -69,7 +69,7 @@
    for(const value of Object.values(scores))lines.push(`${value.label}: ${value.correct}/${value.total} محاولات صحيحة.`);
   }else lines.push('تدريب فقط؛ بلا تقييم.');
   if(help.length)lines.push(`نراجع سوا: ${help.slice(0,3).map(item=>item.label).join('، ')}.`);
-  lines.push('','خلّونا نلعب شوي بالبيت 💛',homeActivity(app,focus));
+  lines.push('','خلّونا نلعب شوي بالبيت',homeActivity(app,focus));
   return lines.join('\n');
  }
  function create({app,storage,owner,onError=()=>{}}){
@@ -139,12 +139,12 @@
 
   if(!dialog){
    dialog=document.createElement('dialog');dialog.id='session-homework-dialog';dialog.className='suite-dialog session-homework-dialog';dialog.dir='rtl';dialog.setAttribute('aria-labelledby','session-homework-title');
-   dialog.innerHTML='<header><div><h2 id="session-homework-title" tabindex="-1">رسالتنا لماما وبابا</h2><p data-homework-meta></p></div><button type="button" class="suite-icon" data-homework-close aria-label="إغلاق" title="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header><textarea dir="rtl" aria-label="ملخص الجلسة ونشاط للبيت، يمكنك تعديل الرسالة"></textarea><p data-homework-empty hidden>لسه ما سجّلنا نشاط بهالتطبيق. نلعب ونتدرّب، وبنهاية الجلسة منرجع لهون لرسالتنا 💛</p><footer><button type="button" class="session-homework-copy" data-homework-copy>نسخ الرسالة</button><button type="button" class="session-homework-copy" data-homework-share hidden>مشاركة</button></footer><p class="session-homework-status" role="status" aria-live="polite"></p>';
+   dialog.innerHTML='<header><div><h2 id="session-homework-title" tabindex="-1">رسالتنا لماما وبابا</h2><p data-homework-meta></p></div><button type="button" class="suite-icon" data-homework-close aria-label="إغلاق" title="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header><textarea dir="rtl" aria-label="ملخص الجلسة ونشاط للبيت، يمكنك تعديل الرسالة"></textarea><p data-homework-empty hidden>لسه ما سجّلنا نشاط بهالتطبيق. نلعب ونتدرّب، وبنهاية الجلسة منرجع لهون لرسالتنا</p><footer><button type="button" class="session-homework-copy" data-homework-copy>نسخ الرسالة</button><button type="button" class="session-homework-copy" data-homework-share hidden>مشاركة</button></footer><p class="session-homework-status" role="status" aria-live="polite"></p>';
    document.body.append(dialog);input=dialog.querySelector('textarea');status=dialog.querySelector('[role=status]');
    dialog.querySelector('[data-homework-close]').onclick=()=>dialog.close();dialog.addEventListener('close',()=>dialog.returnTo?.focus());
    dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
    input.addEventListener('input',()=>{if(dialog.lessonOnly)model.editLesson(dialog.draftId,input.value);else model.edit(input.value);});
-   dialog.querySelector('[data-homework-copy]').onclick=async()=>{try{await navigator.clipboard.writeText(input.value);status.textContent='تم نسخ رسالتنا 💛';}catch{input.focus();input.select();status.textContent='حدّدنا الرسالة؛ فيكم تنسخوها من هون.';}};
+   dialog.querySelector('[data-homework-copy]').onclick=async()=>{try{await navigator.clipboard.writeText(input.value);status.textContent='تم نسخ رسالتنا';}catch{input.focus();input.select();status.textContent='حدّدنا الرسالة؛ فيكم تنسخوها من هون.';}};
   }
   dialog.querySelector('[data-homework-share]').onclick=async()=>{try{await navigator.share({title:'درسنا بالبيت',text:input.value});}catch(error){if(error.name!=='AbortError')status.textContent='تعذّرت المشاركة. يمكنكم نسخ الرسالة.';}};
   dialog.returnTo=document.activeElement;dialog.draftId=draftId;if(lessonOnly)lessonText=model.lessonDraft(draftId)||lessonText;

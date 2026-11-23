@@ -59,5 +59,5 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   assert.equal(await page.locator('[data-field=childName]').inputValue(),'سامي');assert.equal(await page.locator('#voc-tab-plan').textContent(),'الخطة (0)','Each child has a separate plan');
   const kept=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).children.find(child=>child.name==='ليان'),APP.storageKey);
   assert.ok(JSON.stringify(kept).includes('S1')||JSON.stringify(kept).includes('"rating":80'),'The first child keeps their plan');
-  assert.deepEqual(errs,[]);console.log(`PASS intervention ${W}x${H}: password gate, hidden plan button, goal bank, 20–80% ratings, saved plan, ${levels?'unlocked levels, ':''}3-page PDF, a separate plan per child (${APP.name}).`);
+  assert.deepEqual(errs,[]);console.log(`PASS intervention ${W}x${H}: password gate, hidden plan button, goal bank, 20–80% ratings, saved plan, ${levels?'unlocked levels, ':''}4-page PDF, a separate plan per child (${APP.name}).`);
  }catch(e){process.exitCode=1;console.error('FAIL',e.message);await page.screenshot({path:`${out}/${tag}-fail.png`});}finally{await b.close();server.close();}});

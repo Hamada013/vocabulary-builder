@@ -40,7 +40,7 @@ body.mini-playing.automatic-plan .game-header{display:none}
 .mini-big.green{background:#10b981;color:#fff}.mini-big.rose{background:#fee2e2;color:#be123c}
 .mini-tap{position:fixed;inset:0;z-index:90;display:grid;place-content:center;justify-items:center;gap:12px;background:#f0f9ffcc;backdrop-filter:blur(8px)}
 .mini-tap[hidden]{display:none}
-.mini-tap-button{width:min(40vw,160px);height:min(40vw,160px);border-radius:50%;border:0;background:#0284c7;color:#fff;font-size:min(14vw,60px);box-shadow:0 14px 40px #0284c766;animation:mini-glow-blue 1.2s ease-in-out infinite alternate;cursor:pointer}
+.mini-tap-button{animation:none}
 .mini-tap p{font:800 20px Cairo,sans-serif;color:#075985;margin:0}
 @keyframes mini-glow-blue{to{box-shadow:0 0 0 18px #0284c722,0 14px 40px #0284c766}}
 .mini-pause{border:0;border-radius:28px;padding:26px;text-align:center;font-family:Cairo,sans-serif}
