@@ -76,7 +76,7 @@ body[data-screen]:not([data-screen="home"]) :is([data-therapist], [data-open-pla
 @media (max-width: 400px) {
     .app-home-shell .app-home-tools.suite-toolbar { gap: 2px; }
     .app-home-shell .app-home-tools.suite-toolbar [data-suite-control] { flex: 0 0 40px; width: 40px; min-width: 40px; max-width: 40px; height: 40px; min-height: 40px; padding: 8px; }
-    .app-home-shell .app-home-tools [data-child-profile] span { display: none; }
+    .app-home-shell .app-home-tools [data-child-profile] .child-name { display: none; }
 }
 @media (max-width: 340px) {
     .app-home-shell .app-home-tools.suite-toolbar { gap: 1px; }

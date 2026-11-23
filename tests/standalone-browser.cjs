@@ -52,6 +52,8 @@ const server=http.createServer(async(req,res)=>{
   // An accounts button, but no app switching and no links out of the app.
   await page.waitForTimeout(300);
   assert.ok(await page.locator('[data-child-profile],[data-senb-child-profile],#open-profile').first().isVisible(),'Accounts button on the home screen');
+  // The child's drawn head must really show inside the button (not hidden or swapped for an outline icon).
+  assert.ok(await page.evaluate(()=>{const head=document.querySelector(':is([data-child-profile],[data-senb-child-profile],#open-profile) .suite-account-chip svg[viewBox="0 0 64 64"]');const box=head?.getBoundingClientRect();return !!box&&box.width>=20&&box.height>=20;}),'The child\'s drawn head shows on the accounts button');
   for(const selector of ['[data-suite-apps]','[data-suite-control=suiteHome]','#suite-app-picker','.vss-account'])
    assert.equal(await page.locator(selector).count(),0,`Removed: ${selector}`);
   const links=await page.evaluate(()=>[...document.querySelectorAll('a[href]')].map(a=>a.href).filter(href=>!href.startsWith('mailto:')));
