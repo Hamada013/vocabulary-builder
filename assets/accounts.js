@@ -273,6 +273,8 @@
    empty.textContent=list.length?'':search.value?'لا يوجد اسم مطابق.':'لا يوجد أطفال بعد. اكتب اسم أول طفل في الأعلى.';empty.hidden=!!list.length;
   };
   refresh=update;search.oninput=update;search.onkeydown=event=>{if(event.key==='Enter')event.preventDefault();};update();
+  // Clinic sync (assets/speech-sync.js) adds «أطفال من العيادة» below the list.
+  root.SuiteAccounts?.extend?.(host);
  }
  root.addEventListener('storage',event=>{if(event.key!==KEY)return;try{const before=JSON.parse(event.oldValue||'null'),after=JSON.parse(event.newValue||'null');if(JSON.stringify(before?.deletedChildren)!==JSON.stringify(after?.deletedChildren))location.reload();}catch{}});
  const closeIcon=glyph('<path d="m6 6 12 12M18 6 6 18"/>');
