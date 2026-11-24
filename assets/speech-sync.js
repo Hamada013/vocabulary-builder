@@ -48,7 +48,9 @@
             list = sync.device.all ? (await store.getDocs(store.collection(db, 'children'))).docs
                 : (await Promise.all((sync.device.children || []).map(id => store.getDoc(store.doc(db, 'children', id))))).filter(entry => entry.exists());
         }
-        sync.children = list.map(entry => ({ id: entry.id, ...entry.data() })).filter(child => !child.removed && (child.apps || []).includes(HOME));
+        const all = list.map(entry => ({ id: entry.id, ...entry.data() }));
+        root.SpeechEntry?.refresh?.(all);
+        sync.children = all.filter(child => !child.removed && (child.apps || []).includes(HOME));
         return sync.children;
     }
     const localChildren = () => { const data = read(KEY, null); return (data?.children || []).filter(child => child?.id && child.role !== 'admin' && !data.deletedChildren?.[child.id]); };
@@ -109,6 +111,34 @@
         return 'device';
     }
     function disconnect() { localStorage.removeItem(STATE_KEY); sync.children = []; paint(); }
+    // Parents sign in with the child's name and number (assets/speech-entry.js). The reports page stores a join
+    // ticket under a hash of the two, so only someone who knows both can find it.
+    async function parentKey(name, code) {
+        const bytes = new TextEncoder().encode(normalizeName(name) + '|' + String(code).replace(/\D/g, ''));
+        return [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    async function joinChild(name, code) {
+        const { auth, store, a, db } = await load();
+        // The therapist's own computer (signed in on the reports page): find the child directly.
+        if (a.currentUser && !a.currentUser.isAnonymous) {
+            const all = (await store.getDocs(store.collection(db, 'children'))).docs.map(entry => ({ id: entry.id, ...entry.data() }));
+            const child = all.find(entry => entry.code === code && normalizeName(entry.name) === normalizeName(name));
+            if (!child) throw Error('الاسم أو الرقم غير صحيح.');
+            write(STATE_KEY, { mode: 'owner' }); return child;
+        }
+        const user = a.currentUser || (await auth.signInAnonymously(a)).user, key = await parentKey(name, code);
+        const ticket = await store.getDoc(store.doc(db, 'joinCodes', key)).catch(() => null);
+        if (!ticket?.exists()) throw Error('الاسم أو الرقم غير صحيح.');
+        const t = ticket.data(), mine = await store.getDoc(store.doc(db, 'devices', user.uid)).catch(() => null);
+        if (!mine?.exists()) await store.setDoc(store.doc(db, 'devices', user.uid), { code: key, all: t.all, children: t.children, role: t.role, label: 'جهاز الأهل', joined: new Date().toISOString() });
+        else if (!mine.data().all && !(mine.data().children || []).includes(t.children[0])) throw Error('هذا الجهاز مرتبط بطفل آخر. اطلب من المعالج المساعدة.');
+        const child = await store.getDoc(store.doc(db, 'children', t.children[0]));
+        if (!child.exists()) throw Error('الاسم أو الرقم غير صحيح.');
+        write(STATE_KEY, { mode: 'device', label: 'جهاز الأهل', role: 'parents' });
+        return { id: child.id, ...child.data() };
+    }
+    // The start screen tells sync which clinic child the account it opens belongs to.
+    function expect(child) { const pending = read(PENDING_KEY, {}); (pending[HOME] ||= {})[normalizeName(child.name)] = child.id; write(PENDING_KEY, pending); }
 
     // ---- Look: the same in every app ----
     const svg = path => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
@@ -169,7 +199,7 @@
             const where = s.mode === 'owner' ? 'جهاز المعالج (حساب العيادة)' : escape(s.label || 'جهاز مرتبط');
             dialog.innerHTML = head + `<div class="speech-sync-body"><p class="speech-sync-state" ${sync.error ? 'data-error' : 'data-on'}>${sync.error ? escape(sync.error) : `متصل · ${where}`}</p>
                 <p>${sync.children.length} طفل من العيادة لهذا التطبيق.${sync.last ? ` آخر مزامنة ${sync.last.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' })}.` : ''} يُرسل التقدم وحده عند كل تغيير.</p>
-                <div class="speech-sync-actions"><button type="button" class="primary" data-now>${ICONS.refresh}مزامنة الآن</button><button type="button" data-off>فصل هذا الجهاز</button></div></div>`;
+                <div class="speech-sync-actions"><button type="button" class="primary" data-now>${ICONS.refresh}مزامنة الآن</button><button type="button" data-off>فصل هذا الجهاز</button></div>${relockButton()}</div>`;
             dialog.querySelector('[data-now]').onclick = () => run();
             const off = dialog.querySelector('[data-off]');
             off.onclick = () => { if (!off.dataset.armed) { off.dataset.armed = '1'; off.textContent = 'اضغط مرة أخرى للفصل'; setTimeout(() => { if (off.isConnected) { delete off.dataset.armed; off.textContent = 'فصل هذا الجهاز'; } }, 3000); return; } disconnect(); };
@@ -179,7 +209,7 @@
                 <input data-code maxlength="12" autocomplete="off" placeholder="الرمز" aria-label="رمز الربط" value="${escape(code)}">
                 <input data-label maxlength="40" autocomplete="off" placeholder="اسم الجهاز، مثل: آيباد البيت" aria-label="اسم الجهاز">
                 <p role="status" aria-live="polite"></p>
-                <div class="speech-sync-actions"><button type="button" class="primary" data-join>${ICONS.on}ربط</button></div></div>`;
+                <div class="speech-sync-actions"><button type="button" class="primary" data-join>${ICONS.on}ربط</button></div>${relockButton()}</div>`;
             const status = dialog.querySelector('[role=status]'), go = dialog.querySelector('[data-join]');
             go.onclick = async () => {
                 go.disabled = true; status.textContent = 'جارٍ الربط…';
@@ -188,18 +218,23 @@
                 go.disabled = false;
             };
         }
+        dialog.querySelector('[data-relock]')?.addEventListener('click', () => root.SpeechEntry?.relock());
         dialog.querySelector('[data-close]').onclick = () => dialog.close();
     }
+    // Hands the device back to parents: the app opens on the start screen again (name + number, or 013).
+    const relockButton = () => root.SpeechEntry ? `<div class="speech-sync-actions"><button type="button" data-relock>قفل التطبيق (شاشة الدخول)</button></div>` : '';
     function open() {
         style();
         if (!dialog) { dialog = document.createElement('dialog'); dialog.className = 'speech-sync'; dialog.dir = 'rtl'; dialog.setAttribute('aria-labelledby', 'speech-sync-title'); document.body.append(dialog); dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); }); }
         fill(); dialog.showModal();
     }
     // Next to «ملف الطفل» (itself next to «خطة التدخل»), shown and hidden with it.
+    const made = new WeakMap();
     function attach() {
         for (const file of document.querySelectorAll('[data-child-file]')) {
-            if (file.nextElementSibling?.hasAttribute('data-speech-sync')) continue;
-            const b = document.createElement('button'); b.type = 'button'; b.className = file.className; b.dataset.speechSync = ''; b.setAttribute('aria-haspopup', 'dialog');
+            // Made once per «ملف الطفل» button and kept beside it when an app re-sorts its header.
+            const mine = made.get(file); if (mine) { if (file.nextElementSibling !== mine) file.after(mine); continue; }
+            const b = document.createElement('button'); made.set(file, b); b.type = 'button'; b.className = file.className; b.dataset.speechSync = ''; b.setAttribute('aria-haspopup', 'dialog');
             b.hidden = file.hidden; b.onclick = open;
             new MutationObserver(() => { b.hidden = file.hidden; }).observe(file, { attributes: true, attributeFilter: ['hidden'] });
             file.after(b); paint();
@@ -214,7 +249,7 @@
         run(); setInterval(run, 60000);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') run(); });
     }
-    root.SpeechSync = { run, join, disconnect, state, link, waiting, sync };
+    root.SpeechSync = { run, join, joinChild, parentKey, expect, disconnect, state, link, waiting, sync };
     if (typeof document === 'undefined') return;
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })(globalThis);

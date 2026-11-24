@@ -164,10 +164,12 @@
         new MutationObserver(() => { b.hidden = plan.hidden; }).observe(plan, { attributes: true, attributeFilter: ['hidden'] });
         return b;
     }
+    // One button per plan button, made once; when an app re-sorts its header, the button moves back beside it.
+    const made = new WeakMap();
     function attach() {
         for (const plan of document.querySelectorAll('[data-open-plan]')) {
-            if (plan.nextElementSibling?.hasAttribute('data-child-file')) continue;
-            plan.after(button(plan));
+            const mine = made.get(plan) || made.set(plan, button(plan)).get(plan);
+            if (plan.nextElementSibling !== mine) plan.after(mine);
         }
     }
     function init() {

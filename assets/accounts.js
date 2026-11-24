@@ -254,6 +254,8 @@
   host.classList.remove('suite-account-list');host.classList.add('suite-account-browser');host.replaceChildren();host.removeAttribute('role');
   // Sorting metadata comes from the shared store, including legacy creation dates.
   let saved=[];try{saved=JSON.parse(localStorage.getItem(KEY))?.children||[];}catch{}
+  // The start screen (assets/speech-entry.js) limits a parent's device to their own child.
+  children=root.SuiteAccounts?.only?.(children)||children;
   entries=children.map(child=>({...saved.find(entry=>entry.id===child.id),...child}));
   // Allocate from the complete account list before filtering or sorting it.
   avatars=assignAvatars(storageOrNull(),[...saved.filter(child=>!entries.some(entry=>entry.id===child.id)),...entries]);
