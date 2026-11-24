@@ -16,7 +16,8 @@
         { id: 'voc', key: 'vocabulary-builder-v1', name: 'كلمة' },
         { id: 'senb', key: 'sentences-builder-v1', name: 'جملة' },
         { id: 'taffaha', key: 'syllables-builder-v1', name: 'مقطع' },
-        { id: 'follow', key: 'follow-direction-children-v1', name: 'اتبع التعليمات' }
+        { id: 'follow', key: 'follow-direction-children-v1', name: 'اتبع التعليمات' },
+        { id: 'arabicsounds', key: 'arabicsounds-children-v1', name: 'أصواتي العربية' }
     ];
     const DEVICE_KEY = 'speech-device-id-v1', RECORDER_KEY = 'speech-recorder-v1';
     const HOME = root.document?.currentScript?.dataset.app || '';
