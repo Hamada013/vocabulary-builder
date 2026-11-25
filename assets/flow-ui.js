@@ -33,4 +33,11 @@
  window.FlowUI={countdown:()=>show('count'),feedback:(correct,dialog)=>show('feedback',correct,dialog),cancel,cancelCount:()=>counting?.cancel(),cancelFeedback:()=>feedback?.cancel(),counting:()=>!!counting};
  for(const event of ['pagehide','suite-navigation-open','voc-profile-open','senb-profile-open','taffaha-profile-open','voc-profile-beforechange','senb-profile-beforechange','taffaha-profile-beforechange'])window.addEventListener(event,cancel);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();});
+ // 2026-11: a soft chime made in the browser right before the spoken praise or «try again» (same notes as the sound
+ // apps): a rising two-note bell for a right answer, one low short note for try again. No sound files, never loud.
+ let audio=null;
+ const note=(ctx,frequency,start,length,volume,type='sine')=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),t=ctx.currentTime+start;osc.type=type;osc.frequency.setValueAtTime(frequency,t);gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(volume,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+length);osc.connect(gain).connect(ctx.destination);osc.start(t);osc.stop(t+length+.02);};
+ const chime=correct=>{try{audio||=new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')void audio.resume();if(correct){note(audio,1046.5,0,.32,.09);note(audio,1318.5,.09,.42,.08);}else note(audio,392,0,.22,.05,'triangle');}catch{}};
+ const wrap=()=>{const P=window.VocPrompts;if(!P||P.chimed)return;const praise=P.praise,retry=P.retry;P.praise=(...args)=>{chime(true);return praise(...args);};P.retry=(...args)=>{chime(false);return retry(...args);};P.chimed=true;};
+ wrap();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wrap,{once:true});window.addEventListener('load',wrap,{once:true});
 })();

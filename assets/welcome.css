@@ -39,3 +39,16 @@ dialog#suite-welcome::backdrop{background:#f8fafc}
 @media(max-height:560px){#suite-welcome[data-phase=name] .suite-welcome-art{width:88px;height:88px;margin-bottom:5px}#suite-welcome[data-phase=name] .suite-welcome-art img{width:80px;height:80px}#suite-welcome[data-phase=name] .suite-welcome-brand{font-size:12px}#suite-welcome[data-phase=name] #suite-welcome-heading{min-height:48px;font-size:34px}#suite-welcome form{margin-top:10px;gap:9px}#suite-welcome label{font-size:17px;margin:0}#suite-welcome input{height:48px;min-height:48px}#suite-welcome button{height:48px;min-height:48px}}
 @media(max-height:430px){dialog#suite-welcome{padding:16px}#suite-welcome[data-phase=name] .suite-welcome-art{width:56px;height:56px;margin-bottom:4px}#suite-welcome[data-phase=name] .suite-welcome-art img{width:52px;height:52px}#suite-welcome[data-phase=name] .suite-welcome-brand{display:none}#suite-welcome[data-phase=name] #suite-welcome-heading{min-height:40px;font-size:30px}#suite-welcome form{margin-top:8px;gap:8px}#suite-welcome label{font-size:16px}#suite-welcome :is(input,button){height:44px;min-height:44px}}
 @media(prefers-reduced-motion:reduce){#suite-welcome *,#suite-welcome *::after{animation:none!important;transition:none!important}}
+/* 2026-11: the logo is the greeting. The empty word line is hidden; the app name is the title; after the pop-in the
+   logo gives one small happy bounce while the orbit turns once. Reduced motion: still logo (rule above). */
+#suite-welcome-heading:has([data-welcome-word]:empty){display:none}
+.suite-welcome-brand{margin-top:2px;color:#22445a;font:800 30px/1.35 Cairo,system-ui,-apple-system,Segoe UI,Tahoma,Arial,sans-serif;letter-spacing:normal}
+#suite-welcome[data-phase=name] .suite-welcome-brand{font-size:20px;color:#688494}
+#suite-welcome[data-phase=bounce] .suite-welcome-art img{animation:suite-welcome-bounce .65s cubic-bezier(.2,0,0,1) both}
+#suite-welcome[data-phase=logo] .suite-welcome-brand{animation:suite-welcome-form .45s .55s ease-out both}
+#suite-welcome:is([data-phase=logo],[data-phase=bounce]) .suite-welcome-orbit::after{animation:suite-welcome-turn 1.7s cubic-bezier(.2,0,0,1) both}
+#suite-welcome[data-phase=bounce] .suite-welcome-spark{animation:suite-welcome-twinkle .65s ease-out both}
+@keyframes suite-welcome-bounce{0%{transform:none}30%{transform:translateY(-10px) scale(1.05) rotate(-3deg)}55%{transform:translateY(0) scale(.98) rotate(2deg)}75%{transform:translateY(-3px) scale(1.01)}100%{transform:none}}
+@keyframes suite-welcome-turn{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes suite-welcome-twinkle{0%,100%{opacity:1;transform:none}50%{opacity:.55;transform:scale(1.25)}}
+@media(prefers-reduced-motion:reduce){#suite-welcome *,#suite-welcome *::after{animation:none!important;transition:none!important}}

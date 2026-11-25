@@ -1,4 +1,5 @@
-/* Launch animation: this app's own logo and name, a short greeting, then the child's name when no account is active yet. */
+/* Launch animation: this app's own logo pops in and gives a small happy bounce (no greeting word), with its name
+ * under it; then the child's name when no account is active yet. */
 ((root)=>{
  'use strict';
  const RELOAD='speech-app-launch-reload';
@@ -55,10 +56,8 @@
    const image=dialog.querySelector('img');
    await Promise.race([Promise.all([styled,image.decode?.().catch(()=>{})]),wait(2500,signal)]);
    if(signal.aborted)return;dialog.dataset.phase='logo';
-   await wait(reduced?150:1100,signal);dialog.dataset.phase='greeting';
-   if(reduced)greeting.textContent='مرحبا';
-   else for(const letter of 'مرحبا'){greeting.textContent+=letter;await wait(105,signal);}
-   dialog.querySelector('[data-welcome-status]').textContent='مرحبا';await wait(reduced?250:400,signal);
+   await wait(reduced?150:1100,signal);dialog.dataset.phase='bounce';
+   dialog.querySelector('[data-welcome-status]').textContent=brands[app][0];await wait(reduced?250:650,signal);
    const {progress}=await connection;if(signal.aborted)return;
    if(progress.active())finish();else showName();
   }catch(error){if(error.name!=='AbortError')finish();}
@@ -70,6 +69,13 @@
   const logo=dialog.querySelector('img');logo.style.objectFit='contain';logo.src=new URL(brands[app][1],base).href;logo.onerror=()=>{logo.hidden=true;};
   dialog.querySelector('.suite-welcome-brand').textContent=brands[app][0];
   dialog.addEventListener('cancel',event=>event.preventDefault());
+  // The clinic start screen (assets/speech-entry.js) must be the only open window, so it closes this one. When that
+  // happens, wait until it unlocks (it removes itself), then play again; without it there is nothing to wait for.
+  dialog.addEventListener('close',()=>{
+   if(complete)return;controller?.abort();
+   const entry=document.querySelector('dialog.speech-entry');if(!entry){finish();return;}
+   new MutationObserver((_,watch)=>{if(entry.isConnected)return;watch.disconnect();if(complete||!dialog.isConnected)return;dialog.showModal();void play();}).observe(document.body,{childList:true});
+  });
   dialog.querySelector('form').onsubmit=async event=>{
    event.preventDefault();const input=dialog.querySelector('input'),button=dialog.querySelector('button'),error=dialog.querySelector('[role=alert]');
    const name=input.value.normalize('NFKC').trim().replace(/\s+/g,' ').slice(0,60);
