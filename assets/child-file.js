@@ -19,7 +19,8 @@
         { id: 'follow', key: 'follow-direction-children-v1', name: 'اتبع التعليمات' },
         { id: 'arabicsounds', key: 'arabicsounds-children-v1', name: 'أصواتي العربية' },
         { id: 'auditory-rehabilitation', key: 'auditory-rehabilitation-children-v1', name: 'أصوات من حولي' },
-        { id: 'articulation', key: 'articulation-children-v1', name: 'تدريب النطق' }
+        { id: 'articulation', key: 'articulation-children-v1', name: 'تدريب النطق' },
+        { id: 'english-artic', key: 'english-artic-children-v1', name: 'Speech Sounds' }
     ];
     const DEVICE_KEY = 'speech-device-id-v1', RECORDER_KEY = 'speech-recorder-v1';
     const HOME = root.document?.currentScript?.dataset.app || '';
