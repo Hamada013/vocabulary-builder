@@ -14,7 +14,7 @@
     const VERSION = '13.4.0', BASE = `https://www.gstatic.com/firebasejs/${VERSION}/`;
     const CONFIG = { apiKey: 'AIzaSyCkKI0KqGy6EeJRkRsR2T71VvT5waraDeY', authDomain: 'speech-clinic.firebaseapp.com', projectId: 'speech-clinic',
         storageBucket: 'speech-clinic.firebasestorage.app', messagingSenderId: '81493283329', appId: '1:81493283329:web:eaefcee2183ca173342600' };
-    const APPS = { voc: 'vocabulary-builder-v1', senb: 'sentences-builder-v1', taffaha: 'syllables-builder-v1', follow: 'follow-direction-children-v1', arabicsounds: 'arabicsounds-children-v1', 'auditory-rehabilitation': 'auditory-rehabilitation-children-v1' };
+    const APPS = { voc: 'vocabulary-builder-v1', senb: 'sentences-builder-v1', taffaha: 'syllables-builder-v1', follow: 'follow-direction-children-v1', arabicsounds: 'arabicsounds-children-v1', 'auditory-rehabilitation': 'auditory-rehabilitation-children-v1', articulation: 'articulation-children-v1' };
     const HOME = root.document?.currentScript?.dataset.app || '', KEY = APPS[HOME];
     const STATE_KEY = 'speech-sync-state-v1', MAP_KEY = 'speech-sync-map-v1', SENT_KEY = 'speech-sync-sent-v1', PENDING_KEY = 'speech-sync-pending-v1';
     const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
