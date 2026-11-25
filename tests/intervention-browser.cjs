@@ -5,9 +5,13 @@ const root=require('path').resolve(__dirname,'..'),APP=JSON.parse(require('fs').
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2','.m4a':'audio/mp4'};
 const server=http.createServer(async(q,s)=>{try{let p=decodeURIComponent(new URL(q.url,'http://x').pathname).replace(`/${APP.repository}/`,'');if(!p||p.endsWith('/'))p+='index.html';const b=await fs.promises.readFile(path.join(root,p));s.writeHead(200,{'Content-Type':types[path.extname(p)]||'application/octet-stream'});s.end(b);}catch{s.writeHead(404).end();}});
 server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/${APP.repository}/`;const b=await (process.env.ENGINE==='webkit'?webkit:chromium).launch();
- const ctx=await b.newContext({viewport:{width:W,height:H},hasTouch:true,reducedMotion:'reduce',acceptDownloads:true});const page=await ctx.newPage();const errs=[];page.on('pageerror',e=>errs.push(e.message));
+ const ctx=await b.newContext({viewport:{width:W,height:H},hasTouch:true,reducedMotion:'reduce',acceptDownloads:true});await ctx.route(/gstatic\.com\/firebasejs\//,route=>route.abort());const page=await ctx.newPage();const errs=[];page.on('pageerror',e=>errs.push(e.message));
  try{
   await page.goto(base);
+  // A new device opens on the clinic start screen (assets/speech-entry.js); 013 opens the app. It does not turn on
+  // therapist mode inside the app: the plan stays hidden until the header switch below.
+  await page.locator('dialog.speech-entry[open]').waitFor();await page.locator('.speech-entry [data-therapist]').click();
+  await page.getByPlaceholder('رمز المعالج').fill('013');await page.locator('dialog.speech-entry').waitFor({state:'detached'});
   // First launch: name the first child account.
   await page.locator('#suite-welcome form:not([hidden]) input').fill('ليان');await page.locator('#suite-welcome button[type=submit]').click();
   await page.waitForFunction(()=>!window.SuiteWelcome?.pending);
@@ -54,7 +58,8 @@ server.listen(0,async()=>{const base=`http://127.0.0.1:${server.address().port}/
   await page.locator('[data-therapist]').click();await page.locator('.voc-therapist[open] input').fill('013');await page.locator('.voc-therapist[open] button[type=submit]').click();
   await page.locator('[data-child-profile],[data-senb-child-profile],#open-profile').first().click();await solveParentGate(page);
   await page.locator(dialog[1]).fill('سامي');await page.locator(`${dialog[0]} form [type=submit]`).click();
-  await page.waitForFunction(()=>InterventionGoals.APP.progress()?.active()?.name==='سامي'&&!window.SuiteWelcome?.pending,null,{timeout:20000});
+  // جملة reloads after adding a child: wait through the reload (the page's globals return with it).
+  await page.waitForFunction(()=>window.InterventionGoals?.APP.progress()?.active()?.name==='سامي'&&!window.SuiteWelcome?.pending,null,{timeout:20000});
   await page.locator('[data-open-plan]').click();await page.locator('.voc-plan[open]').waitFor();
   assert.equal(await page.locator('[data-field=childName]').inputValue(),'سامي');assert.equal(await page.locator('#voc-tab-plan').textContent(),'الخطة (0)','Each child has a separate plan');
   const kept=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).children.find(child=>child.name==='ليان'),APP.storageKey);

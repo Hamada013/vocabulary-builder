@@ -1,5 +1,6 @@
-// Standalone app checks: own launch logo, first child's name at launch, this app's own accounts,
-// no links out of the app, and an offline download served from this app's own worker.
+// Standalone app checks: the clinic start screen on a new device, own launch logo (no greeting word), first child's
+// name at launch, this app's own accounts, no links out of the app, and an offline download served from this app's
+// own worker.
 // Run: node tests/standalone-browser.cjs   (APP_ENGINE=webkit for Safari's engine)
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),vm=require('node:vm'),assert=require('node:assert/strict');
 const {chromium,webkit}=require(process.env.APP_PLAYWRIGHT||'playwright');
@@ -28,6 +29,8 @@ const server=http.createServer(async(req,res)=>{
  const base=`http://127.0.0.1:${port}${prefix}`,engine=process.env.APP_ENGINE==='webkit'?webkit:chromium;
  const browser=await engine.launch({headless:true});
  const ctx=await browser.newContext({viewport:{width:390,height:844}});
+ // The clinic database (Firebase) stays out of this test: nothing connects a new device until it joins.
+ await ctx.route(/gstatic\.com\/firebasejs\//,route=>route.abort());
  // Headless Chromium accepts Background Fetch but never runs it; test the worker's own queue.
  // APP_NATIVE_FETCH=1 with a real Chrome keeps the browser download path.
  if(!process.env.APP_NATIVE_FETCH)await ctx.addInitScript(()=>{try{delete ServiceWorkerRegistration.prototype.backgroundFetch;}catch{}});
@@ -36,12 +39,20 @@ const server=http.createServer(async(req,res)=>{
  try{
   assert.equal(manifest.name,APP.name);assert.equal(manifest.scope,'./');
   await page.goto(base,{waitUntil:'domcontentloaded'});
-  // Launch animation: this app's logo and name, no name form.
+  // Launch animation: this app's logo and name, no greeting word, no name form yet.
   const welcome=page.locator('#suite-welcome');await welcome.waitFor({state:'attached'});
   assert.equal(new URL(await welcome.locator('img').getAttribute('src')).pathname,prefix+APP.logo,'Launch shows the app\'s own logo');
   assert.equal((await welcome.locator('.suite-welcome-brand').textContent()).trim(),APP.name);
-  // The first launch asks for the child's name and creates this app's first account.
+  // A new device opens on the clinic start screen (assets/speech-entry.js) with this app's logo; 013 opens the app.
+  const entry=page.locator('dialog.speech-entry[open]');await entry.waitFor({timeout:15000});
+  assert.equal(new URL(await entry.locator('.speech-entry-logo').getAttribute('src')).pathname.startsWith(prefix),true,'Start screen shows this app\'s logo');
+  await entry.locator('[data-therapist]').click();await entry.getByPlaceholder('رمز المعالج').fill('013');
+  await page.locator('dialog.speech-entry').waitFor({state:'detached'});
+  // Then the welcome plays (it waited behind the start screen, so the app never stays blank) and the first launch
+  // asks for the child's name and creates this app's first account.
   await welcome.locator('form:not([hidden]) input').waitFor({timeout:15000});
+  assert.equal(await welcome.evaluate(dialog=>dialog.open),true,'The welcome is open again after 013');
+  assert.equal((await welcome.innerText()).includes('مرحبا'),false,'No greeting word: the logo is the greeting');
   await welcome.locator('input').fill('ليان');await welcome.locator('button[type=submit]').click();
   await page.waitForFunction(()=>window.SuiteWelcome&&!window.SuiteWelcome.pending,null,{timeout:15000});
   assert.equal(await page.locator('#suite-welcome').count(),0);
@@ -79,6 +90,6 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(media,200,'Downloaded media plays offline');
   serving=true;
   assert.deepEqual(errors,[]);
-  console.log(`PASS ${APP.repository}: own launch logo, first child's name, own accounts, no links out, scoped worker and offline media (${engine.name()}).`);
+  console.log(`PASS ${APP.repository}: clinic start screen and 013, own launch logo without a greeting word, first child's name, own accounts, no links out, scoped worker and offline media (${engine.name()}).`);
  }finally{await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
