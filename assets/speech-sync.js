@@ -1,14 +1,16 @@
 /* Clinic sync: connects this app to the clinic's online database (Firebase project speech-clinic) so children
- * made on the reports page appear here and their progress goes back by itself. Identical in كلمة, جملة, مقطع and
- * اتبع التعليمات; the script tag names its app: <script defer src="assets/speech-sync.js" data-app="voc"></script>.
+ * made on the reports page appear here and their progress goes back by itself. Identical in every speech app; the
+ * script tag names its app: <script defer src="assets/speech-sync.js" data-app="voc"></script>.
  *
- * - Nothing happens until this device is connected: on the therapist's own computer by signing in on the reports page
- *   (same site, same sign-in), on any other device with a join link or code made on the reports page.
- * - «حسابات الأطفال» gains «أطفال من العيادة»: the clinic's children for this app that are not on this device yet,
- *   each with a + that adds them through the app's own add row. A child already here with the same name is linked.
+ * - The therapist's devices: one Google sign-in with the clinic account (the cloud button, therapist switch open), once
+ *   per device and for every app on the site; a device already signed in (e.g. on the reports page) connects by itself.
+ *   No codes and no files (decided 2026-11-26).
+ * - Parents' devices: the start screen (assets/speech-entry.js) with the child's name and number.
+ * - «حسابات الأطفال»: the clinic's children for this app that are not on this device yet show as ordinary rows; a tap
+ *   opens (and adds) the child through the app's own sign-in, linked to the clinic child.
  * - Progress: each linked child's saved record is sent when it changes (at start, every minute, and when the app is
  *   hidden). It only reads the app's saved data; it never writes to it.
- * - A cloud button next to «ملف الطفل» (therapist switch open) shows the state, connects with a code, or disconnects. */
+ * - The cloud button sits next to «خطة التدخل» and shows only while the therapist switch is open. */
 ((root) => {
     'use strict';
     const VERSION = '13.4.0', BASE = `https://www.gstatic.com/firebasejs/${VERSION}/`;
@@ -89,8 +91,9 @@
         try { await fetchChildren(); await send(); sync.last = new Date(); }
         catch (error) {
             const code = String(error?.code || '');
-            sync.error = code === 'not-joined' || code === 'signed-out' ? 'هذا الجهاز غير مرتبط بالعيادة. اربطه برمز من صفحة التقارير.'
-                : code.includes('permission') ? 'لا يُسمح لهذا الجهاز بهذه البيانات. اطلب رمز ربط جديداً.'
+            if (code.includes('permission') && sync.user && !sync.user.isAnonymous) { await signOutOwner(); sync.error = 'هذا الحساب ليس حساب العيادة. سجّل الدخول بحساب العيادة.'; sync.busy = false; paint(); return; }
+            sync.error = code === 'not-joined' || code === 'signed-out' ? 'هذا الجهاز غير متصل بالعيادة. سجّل الدخول بحساب العيادة.'
+                : code.includes('permission') ? 'لا يُسمح لهذا الجهاز بهذه البيانات.'
                 : !navigator.onLine || code.includes('unavailable') ? 'لا يوجد اتصال بالإنترنت؛ سيُرسل التقدم لاحقاً.' : 'تعذّرت المزامنة الآن؛ سيُعاد المحاولة.';
         }
         sync.busy = false; paint();
@@ -109,6 +112,28 @@
         await store.setDoc(store.doc(db, 'devices', user.uid), { code, all: t.all, children: t.children, role: t.role, label: String(label || '').trim().slice(0, 40), joined: new Date().toISOString() });
         write(STATE_KEY, { mode: 'device', label: String(label || '').trim().slice(0, 40), role: t.role });
         return 'device';
+    }
+    // The therapist's devices: Google sign-in with the clinic account. A popup first; where popups are blocked, a redirect.
+    async function signInOwner() {
+        const { auth, a } = await load(), provider = new auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        try { await auth.signInWithPopup(a, provider); }
+        catch (error) {
+            const code = String(error?.code || '');
+            if (code.includes('popup-blocked') || code.includes('operation-not-supported')) { sessionStorage.setItem('speech-sync-redirect', '1'); await auth.signInWithRedirect(a, provider); return false; }
+            throw error;
+        }
+        write(STATE_KEY, { mode: 'owner' }); return true;
+    }
+    async function signOutOwner() { try { const { auth, a } = await load(); await auth.signOut(a); } catch {} localStorage.removeItem(STATE_KEY); sync.children = []; }
+    // A device already signed in with the clinic account (on the reports page or in another app) connects by itself.
+    async function detect() {
+        if (state() || !navigator.onLine || !KEY) return;
+        try {
+            const { auth, a } = await load();
+            if (sessionStorage.getItem('speech-sync-redirect')) { sessionStorage.removeItem('speech-sync-redirect'); await auth.getRedirectResult(a).catch(() => null); }
+            if (a.currentUser && !a.currentUser.isAnonymous) { write(STATE_KEY, { mode: 'owner' }); await run(); }
+        } catch {}
     }
     function disconnect() { localStorage.removeItem(STATE_KEY); sync.children = []; paint(); }
     // Parents sign in with the child's name and number (assets/speech-entry.js). The reports page stores a join
@@ -145,6 +170,8 @@
     const ICONS = { cloud: svg('<path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6.2 11 3.5 3.5 0 0 0 7 18Z"/>'), on: svg('<path d="M7 18h10a4 4 0 0 0 .6-8A6 6 0 0 0 6.2 11 3.5 3.5 0 0 0 7 18Z"/><path d="m9.5 13.5 2 2 3.5-3.5"/>'),
         plus: svg('<path d="M12 5v14M5 12h14"/>'), close: svg('<path d="m6 6 12 12M18 6 6 18"/>'), refresh: svg('<path d="M20 11a8 8 0 0 0-14.6-4.5M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5M20 20v-4h-4"/>') };
     const CSS = `
+
+.speech-sync-face{display:grid;place-items:center;color:#2f7a52}.speech-sync-face svg{width:26px;height:26px}
 .speech-sync-section{margin-top:14px;padding:12px;border:1.5px dashed #9fd3b4;border-radius:18px;background:#f4fbf7}
 .speech-sync-section h3{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:15px;color:#1f6b45}.speech-sync-section h3 svg{width:20px;height:20px}
 .speech-sync-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:#fff;margin-top:6px}
@@ -163,23 +190,38 @@
 .speech-sync :focus-visible,.speech-sync-section :focus-visible{outline:3px solid #2f7a5280;outline-offset:2px}`;
     function style() { if (document.getElementById('speech-sync-style')) return; const tag = document.createElement('style'); tag.id = 'speech-sync-style'; tag.textContent = CSS; document.head.append(tag); }
 
-    // ---- «أطفال من العيادة» inside «حسابات الأطفال» ----
-    // Adds a clinic child through the app's own add row, then links the new account to it.
+    // ---- The clinic's children inside «حسابات الأطفال» ----
+    // A clinic child that is not on this device yet is an ordinary row: a tap adds it through the app's own sign-in
+    // (InterventionGoals.APP.progress().signIn), links it to the clinic child, and reopens the app on it.
+    function openClinic(child, host) {
+        const P = root.InterventionGoals?.APP?.progress?.();
+        expect(child);
+        if (P?.signIn) { P.signIn(child.name); link(); setTimeout(() => location.reload(), 50); return; }
+        add(child, host);
+    }
+    // Fallback for an app without signIn: its own add row.
     function add(child, host) {
         const input = host.closest('dialog')?.querySelector('input[placeholder="اسم الطفل"]'), form = input?.form;
         if (!form || !input) return;
-        const pending = read(PENDING_KEY, {}); (pending[HOME] ||= {})[normalizeName(child.name)] = child.id; write(PENDING_KEY, pending);
         input.value = child.name; input.dispatchEvent(new Event('input', { bubbles: true })); form.requestSubmit();
         setTimeout(() => { link(); run(); }, 600);
     }
     function extend(host) {
-        host.querySelector('.speech-sync-section')?.remove();
+        host.querySelectorAll('[data-clinic-child]').forEach(row => row.remove());
         const list = state() ? waiting() : []; if (!list.length) return;
         style();
-        const section = document.createElement('section'); section.className = 'speech-sync-section'; section.setAttribute('aria-label', 'أطفال من العيادة');
-        section.innerHTML = `<h3>${ICONS.on}أطفال من العيادة</h3>` + list.map(child => `<div class="speech-sync-row"><span><b>${escape(child.name)}</b>${child.code ? `<small>رقم الطفل <bdi dir="ltr">${formatCode(child.code)}</bdi></small>` : ''}</span><button type="button" class="speech-sync-add" data-add="${escape(child.id)}" aria-label="إضافة ${escape(child.name)} إلى هذا الجهاز" title="إضافة إلى هذا الجهاز">${ICONS.plus}</button></div>`).join('');
-        section.querySelectorAll('[data-add]').forEach(button => { button.onclick = () => add(sync.children.find(child => child.id === button.dataset.add), host); });
-        host.append(section);
+        const grid = host.querySelector('.suite-account-grid'); if (!grid) return;
+        for (const child of list) {
+            const item = document.createElement('div'); item.className = 'suite-account-row'; item.setAttribute('role', 'listitem'); item.dataset.clinicChild = child.id;
+            const face = document.createElement('span'); face.className = 'suite-account-avatar-button speech-sync-face';
+            face.innerHTML = ICONS.on; face.setAttribute('aria-hidden', 'true');
+            const select = document.createElement('button'); select.type = 'button'; select.className = 'suite-account-select'; select.setAttribute('aria-label', child.name);
+            select.innerHTML = `<span class="suite-account-text"><span class="suite-account-name">${escape(child.name)}</span><span class="suite-account-meta">من العيادة</span></span>`;
+            select.onclick = () => openClinic(child, host);
+            item.append(face, select); grid.append(item);
+        }
+        grid.hidden = false;
+        const empty = host.querySelector('.suite-account-empty'); if (empty) empty.hidden = true;
     }
 
     // ---- The cloud button and its window ----
@@ -188,7 +230,7 @@
         const on = !!state() && !sync.error;
         document.querySelectorAll('[data-speech-sync]').forEach(button => {
             button.innerHTML = on ? ICONS.on : ICONS.cloud; button.style.color = on ? '#2f7a52' : sync.error && state() ? '#b42318' : '';
-            const label = !state() ? 'ربط هذا الجهاز بالعيادة' : sync.error ? 'مزامنة العيادة: ' + sync.error : 'متصل بالعيادة'; button.setAttribute('aria-label', label); button.title = label;
+            const label = !state() ? 'تسجيل الدخول بحساب العيادة' : sync.error ? 'مزامنة العيادة: ' + sync.error : 'متصل بالعيادة'; button.setAttribute('aria-label', label); button.title = label;
         });
         document.querySelectorAll('.suite-account-browser').forEach(extend);
         if (dialog?.open) fill();
@@ -204,17 +246,14 @@
             const off = dialog.querySelector('[data-off]');
             off.onclick = () => { if (!off.dataset.armed) { off.dataset.armed = '1'; off.textContent = 'اضغط مرة أخرى للفصل'; setTimeout(() => { if (off.isConnected) { delete off.dataset.armed; off.textContent = 'فصل هذا الجهاز'; } }, 3000); return; } disconnect(); };
         } else {
-            const code = new URLSearchParams(location.search).get('join') || '';
-            dialog.innerHTML = head + `<div class="speech-sync-body"><p>اربط هذا الجهاز بالعيادة ليصل تقدم الأطفال إلى صفحة التقارير وحده. اطلب الرمز من صفحة التقارير.</p>
-                <input data-code maxlength="12" autocomplete="off" placeholder="الرمز" aria-label="رمز الربط" value="${escape(code)}">
-                <input data-label maxlength="40" autocomplete="off" placeholder="اسم الجهاز، مثل: آيباد البيت" aria-label="اسم الجهاز">
-                <p role="status" aria-live="polite"></p>
-                <div class="speech-sync-actions"><button type="button" class="primary" data-join>${ICONS.on}ربط</button></div>${relockButton()}</div>`;
-            const status = dialog.querySelector('[role=status]'), go = dialog.querySelector('[data-join]');
+            dialog.innerHTML = head + `<div class="speech-sync-body"><p>سجّل الدخول بحساب العيادة مرة واحدة على هذا الجهاز: يظهر الأطفال المسموح لهم في هذا التطبيق، ويصل تقدمهم إلى صفحة التقارير وحده.</p>
+                ${sync.error ? `<p class="speech-sync-state" data-error>${escape(sync.error)}</p>` : ''}<p role="status" aria-live="polite"></p>
+                <div class="speech-sync-actions"><button type="button" class="primary" data-google>${ICONS.on}تسجيل الدخول بحساب Google</button></div>${relockButton()}</div>`;
+            const status = dialog.querySelector('[role=status]'), go = dialog.querySelector('[data-google]');
             go.onclick = async () => {
-                go.disabled = true; status.textContent = 'جارٍ الربط…';
-                try { await join(dialog.querySelector('[data-code]').value, dialog.querySelector('[data-label]').value); status.textContent = ''; await run(); }
-                catch (error) { status.textContent = error?.message && /[؀-ۿ]/.test(error.message) ? error.message : 'تعذّر الربط. تحقق من الاتصال والرمز.'; }
+                go.disabled = true; status.textContent = 'جارٍ تسجيل الدخول…'; sync.error = '';
+                try { if (await signInOwner()) { status.textContent = ''; await run(); } }
+                catch (error) { status.textContent = String(error?.code || '').includes('closed-by-user') ? '' : 'تعذّر تسجيل الدخول. تحقق من الاتصال وأعد المحاولة.'; }
                 go.disabled = false;
             };
         }
@@ -228,28 +267,26 @@
         if (!dialog) { dialog = document.createElement('dialog'); dialog.className = 'speech-sync'; dialog.dir = 'rtl'; dialog.setAttribute('aria-labelledby', 'speech-sync-title'); document.body.append(dialog); dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); }); }
         fill(); dialog.showModal();
     }
-    // Next to «ملف الطفل» (itself next to «خطة التدخل»), shown and hidden with it.
+    // Next to «خطة التدخل» ([data-open-plan]), shown and hidden with it (the therapist switch).
     const made = new WeakMap();
     function attach() {
-        for (const file of document.querySelectorAll('[data-child-file]')) {
-            // Made once per «ملف الطفل» button and kept beside it when an app re-sorts its header.
-            const mine = made.get(file); if (mine) { if (file.nextElementSibling !== mine) file.after(mine); continue; }
-            const b = document.createElement('button'); made.set(file, b); b.type = 'button'; b.className = file.className; b.dataset.speechSync = ''; b.setAttribute('aria-haspopup', 'dialog');
-            b.hidden = file.hidden; b.onclick = open;
-            new MutationObserver(() => { b.hidden = file.hidden; }).observe(file, { attributes: true, attributeFilter: ['hidden'] });
-            file.after(b); paint();
+        for (const plan of document.querySelectorAll('[data-open-plan]')) {
+            // Made once per plan button and kept beside it when an app re-sorts its header.
+            const mine = made.get(plan); if (mine) { if (plan.nextElementSibling !== mine) plan.after(mine); continue; }
+            const b = document.createElement('button'); made.set(plan, b); b.type = 'button'; b.className = plan.className; b.dataset.speechSync = ''; b.setAttribute('aria-haspopup', 'dialog');
+            b.hidden = plan.hidden; b.onclick = open;
+            new MutationObserver(() => { b.hidden = plan.hidden; }).observe(plan, { attributes: true, attributeFilter: ['hidden'] });
+            plan.after(b); paint();
         }
-        document.querySelectorAll('.suite-account-browser').forEach(host => { if (!host.querySelector('.speech-sync-section') && state() && waiting().length) extend(host); });
+        document.querySelectorAll('.suite-account-browser').forEach(host => { if (!host.querySelector('[data-clinic-child]') && state() && waiting().length) extend(host); });
     }
     function init() {
         if (root.SuiteAccounts) root.SuiteAccounts.extend = extend;
         attach(); new MutationObserver(attach).observe(document.body, { childList: true, subtree: true });
-        // A join link (…/?join=CODE) opens the window ready to connect, even before the therapist switch is opened.
-        if (new URLSearchParams(location.search).has('join') && !state()) setTimeout(open, 400);
-        run(); setInterval(run, 60000);
+        detect(); run(); setInterval(run, 60000);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') run(); });
     }
-    root.SpeechSync = { run, join, joinChild, parentKey, expect, disconnect, state, link, waiting, sync };
+    root.SpeechSync = { run, join, joinChild, signInOwner, signOutOwner, detect, parentKey, expect, disconnect, state, link, waiting, sync };
     if (typeof document === 'undefined') return;
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })(globalThis);

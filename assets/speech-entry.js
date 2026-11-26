@@ -77,6 +77,7 @@ body.speech-parent dialog form:has(input[placeholder="اسم الطفل"]),body.
                 if (!(child.apps || []).includes(HOME)) throw Error('هذا الطفل غير مضاف إلى هذا التطبيق بعد. اطلب من المعالج إضافته.');
                 if (expired(child)) throw Error(ENDED);
                 write({ mode: 'parent', child: { id: child.id, name: child.name, code: child.code, apps: child.apps || [], until: child.until || null } });
+                try { sessionStorage.setItem(WELCOME_KEY, '1'); } catch {}
                 open(true);
             } catch (error) { alert.textContent = /[؀-ۿ]/.test(error?.message || '') ? error.message : 'الاسم أو الرقم غير صحيح.'; enter.disabled = false; enter.textContent = 'دخول'; }
         };
@@ -122,6 +123,43 @@ body.speech-parent dialog form:has(input[placeholder="اسم الطفل"]),body.
         }
         sessionStorage.removeItem('speech-entry-reloaded');
         unlock(); if (first) root.SpeechSync?.run();
+        if (sessionStorage.getItem(WELCOME_KEY)) { sessionStorage.removeItem(WELCOME_KEY); welcome(entry.child); }
+    }
+    // ---- The parents' welcome (2026-11-26): right after they sign in, a short animated card from the therapist ----
+    const WELCOME_KEY = 'speech-entry-welcome';
+    const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const WELCOME_CSS = `
+.speech-welcome{width:min(400px,calc(100vw - 32px));padding:28px 24px 22px;border:0;border-radius:30px;background:#fff;color:#18394b;text-align:center;box-shadow:0 30px 80px #0f2a3a40;font:inherit;overflow:visible}
+.speech-welcome::backdrop{background:#0f2a3a66}
+.speech-welcome img{display:block;margin:0 auto;width:104px;height:104px;border-radius:30px;object-fit:cover;box-shadow:0 10px 30px #0f2a3a26;background:#fff}
+.speech-welcome h2{margin:14px 0 6px;font-size:28px}.speech-welcome p{margin:4px 0;font-size:18px;line-height:1.7}
+.speech-welcome .speech-welcome-who{font-weight:800;color:#0b6f80}
+.speech-welcome .speech-welcome-until{margin-top:14px;font-size:15px;color:#587082}
+.speech-welcome .speech-welcome-date{display:inline-block;margin-top:2px;padding:6px 14px;border-radius:12px;background:#eef6fb;font-weight:800;font-size:18px;direction:ltr;unicode-bidi:isolate}
+.speech-welcome button{width:100%;min-height:56px;margin-top:18px;border:0;border-radius:18px;background:#0284c7;color:#fff;font:inherit;font-size:19px;font-weight:800;cursor:pointer}
+.speech-welcome-dots{position:absolute;inset:0;pointer-events:none}.speech-welcome-dots i{position:absolute;left:50%;top:76px;width:10px;height:10px;border-radius:50%;opacity:0}
+@media (prefers-reduced-motion:no-preference){
+.speech-welcome[open]{animation:speech-welcome-in .5s cubic-bezier(.2,.9,.3,1.2) both}
+.speech-welcome img{animation:speech-welcome-wave 1.4s .35s ease-in-out both}
+.speech-welcome h2,.speech-welcome p,.speech-welcome button{animation:speech-welcome-up .45s ease-out both}
+.speech-welcome h2{animation-delay:.25s}.speech-welcome p:nth-of-type(1){animation-delay:.35s}.speech-welcome p:nth-of-type(2){animation-delay:.45s}.speech-welcome p:nth-of-type(3){animation-delay:.55s}.speech-welcome p:nth-of-type(4){animation-delay:.6s}.speech-welcome button{animation-delay:.7s}
+.speech-welcome-dots i{animation:speech-welcome-dot .9s .3s ease-out forwards}}
+@keyframes speech-welcome-in{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes speech-welcome-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes speech-welcome-wave{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg) scale(1.06)}40%{transform:rotate(7deg) scale(1.06)}60%{transform:rotate(-5deg)}80%{transform:rotate(3deg)}}
+@keyframes speech-welcome-dot{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1)}}`;
+    function welcome(child) {
+        if (!document.getElementById('speech-welcome-style')) { const tag = document.createElement('style'); tag.id = 'speech-welcome-style'; tag.textContent = WELCOME_CSS; document.head.append(tag); }
+        const box = document.createElement('dialog'); box.className = 'speech-welcome'; box.dir = 'rtl'; box.setAttribute('aria-labelledby', 'speech-welcome-title');
+        const src = logo(), until = child.until ? new Intl.DateTimeFormat('en-GB').format(new Date(child.until)) : '';
+        const colors = ['#f59e0b', '#22c55e', '#38bdf8', '#f472b6', '#a78bfa', '#facc15', '#fb7185', '#34d399'];
+        const dots = colors.concat(colors).map((c, i) => { const a = i / 16 * Math.PI * 2, r = 110 + (i % 2) * 40; return `<i style="background:${c};--x:${Math.round(Math.cos(a) * r)}px;--y:${Math.round(Math.sin(a) * r)}px"></i>`; }).join('');
+        box.innerHTML = `<div class="speech-welcome-dots" aria-hidden="true">${dots}</div>${src ? `<img src="${src}" alt="">` : ''}<h2 id="speech-welcome-title">أهلاً وسهلاً!</h2>
+            <p class="speech-welcome-who">أنا أحمد غانم، أخصائي النطق واللغة.</p><p>سعيد جداً بالعمل مع <bdi>${escape(child.name)}</bdi>، وأتمنى لكم وقتاً ممتعاً ومفيداً.</p>
+            ${until ? `<p class="speech-welcome-until">الحساب صالح حتى:</p><p><span class="speech-welcome-date">${until}</span></p>` : ''}<button type="button">لنبدأ</button>`;
+        box.querySelector('button').onclick = () => { box.close(); box.remove(); };
+        box.addEventListener('cancel', () => box.remove());
+        document.body.append(box); box.showModal();
     }
     // The accounts window shows only the parent's child.
     const only = children => { const entry = read(); return entry?.mode === 'parent' ? children.filter(child => normalizeName(child.name) === normalizeName(entry.child.name)) : children; };
