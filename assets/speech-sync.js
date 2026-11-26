@@ -10,6 +10,7 @@
  *   opens (and adds) the child through the app's own sign-in, linked to the clinic child.
  * - Progress: each linked child's saved record is sent when it changes (at start, every minute, and when the app is
  *   hidden). It only reads the app's saved data; it never writes to it.
+ * - Usage time: minutes in use per day for each child (speech-usage-v1), sent with the progress as _usage.
  * - The cloud button sits next to «خطة التدخل» and shows only while the therapist switch is open. */
 ((root) => {
     'use strict';
@@ -71,13 +72,29 @@
     }
     const waiting = () => { const mine = read(MAP_KEY, {})[HOME] || {}, linked = new Set(Object.values(mine)); return sync.children.filter(child => !linked.has(child.id)); };
 
+    // ---- Usage time (2026-11-26): minutes a child's account is open and in use, per day, sent with the progress ----
+    // Counted every 15 s while the app is on screen, a child is open, and someone touched it in the last 2 minutes.
+    const USAGE_KEY = 'speech-usage-v1', IDLE = 120000;
+    let lastInput = Date.now();
+    const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    function tick() {
+        if (typeof document === 'undefined' || document.visibilityState !== 'visible' || Date.now() - lastInput > IDLE || !KEY) return;
+        const kid = root.InterventionGoals?.APP?.progress?.()?.active?.(); if (!kid?.id) return;
+        const all = read(USAGE_KEY, {}), mine = ((all[HOME] ||= {})[kid.id] ||= {}), today = dayKey();
+        mine[today] = (mine[today] || 0) + 15;
+        // Keep the last 90 days.
+        const oldest = dayKey(new Date(Date.now() - 90 * 864e5)); for (const day of Object.keys(mine)) if (day < oldest) delete mine[day];
+        write(USAGE_KEY, all);
+    }
+    const usageOf = localId => read(USAGE_KEY, {})[HOME]?.[localId] || null;
+
     // ---- Sending progress ----
     const hash = text => { let h = 5381; for (let i = 0; i < text.length; i++) h = (h * 33 ^ text.charCodeAt(i)) >>> 0; return h.toString(36) + ':' + text.length; };
     async function send() {
         const { store, db } = await load(), mine = link(), sent = read(SENT_KEY, {}), local = localChildren(), s = state() || {};
         for (const [localId, childId] of Object.entries(mine)) {
             const child = local.find(entry => entry.id === localId); if (!child) continue;
-            const data = JSON.stringify(child), tag = `${HOME}:${localId}`, h = hash(data);
+            const usage = usageOf(localId), data = JSON.stringify(usage ? { ...child, _usage: usage } : child), tag = `${HOME}:${localId}`, h = hash(data);
             if (sent[tag] === h) continue;
             if (data.length > 900000) { sync.error = `سجل ${child.name} كبير جداً للإرسال.`; continue; }
             await store.setDoc(store.doc(db, 'children', childId, 'records', `${HOME}_${sync.user.uid}`),
@@ -284,6 +301,8 @@
         if (root.SuiteAccounts) root.SuiteAccounts.extend = extend;
         attach(); new MutationObserver(attach).observe(document.body, { childList: true, subtree: true });
         detect(); run(); setInterval(run, 60000);
+        for (const type of ['pointerdown', 'keydown', 'touchstart']) document.addEventListener(type, () => { lastInput = Date.now(); }, { passive: true, capture: true });
+        setInterval(tick, 15000);
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') run(); });
     }
     root.SpeechSync = { run, join, joinChild, signInOwner, signOutOwner, detect, parentKey, expect, disconnect, state, link, waiting, sync };
